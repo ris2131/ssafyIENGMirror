@@ -1,8 +1,11 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // NavBar
-// import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar";
+
+// 메인
+import Home from "./pages/Main/Home";
 
 // 로그인
 import Login from "./pages/Auth/Login";
@@ -15,19 +18,20 @@ import DiaryKeyword from "./pages/Diary/DiaryKeyword";
 function App() {
   return (
     <>
-      {/* <NavBar /> */}
+      <NavBar />
       <div className="App">
-        <BrowserRouter>
-          <Routes>
-            {/* 로그인 */}
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/signup" element={<SignUp />}></Route>
+        <Routes>
+          {/* 메인 */}
+          <Route path="/" element={<Home />} />
 
-            {/* 일기 작성 */}
-            <Route path="/diarystart" element={<DiaryStart />}></Route>
-            <Route path="/diarykeyword" element={<DiaryKeyword />}></Route>
-          </Routes>
-        </BrowserRouter>
+          {/* 로그인 */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          {/* 일기 작성 */}
+          <Route path="/diarystart" element={<DiaryStart />} />
+          <Route path="/diarykeyword" element={<DiaryKeyword />} />
+        </Routes>
       </div>
     </>
   );

@@ -1,22 +1,30 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
-import { AiOutlineHome } from "react-icons/ai";
-import { GiHamburgerMenu } from "react-icons/gi";
+
 const NavDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0px 5px;
+  padding: 5px;
   font-size: 40px;
 `;
 
+const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
+
+const StyledImage = styled.img`
+  width: 100px;
+  height: 80px;
+  cursor: pointer;
+`;
+
 const NavBar = () => {
+  const navigate = useNavigate();
   return (
     <NavDiv>
       <div>
-        <AiOutlineHome />
+        <StyledImage src={logoImage} alt="#" onClick={() => navigate("/")} />
       </div>
-      <div>
-        <GiHamburgerMenu />
-      </div>
+      <div></div>
     </NavDiv>
   );
 };
