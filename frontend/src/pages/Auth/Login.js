@@ -39,7 +39,7 @@ const SButton = styled.button`
   color: white;
   border: none;
   background-color: #42a5f5;
-  padding: 5px;
+  padding: 8px;
   margin-top: 40px;
   width: 50%;
 `;
@@ -103,7 +103,9 @@ const Login = () => {
             <p> Google로 로그인</p>
           </IconDiv2>
           <FooterDiv>
-            <StyledP>비밀번호 찾기</StyledP>
+            <StyledP onClick={() => navigate("/forgotpassword")}>
+              비밀번호 찾기
+            </StyledP>
             <StyledP onClick={() => navigate("/signup")}>회원가입</StyledP>
           </FooterDiv>
         </RightDiv>

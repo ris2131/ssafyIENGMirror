@@ -39,19 +39,13 @@ const RightDiv = styled.div`
 
 const InputDiv = styled.div`
   width: 50%;
+  margin-bottom: 10px;
 `;
 
 const Sdiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const ProfileContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: end;
-  margin-bottom: 20px;
 `;
 
 const IconDiv = styled.div`
@@ -94,11 +88,20 @@ const SButton2 = styled.button`
   margin: 10px 0;
 `;
 
+const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  margin-bottom: 20px;
+  padding: 10px 0px;
+`;
+
 const ProfileBox = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 70%;
   overflow: hidden;
+  margin-right: 15px;
 `;
 
 const Profileimg = styled.img`
@@ -185,6 +188,8 @@ const SignUp = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+            </InputDiv>
+            <InputDiv>
               <SButton2>인증번호 보내기</SButton2>
               <TextField
                 fullWidth
@@ -194,7 +199,8 @@ const SignUp = () => {
                 value={emailCheck}
                 onChange={(e) => setEmailCheck(e.target.value)}
               />
-
+            </InputDiv>
+            <InputDiv>
               <TextField
                 fullWidth
                 id="standard-basic"
@@ -204,6 +210,8 @@ const SignUp = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+            </InputDiv>
+            <InputDiv>
               <TextField
                 fullWidth
                 id="standard-basic"
@@ -213,16 +221,17 @@ const SignUp = () => {
                 value={passwordCheck}
                 onChange={(e) => setPasswordCheck(e.target.value)}
               />
-              <IconDiv onClick={handlePage}>
-                <GrLinkNext />
-              </IconDiv>
-              <IconDiv2>
-                <IconDiv3>
-                  <FcGoogle />
-                </IconDiv3>
-                <p> Google로 로그인</p>
-              </IconDiv2>
             </InputDiv>
+
+            <IconDiv onClick={handlePage}>
+              <GrLinkNext />
+            </IconDiv>
+            <IconDiv2>
+              <IconDiv3>
+                <FcGoogle />
+              </IconDiv3>
+              <p> Google로 로그인</p>
+            </IconDiv2>
           </RightDiv>
         ) : (
           <>
@@ -244,6 +253,8 @@ const SignUp = () => {
                     }}
                   />
                 </ProfileContainer>
+              </InputDiv>
+              <InputDiv>
                 <TextField
                   fullWidth
                   id="standard-basic"
@@ -252,6 +263,8 @@ const SignUp = () => {
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
                 />
+              </InputDiv>
+              <InputDiv>
                 <TextField
                   fullWidth
                   id="standard-basic"
