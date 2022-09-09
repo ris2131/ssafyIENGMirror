@@ -10,6 +10,7 @@ import Home from "./pages/Main/Home";
 // 로그인
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 // 일기 작성
 import DiaryStart from "./pages/Diary/DiaryStart";
@@ -20,18 +21,23 @@ function App() {
     <>
       <NavBar />
       <div className="App">
-        <Routes>
-          {/* 메인 */}
-          <Route path="/" element={<Home />} />
+        <BrowserRouter>
+          <Routes>
 
-          {/* 로그인 */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+            {/* 메인 */}
+            <Route path="/" element={<Home />} />
 
-          {/* 일기 작성 */}
-          <Route path="/diarystart" element={<DiaryStart />} />
-          <Route path="/diarykeyword" element={<DiaryKeyword />} />
-        </Routes>
+            {/* 로그인 */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+
+            {/* 일기 작성 */}
+            <Route path="/diarystart" element={<DiaryStart />} />
+            <Route path="/diarykeyword" element={<DiaryKeyword />} />
+          </Routes>
+        </BrowserRouter>
+
       </div>
     </>
   );
