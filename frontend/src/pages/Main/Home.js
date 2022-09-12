@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import NavBar from "../../components/NavBar";
+// import Login from "../Auth/Login";
 import Mode from "./components/Mode";
 
 const TitleDiv = styled.div`
@@ -32,8 +34,12 @@ const modeList = [
 ];
 
 const Home = () => {
+  // if(!isLoggedIn){
+  //   return <Login />
+  // }
   return (
     <div>
+      <NavBar />
       <TitleDiv>
         <p>모드를 선택하세요</p>
       </TitleDiv>

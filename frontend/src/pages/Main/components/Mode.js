@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import { FaQuestion } from "react-icons/fa";
@@ -33,15 +34,15 @@ const ModeContent = styled.div`
   cursor: pointer;
 `;
 
-const SButton = styled.button`
-  border-radius: 20px;
-  color: white;
-  border: none;
-  background-color: #42a5f5;
-  margin-top: 40px;
-  cursor: pointer;
-  font-size: 20px;
-`;
+// const SButton = styled.button`
+//   border-radius: 20px;
+//   color: white;
+//   border: none;
+//   background-color: #42a5f5;
+//   margin-top: 40px;
+//   cursor: pointer;
+//   font-size: 20px;
+// `;
 
 const style = {
   position: "absolute",
@@ -95,6 +96,14 @@ const BasicModal = ({ title, description }) => {
 
 // 모드 선택시 사용되는 모달창
 const DetailModal = ({ open, handleClose, title }) => {
+  const navigate = useNavigate();
+  const goTitle = (t) => {
+    if (t === "영어일기") {
+      navigate("/diarystart");
+    } else if (t === "단어") {
+      navigate("/edu/word");
+    } else navigate("/edu/sentence");
+  };
   return (
     <div>
       <Modal
@@ -105,7 +114,7 @@ const DetailModal = ({ open, handleClose, title }) => {
       >
         <Box sx={style}>
           <MyButton
-            onClick={handleClose}
+            onClick={() => goTitle(title)}
             width={"100%"}
             padding={"20px"}
             margin={"20px"}
