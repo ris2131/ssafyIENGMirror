@@ -1,9 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-// NavBar
-import NavBar from "./components/NavBar";
-
 // 메인
 import Home from "./pages/Main/Home";
 
@@ -15,29 +12,28 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 // 일기 작성
 import DiaryStart from "./pages/Diary/DiaryStart";
 import DiaryKeyword from "./pages/Diary/DiaryKeyword";
+import Education from "./pages/education/Education";
 
 function App() {
   return (
     <>
-      <NavBar />
       <div className="App">
-        <BrowserRouter>
-          <Routes>
+        <Routes>
+          {/* 메인 */}
+          <Route path="/" element={<Home />} />
 
-            {/* 메인 */}
-            <Route path="/" element={<Home />} />
+          {/* 로그인 */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
 
-            {/* 로그인 */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+          {/* 문장, 단어 */}
+          <Route path="/edu/:category" element={<Education />} />
 
-            {/* 일기 작성 */}
-            <Route path="/diarystart" element={<DiaryStart />} />
-            <Route path="/diarykeyword" element={<DiaryKeyword />} />
-          </Routes>
-        </BrowserRouter>
-
+          {/* 일기 작성 */}
+          <Route path="/diarystart" element={<DiaryStart />} />
+          <Route path="/diarykeyword" element={<DiaryKeyword />} />
+        </Routes>
       </div>
     </>
   );
