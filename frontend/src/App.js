@@ -12,6 +12,10 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 // 일기 작성
 import DiaryStart from "./pages/Diary/DiaryStart";
 import DiaryKeyword from "./pages/Diary/DiaryKeyword";
+import DiaryWriting from "./pages/Diary/DiaryWriting";
+import DiaryCheck from "./pages/Diary/DiaryCheck";
+
+// 학습
 import Education from "./pages/education/Education";
 
 function App() {
@@ -33,6 +37,8 @@ function App() {
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />
           <Route path="/diarykeyword" element={<DiaryKeyword />} />
+          <Route path="/diarywriting" element={<DiaryWriting />} />
+          <Route path="/diarycheck" element={<DiaryCheck />} />
         </Routes>
       </div>
     </>

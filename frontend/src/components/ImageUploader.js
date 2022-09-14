@@ -1,17 +1,22 @@
+import { useNavigate } from "react-router-dom";
+
+// css
 import "./imageUploader.scss";
 import { Button } from "@mui/material";
-import {useNavigate} from "react-router-dom";
 
 const ImageUploader = ({ preview_URL, setImage }) => {
   const navigate = useNavigate();
   let inputRef;
 
+  // 이미지 저장
   const saveImage = (e) => {
     e.preventDefault();
     const fileReader = new FileReader();
+
     if (e.target.files[0]) {
       fileReader.readAsDataURL(e.target.files[0]);
     }
+
     fileReader.onload = () => {
       setImage({
         image_file: e.target.files[0],
@@ -22,6 +27,7 @@ const ImageUploader = ({ preview_URL, setImage }) => {
 
   return (
     <div className="uploader-wrapper">
+      {/* 이미지 업로드 */}
       <input
         type="file"
         accept="image/*"
@@ -29,10 +35,13 @@ const ImageUploader = ({ preview_URL, setImage }) => {
         ref={(refParam) => (inputRef = refParam)}
         style={{ display: "none" }}
       />
+
+      {/* 미리보기 */}
       <div className="img-wrapper">
         <img src={preview_URL} alt="이미지 없음"/>
       </div>
       
+      {/* 업로드 버튼 */}
       <div className="upload-button">
         {preview_URL === "image/default_image.png" ? (
           <Button
@@ -42,7 +51,9 @@ const ImageUploader = ({ preview_URL, setImage }) => {
           >
             오늘의 일기 사진 업로드
           </Button>
+
           ) : (
+
           <div>
             <Button
               variant="outlined"
@@ -55,14 +66,12 @@ const ImageUploader = ({ preview_URL, setImage }) => {
             <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate("/DiaryKeyword")}
+            onClick={() => navigate("/DiaryKeyword", {state : {preview_URL : preview_URL}})}
             >
-            확인
+            일기 쓰러가기
             </Button>
           </div>    
-          )}
-
-        
+        )}
       </div>
     </div>
   );
