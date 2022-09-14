@@ -19,13 +19,14 @@ const SingUpBox = styled.div`
   width: 70vw;
   height: 70vh;
   border: 1px solid #ececec;
+  border-radius: 15px;
 `;
 
 const LeftDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  width: 40vw;
+  background-image: url("https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898_960_720.jpg");
+  background-size: cover;
+  border-radius: 15px 0px 0px 15px;
 `;
 
 const RightDiv = styled.div`
@@ -33,12 +34,12 @@ const RightDiv = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  width: 100%;
+  width: 35vw;
   padding: 10px;
 `;
 
 const InputDiv = styled.div`
-  width: 50%;
+  width: 70%;
   margin-bottom: 10px;
 `;
 
@@ -60,6 +61,7 @@ const IconDiv2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 70%;
   border-top: 1px solid #ececec;
 `;
 
@@ -76,7 +78,7 @@ const SButton = styled.button`
   background-color: #42a5f5;
   padding: 5px;
   margin: 10px;
-  width: 50%;
+  width: 30%;
 `;
 const SButton2 = styled.button`
   width: 100%;
@@ -109,8 +111,13 @@ const Profileimg = styled.img`
   height: 100%;
   object-fit: cover;
 `;
-
+const LogoImage = styled.img`
+  margin: 20px;
+  width: 30%;
+`;
 const SignUp = () => {
+  const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
+
   const [email, setEmail] = useState("");
   const [emailCheck, setEmailCheck] = useState("");
   const [password, setPassword] = useState("");
@@ -173,11 +180,11 @@ const SignUp = () => {
   return (
     <SignUpContainer>
       <SingUpBox>
-        <LeftDiv>L</LeftDiv>
+        <LeftDiv></LeftDiv>
         {page === 1 ? (
           <RightDiv>
             <Sdiv>
-              <h1>아Eng</h1>
+              <LogoImage src={logoImage} alt="#"></LogoImage>
             </Sdiv>
             <InputDiv>
               <TextField
@@ -237,7 +244,7 @@ const SignUp = () => {
           <>
             <RightDiv>
               <Sdiv>
-                <h1>아Eng</h1>
+                <LogoImage src={logoImage} alt="#"></LogoImage>
               </Sdiv>
               <InputDiv>
                 <ProfileContainer>
@@ -278,12 +285,6 @@ const SignUp = () => {
                   <GrLinkPrevious />
                   <SButton onClick={handleSubmit}>회원가입</SButton>
                 </IconDiv>
-                <IconDiv2>
-                  <IconDiv3>
-                    <FcGoogle />
-                  </IconDiv3>
-                  <p> Google로 로그인</p>
-                </IconDiv2>
               </InputDiv>
             </RightDiv>
           </>

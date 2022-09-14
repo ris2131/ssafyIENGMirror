@@ -1,10 +1,7 @@
 import NavBar from "../../components/NavBar";
-
 import styled from "styled-components";
-import EduContent from "./components/EduContent";
+import QuizContent from "./components/QuizContent";
 import EduFooter from "./components/EduFooter";
-
-// import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -20,21 +17,15 @@ const TitleDiv = styled.div`
   font-weight: bold;
 `;
 
-const Education = () => {
-  // const { category } = useParams();
-
+const Quiz = () => {
   return (
-    <>
-      <Container>
-        <NavBar />
-        <TitleDiv>
-          <p>TITLE</p>
-        </TitleDiv>
-        <EduContent />
-        <EduFooter quiz={false} />
-      </Container>
-    </>
+    <Container>
+      <NavBar />
+      <TitleDiv>맞춰볼까요?</TitleDiv>
+      <QuizContent />
+      <EduFooter quiz={true} />
+    </Container>
   );
 };
 
-export default Education;
+export default Quiz;

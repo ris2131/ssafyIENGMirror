@@ -17,6 +17,7 @@ import DiaryCheck from "./pages/Diary/DiaryCheck";
 
 // 학습
 import Education from "./pages/education/Education";
+import Quiz from "./pages/education/Quiz";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
 
           {/* 문장, 단어 */}
           <Route path="/edu/:category" element={<Education />} />
+          <Route path="/edu/:category/quiz" element={<Quiz />} />
 
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />
