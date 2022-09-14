@@ -16,10 +16,15 @@ const LoginBox = styled.div`
   width: 70vw;
   height: 70vh;
   border: 1px solid #ececec;
+  border-radius: 15px;
+  // padding: 40px;
 `;
 
 const LeftDiv = styled.div`
-  width: 35vw;
+  width: 40vw;
+  background-image: url("https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898_960_720.jpg");
+  background-size: cover;
+  border-radius: 15px 0px 0px 15px;
 `;
 const RightDiv = styled.div`
   display: flex;
@@ -30,7 +35,7 @@ const RightDiv = styled.div`
 `;
 
 const InputDiv = styled.div`
-  width: 50%;
+  width: 70%;
   margin-bottom: 10px;
 `;
 
@@ -41,7 +46,7 @@ const SButton = styled.button`
   background-color: #42a5f5;
   padding: 8px;
   margin-top: 40px;
-  width: 50%;
+  width: 30%;
 `;
 
 const IconDiv2 = styled.div`
@@ -49,7 +54,7 @@ const IconDiv2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  width: 70%;
   border-top: 1px solid #ececec;
 `;
 
@@ -71,14 +76,21 @@ const FooterDiv = styled.div`
   align-items: center;
 `;
 
+const LogoImage = styled.img`
+  margin: 20px;
+  width: 30%;
+`;
+
 const Login = () => {
   const navigate = useNavigate();
+  const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
+
   return (
     <LoginContainer>
       <LoginBox>
-        <LeftDiv>L</LeftDiv>
+        <LeftDiv></LeftDiv>
         <RightDiv>
-          <h1>아Eng</h1>
+          <LogoImage src={logoImage} alt="#"></LogoImage>
           <InputDiv>
             <TextField
               fullWidth
