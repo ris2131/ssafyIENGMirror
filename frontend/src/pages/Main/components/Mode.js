@@ -34,16 +34,6 @@ const ModeContent = styled.div`
   cursor: pointer;
 `;
 
-// const SButton = styled.button`
-//   border-radius: 20px;
-//   color: white;
-//   border: none;
-//   background-color: #42a5f5;
-//   margin-top: 40px;
-//   cursor: pointer;
-//   font-size: 20px;
-// `;
-
 const style = {
   position: "absolute",
   top: "50%",
