@@ -1,15 +1,18 @@
+// 전체 설정
 .diary-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  // 머리말
   .diary-header{
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
     margin: 20px 0;
     
+    // 감정 선택
     .emotion {
       margin: 20px;
   
@@ -19,45 +22,133 @@
     }
   }
   
-  .diary-body {
+  // 이미지만 표시하는 몸통
+  .img-body {
     display: flex;
     margin: 10px 0;
     justify-content: center;
     flex-wrap: wrap;
-  
-    img {
-      height: 270px;
-    }
-
-    .text {
-      display: flex;
-      height: 270px;
-      width: 500px;
-      border: 1px solid black;
+    height: 350px;
+    width: auto;
+    
+    img {  
+      height: 330px;
+      border-radius: 20px;
+      object-fit: scale-down;
     }
   }
 
+  // 기본 몸통
+  .diary-body {
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 350px;
+    width: auto;
+
+    // 간격 조절용 빈공간
+    .void {
+      width: 30px;
+    }
+
+    img {  
+      height: 330px;
+      border-radius: 20px;
+      object-fit: scale-down;
+    }
+    
+    // 글상자
+    .text {
+      display: flex;
+      height: 330px;
+      width: 580px;
+      
+      textarea {
+        padding: 15px;
+        height: 300px;
+        resize: none;
+        font-size: 1rem;
+        border-radius: 20px;
+      }
+    }  
+    
+    // 문법 수정
+    .checked {
+      padding: 15px;
+      height: 300px;
+      width: 580px;
+      font-size: 1rem;
+      border: 1px solid black;
+      border-radius: 20px;
+    }
+  }
+
+  // 단어 선택
   .keyword-check {
     display: flex;
     margin: 10px 0;
     border: 1px solid black;
-    height: 200px;
+    border-radius: 20px;
+    height: 150px;
     width: 800px;
 
+    // 체크 박스
     .check-button {
       display: flex;
       margin: 10px;
       padding: 10px;
       border: 1px solid black;
+      border-radius: 20px;
       height: 30px;
+
+      // 좌우 여백
+      span {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     }
   }
 
+  // 선택한 단어들
   .word {
     display: flex;
     margin: 10px;
     border: 1px solid black;
+    border-radius: 20px;
     height: 150px;
-    width: 900px;
+    width: 1030px;
+
+    // 각각의 단어
+    .word-list {
+      display: flex;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid black;
+      border-radius: 20px;
+      height: 30px;
+
+      // 좌우 여백
+      span {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
   }
+
+  // 버튼 중앙정렬용
+  .button {
+    margin-right: 30px;
+  }
+
+  // 버튼 공통 설정
+  Button {
+    margin: 10px 5px;
+    font-size: 1.1rem;
+    border-radius: 20px;
+
+    min-height: 50px;
+    min-width: 250px;
+  }
+  
 }

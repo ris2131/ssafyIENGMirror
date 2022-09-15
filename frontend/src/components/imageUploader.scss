@@ -7,8 +7,8 @@
 
   .img-wrapper {
     img {
-      width: 270px;
-      height: 270px;
+      height: 330px;
+      border-radius: 20px;
       object-fit: cover;
     }
   }
@@ -17,6 +17,7 @@
     button {
       margin: 10px 5px;
       font-size: 1.1rem;
+      border-radius: 20px;
     }
   }
 }

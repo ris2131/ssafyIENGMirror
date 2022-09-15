@@ -5,13 +5,69 @@ import NavBar from "../../components/NavBar";
 // css
 import "./Diary.scss";
 import { Button } from "@mui/material";
+import { FaQuestion } from "react-icons/fa";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import MyButton from "../../components/MyButton";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #ececec",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+// 단어 설명 모달창
+const BasicModal = ({ title, description }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <div>
+      <FaQuestion onClick={handleOpen} />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {title}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {description}
+          </Typography>
+          <MyButton
+            onClick={handleClose}
+            width={"30%"}
+            padding={"5px"}
+            text={"확인"}
+          />
+        </Box>
+      </Modal>
+    </div>
+  );
+};
 
 // 임시 단어 데이터
 const data = [
-  {id : 1, data : "aaa"},
-  {id : 2, data : "bbb"},
-  {id : 3, data : "ccc"},
-  {id : 4, data : "ddd"},
+  "sky",
+  "tree",
+  "road",
+  "blue",
+  "green",
 ];
 
 const DiaryKeyword = () => {
@@ -19,31 +75,19 @@ const DiaryKeyword = () => {
   const location = useLocation();
   const { preview_URL } = location.state;
 
+  // 모달 임시 데이터
+  const title = "단어"
+  const description = "설명"
+
   const [checkedList, setCheckedLists] = useState([]);
 
-  const onCheckedAll = useCallback(
-    (checked) => {
-      if (checked) {
-        const checkedListArray = [];
-
-        data.forEach((list) => checkedListArray.push(list));
-
-        setCheckedLists(checkedListArray);
-
-      } else {
-        setCheckedLists([]);
-      }
-    },
-    []
-  );
-
   const onCheckedElement = useCallback(
-    (checked, list) => {
+    (checked, item) => {
       if (checked) {
-        setCheckedLists([...checkedList, list]);
+        setCheckedLists([...checkedList, item]);
 
       } else {
-        setCheckedLists(checkedList.filter((el) => el !== list));
+        setCheckedLists(checkedList.filter((el) => el !== item));
       }
     },
     [checkedList]
@@ -62,48 +106,31 @@ const DiaryKeyword = () => {
         </div>
 
         {/* 사진 */}
-        <div className="diary-body">
+        <div class="img-body">
           <img src={preview_URL} alt="이미지 없음"/>
-          <div ></div>
         </div>
 
         {/* 단어 선택 */}
         <div class="keyword-check">
-          {/* 전체 선택 */}
-          <div class="check-button">
-            <input
-              type="checkbox"
-              onChange={(e) => onCheckedAll(e.target.checked)}
-              checked={
-                checkedList.length === 0
-                  ? false
-                  : checkedList.length === data.length
-                  ? true
-                  : false
-              }
-            />
-            <span>전체 선택</span>
-          </div>
-          
-          {/* 개별 선택 */}
-          {data.map((list) => (
+          {data.map((item, index) => (
             <div class="check-button">
               <input
-                key={list.id}
+                key={item}
                 type="checkbox"
-                onChange={(e) => onCheckedElement(e.target.checked, list)}
-                checked={checkedList.includes(list) ? true : false}
+                onChange={(e) => onCheckedElement(e.target.checked, item)}
+                checked={checkedList.includes(item) ? true : false}
               />
-              <span>{list.data}</span>
+              <span>{item}</span>
+              <BasicModal title={title} description={description} />
             </div>
           ))} 
         </div>
-        
+
         <div>
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : "checkedList" }})}
+            onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
             >
             일기 쓰러가기
           </Button>
