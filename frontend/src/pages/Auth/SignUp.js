@@ -23,6 +23,9 @@ const SingUpBox = styled.div`
 `;
 
 const LeftDiv = styled.div`
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
   width: 40vw;
   background-image: url("https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898_960_720.jpg");
   background-size: cover;
@@ -30,6 +33,9 @@ const LeftDiv = styled.div`
 `;
 
 const RightDiv = styled.div`
+  @media screen and (max-width: 640px) {
+    width: 100vw;
+  }
   display: flex;
   flex-direction: column;
   justify-content: start;

@@ -26,6 +26,10 @@ const ArrowDiv = styled.div`
   cursor: pointer;
 `;
 
+const StyledImg = styled.img`
+  height: 100%;
+`;
+
 // 여기서 image, 받아와야겠지?
 const EduContent = () => {
   const { category } = useParams();
@@ -76,7 +80,10 @@ const EduContent = () => {
             <ArrowDiv>
               <AiOutlineLeft onClick={handlePrev} />
             </ArrowDiv>
-            <div>IMAGE</div>
+            <StyledImg
+              src={process.env.PUBLIC_URL + `/assets/단어.jpg`}
+              alt="#"
+            ></StyledImg>
             <ArrowDiv>
               <AiOutlineRight onClick={handleNext} />
             </ArrowDiv>

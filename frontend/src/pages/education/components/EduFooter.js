@@ -48,7 +48,7 @@ const Icon = styled.div`
   cursor: pointer;
 `;
 
-const EduFooter = ({ quiz }) => {
+const EduFooter = ({ quiz, setSuccess, setFail }) => {
   const [open, setOpen] = useState(false);
   // const [status, setStatus] = useState(false);
 
@@ -82,7 +82,8 @@ const EduFooter = ({ quiz }) => {
             <TextDiv>
               <TextP>text</TextP>
               <Icon>
-                <FaRegPaperPlane />
+                <FaRegPaperPlane onClick={() => setSuccess(true)} />
+                <FaRegPaperPlane onClick={() => setFail(true)} />
               </Icon>
             </TextDiv>
           ) : null}

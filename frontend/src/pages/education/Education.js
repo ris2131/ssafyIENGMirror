@@ -28,7 +28,7 @@ const Education = () => {
       <Container>
         <NavBar />
         <TitleDiv>
-          <p>TITLE</p>
+          <p>APPLE</p>
         </TitleDiv>
         <EduContent />
         <EduFooter quiz={false} />
