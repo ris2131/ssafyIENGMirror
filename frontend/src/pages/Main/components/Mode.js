@@ -12,13 +12,19 @@ const ModeBox = styled.div`
   margin: 20px;
 `;
 
-const ModeImg = styled.div`
+const ModeDiv = styled.div`
   position: relative;
   width: 25vw;
-  height: 35vh;
+  height: 50vh;
   border: 1px solid #ececec;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 10px 0px;
   border-radius: 15px;
+  background-color: ${(props) => props.back};
+`;
+
+const ModeImg = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const ModeQuestion = styled.div`
@@ -137,11 +143,23 @@ const Mode = ({ title, image, description }) => {
   return (
     <>
       <ModeBox>
-        <ModeImg>
+        <ModeDiv
+          back={
+            title === "단어"
+              ? "#ffd54f"
+              : title === "문장"
+              ? "#c5e1a5"
+              : "#b2ebf2"
+          }
+        >
+          <ModeImg
+            src={process.env.PUBLIC_URL + `/assets/${title}.jpg`}
+            alt="#"
+          ></ModeImg>
           <ModeQuestion>
             <BasicModal title={title} description={description} />
           </ModeQuestion>
-        </ModeImg>
+        </ModeDiv>
         <ModeContent onClick={handleOpen}>{title}</ModeContent>
         <DetailModal
           open={openDetail}

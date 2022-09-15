@@ -3,11 +3,18 @@ import NavBar from "../../components/NavBar";
 // import Login from "../Auth/Login";
 import Mode from "./components/Mode";
 
+const Container = styled.div`
+  background-color: #f5f5f5;
+  height: 100vh;
+`;
+
 const TitleDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
 `;
 
 const ModeWrapper = styled.div`
@@ -38,17 +45,17 @@ const Home = () => {
   //   return <Login />
   // }
   return (
-    <div>
+    <Container>
       <NavBar />
       <TitleDiv>
-        <p>모드를 선택하세요</p>
+        <p>어떤 학습을 해볼까요?</p>
       </TitleDiv>
       <ModeWrapper>
         {modeList.map((it, idx) => (
           <Mode key={idx} title={it.title} description={it.description} />
         ))}
       </ModeWrapper>
-    </div>
+    </Container>
   );
 };
 
