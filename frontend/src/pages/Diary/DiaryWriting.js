@@ -94,8 +94,8 @@ const DiaryWriting = () => {
           00 님의 특별한 일기를 작성 해 주세요!
 
           {/* 감정 선택 */}
-          <div class="emotion">
-            <div class="diary-header">오늘의 감정</div>
+          <div className="emotion">
+            <div className="diary-header">오늘의 감정</div>
             <RadioGroup
               aria-label="platform"
               defaultValue="Website"
@@ -157,10 +157,10 @@ const DiaryWriting = () => {
           <img src={preview_URL} alt="이미지 없음"/>
           
           {/* 빈 공간 */}
-          <div class="void"/>
+          <div className="void"/>
 
           {/* 내용 */}
-          <div class="text">
+          <div className="text">
             <textarea
               onChange={(e) => {
                 setContent(e.target.value);
@@ -171,8 +171,9 @@ const DiaryWriting = () => {
             />
           </div>  
         </div>
-
-        <div class="word">
+        
+        {/* 단어 */}
+        <div className="word">
           {checkedList.map((item, index) => (
             <div class="word-list">
               <span>{item}</span>

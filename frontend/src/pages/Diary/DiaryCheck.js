@@ -26,61 +26,62 @@ const style = {
   alignItems: "center",
 };
 
-// 단어 설명 모달창
-const BasicModal = ({ title, description }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      <div onClick={handleOpen}>제출하기</div>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {description}
-          </Typography>
-
-          <div>
-            <MyButton
-              onClick={() => navigate("/")}
-              width={"200px"}
-              padding={"5px"}
-              margin={"30px 10px"}
-              text={"네 제출할게요!"}
-            />
-            <MyButton
-              onClick={handleClose}
-              width={"200px"}
-              padding={"5px"}
-              margin={"30px 10px"}
-              text={"좀 더 생각 해 볼게요!"}
-            />
-          </div>
-        </Box>
-      </Modal>
-    </div>
-  );
-};
-
 const DiaryCheck = () => {
   const location = useLocation();
-  const { diary } = location.state;
+  const { preview_URL, checkedList, Emotion, diary } = location.state;
 
   const title = "제출 확인"
   const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?"
 
   const [content, setContent] = useState(diary);
+
+  // 단어 설명 모달창
+  const BasicModal = ({ title, description }) => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const navigate = useNavigate();
+
+    return (
+      <div>
+        <div onClick={handleOpen}>제출하기</div>
+
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {title}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {description}
+            </Typography>
+
+            <div>
+              <MyButton
+                onClick={() => navigate("/diaryend", {state : { preview_URL : preview_URL, checkedList : checkedList, Emotion : Emotion, diary : content }})}
+                width={"200px"}
+                padding={"5px"}
+                margin={"30px 10px"}
+                text={"네 제출할게요!"}
+              />
+              
+              <MyButton
+                onClick={handleClose}
+                width={"200px"}
+                padding={"5px"}
+                margin={"30px 10px"}
+                text={"좀 더 생각 해 볼게요!"}
+              />
+            </div>
+          </Box>
+        </Modal>
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -106,14 +107,14 @@ const DiaryCheck = () => {
             />
           </div>  
           
-          <div class="void"/>
+          <div className="void"/>
          
-          <div class="checked">
+          <div className="checked">
             수정 된 내용 !
           </div>
         </div>
 
-        <div class="button">
+        <div className="button">
           <Button
             variant="outlined"
             color="primary"

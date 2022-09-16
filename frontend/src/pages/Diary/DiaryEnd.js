@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 
@@ -61,37 +61,15 @@ const BasicModal = ({ title, description }) => {
   );
 };
 
-// 임시 단어 데이터
-const data = [
-  "sky",
-  "tree",
-  "road",
-  "blue",
-  "green",
-];
-
-const DiaryKeyword = () => {
+const DiaryEnd = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { preview_URL } = location.state;
+  const { preview_URL, checkedList, Emotion, diary } = location.state;
 
   // 모달 임시 데이터
   const title = "단어"
   const description = "설명"
 
-  const [checkedList, setCheckedLists] = useState([]);
-
-  const onCheckedElement = useCallback(
-    (checked, item) => {
-      if (checked) {
-        setCheckedLists([...checkedList, item]);
-
-      } else {
-        setCheckedLists(checkedList.filter((el) => el !== item));
-      }
-    },
-    [checkedList]
-  );
 
   return (
     <div>
@@ -100,26 +78,36 @@ const DiaryKeyword = () => {
       <div className="diary-wrapper">
         {/* 머리글 */}
         <div className="diary-header">
-          00 님이 고르신 사진이네요
-          <br/>
-          일기장에 쓸 단어를 골라볼까요?
+          오늘의 일기 작성이 끝났어요!
+
+          {/* 날짜 */}
+          <div>"오늘 날짜"</div>
+
+          {/* 기분 */}
+          <div className="emotion">
+            <img src={`image/${Emotion}.png`} alt="이미지 없음"/>
+          </div>
+          <div className="emotion">{Emotion}</div>
         </div>
 
-        {/* 사진 */}
-        <div className="img-body">
+        {/* 일기 메인 */}
+        <div className="diary-body">
+          {/* 사진 */}
           <img src={preview_URL} alt="이미지 없음"/>
+          
+          <div className="void"/>
+         
+         {/* 일기 */}
+          <div className="checked">
+            {diary}
+          </div>
         </div>
 
-        {/* 단어 선택 */}
-        <div className="keyword-check">
-          {data.map((item, index) => (
-            <div class="check-button">
-              <input
-                key={item}
-                type="checkbox"
-                onChange={(e) => onCheckedElement(e.target.checked, item)}
-                checked={checkedList.includes(item) ? true : false}
-              />
+        {/* 단어 */}
+        <div>사용한 단어</div>
+        <div className="word">
+          {checkedList.map((item, index) => (
+            <div class="word-list">
               <span>{item}</span>
               <BasicModal title={title} description={description} />
             </div>
@@ -130,9 +118,9 @@ const DiaryKeyword = () => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
+            onClick={() => navigate("/")}
             >
-            일기 쓰러가기
+            메인화면으로 가기
           </Button>
         </div>
       </div>
@@ -140,4 +128,4 @@ const DiaryKeyword = () => {
   );
 }
 
-export default DiaryKeyword;
+export default DiaryEnd;
