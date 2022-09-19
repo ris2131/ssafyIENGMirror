@@ -13,6 +13,9 @@ const ModeBox = styled.div`
 `;
 
 const ModeDiv = styled.div`
+  @media screen and (max-width: 640px) {
+    width: 70vw;
+  }
   position: relative;
   width: 25vw;
   height: 50vh;

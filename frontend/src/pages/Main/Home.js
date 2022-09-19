@@ -4,6 +4,9 @@ import NavBar from "../../components/NavBar";
 import Mode from "./components/Mode";
 
 const Container = styled.div`
+  @media screen and (max-width: 640px) {
+    height: 100%;
+  }
   background-color: #f5f5f5;
   height: 100vh;
 `;
@@ -18,6 +21,9 @@ const TitleDiv = styled.div`
 `;
 
 const ModeWrapper = styled.div`
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
