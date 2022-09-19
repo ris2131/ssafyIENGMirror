@@ -2,6 +2,12 @@ import styled from "styled-components";
 import { BiVolumeFull, BiMicrophone } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { useState } from "react";
+
+// STT
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -63,11 +69,20 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     setOpen(!open);
   };
 
+  const textToSpeech = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.7;
+    utterance.lang = "en-US";
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const speechToText = () => {};
+
   return (
     <Container>
       {quiz ? null : (
         <IconDiv>
-          <BiVolumeFull />
+          <BiVolumeFull onClick={() => textToSpeech("apple")} />
           <TextP>듣기</TextP>
         </IconDiv>
       )}
