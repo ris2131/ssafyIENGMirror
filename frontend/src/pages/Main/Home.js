@@ -46,12 +46,6 @@ const Home = () => {
   // }
 
   //
-  const Test = () => {
-    const utterance = new SpeechSynthesisUtterance("I drink some water");
-    utterance.rate = 0.7;
-    utterance.lang = "en-US";
-    window.speechSynthesis.speak(utterance);
-  };
 
   return (
     <Container>
@@ -64,7 +58,6 @@ const Home = () => {
           <Mode key={idx} title={it.title} description={it.description} />
         ))}
       </ModeWrapper>
-      <button onClick={Test}>테스트를 해봅시다</button>
     </Container>
   );
 };

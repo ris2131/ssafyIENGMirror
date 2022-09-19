@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { BiVolumeFull, BiMicrophone } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { VscRefresh } from "react-icons/vsc";
+
 import { useState } from "react";
 
 // STT
@@ -58,6 +60,14 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
   const [open, setOpen] = useState(false);
   // const [status, setStatus] = useState(false);
 
+  // TTS
+  const {
+    transcript,
+    // listening,
+    resetTranscript,
+    // browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
   const handleMic = () => {
     // setStatus(!status);
     // status
@@ -76,7 +86,15 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     window.speechSynthesis.speak(utterance);
   };
 
-  const speechToText = () => {};
+  const speechToText = () => {
+    if (!open) {
+      SpeechRecognition.startListening({
+        continuous: true,
+        language: "en-US",
+      });
+    } else SpeechRecognition.stopListening();
+    setOpen(!open);
+  };
 
   return (
     <Container>
@@ -89,16 +107,17 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
 
       <Pdiv>
         <IconDiv>
-          <BiMicrophone onClick={handleMic} />
+          <BiMicrophone onClick={speechToText} />
           <TextP>말하기</TextP>
         </IconDiv>
         <Cdiv>
           {open ? (
             <TextDiv>
-              <TextP>text</TextP>
+              <TextP>{transcript}</TextP>
               <Icon>
                 <FaRegPaperPlane onClick={() => setSuccess(true)} />
                 <FaRegPaperPlane onClick={() => setFail(true)} />
+                <VscRefresh onClick={resetTranscript} />
               </Icon>
             </TextDiv>
           ) : null}
