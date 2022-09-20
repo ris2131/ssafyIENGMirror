@@ -3,8 +3,14 @@ import NavBar from "../../components/NavBar";
 // import Login from "../Auth/Login";
 import Mode from "./components/Mode";
 
+const backgroundImage = process.env.PUBLIC_URL + `/assets/mainback.png`;
+
 const Container = styled.div`
-  background-color: #f5f5f5;
+  @media screen and (max-width: 640px) {
+    height: 100%;
+  }
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
   height: 100vh;
 `;
 
@@ -18,6 +24,9 @@ const TitleDiv = styled.div`
 `;
 
 const ModeWrapper = styled.div`
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
