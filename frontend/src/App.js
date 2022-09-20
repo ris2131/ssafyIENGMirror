@@ -16,6 +16,9 @@ import DiaryWriting from "./pages/Diary/DiaryWriting";
 import DiaryCheck from "./pages/Diary/DiaryCheck";
 import DiaryEnd from "./pages/Diary/DiaryEnd";
 
+// 회원 정보
+import MypageMain from "./pages/Mypage/Mypage.Main";
+
 // 학습
 import Education from "./pages/education/Education";
 import Quiz from "./pages/education/Quiz";
@@ -43,6 +46,9 @@ function App() {
           <Route path="/diarywriting" element={<DiaryWriting />} />
           <Route path="/diarycheck" element={<DiaryCheck />} />
           <Route path="/diaryend" element={<DiaryEnd />} />
+
+          {/* 회원 정보 */}
+          <Route path="/mypage" element={<MypageMain />} />
         </Routes>
       </div>
     </>
