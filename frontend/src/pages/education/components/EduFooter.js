@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { BiVolumeFull, BiMicrophone } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { VscRefresh } from "react-icons/vsc";
+
 import { useState } from "react";
+
+// STT
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -52,14 +60,28 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
   const [open, setOpen] = useState(false);
   // const [status, setStatus] = useState(false);
 
-  const handleMic = () => {
-    // setStatus(!status);
-    // status
-    //   ? navigator.mediaDevices
-    //       .getUserMedia({ audio: true })
-    //       .then(console.log("hi"))
-    //       :
-    //       media.stop()
+  // TTS
+  const {
+    transcript,
+    // listening,
+    resetTranscript,
+    // browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  const textToSpeech = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.7;
+    utterance.lang = "en-US";
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const speechToText = () => {
+    if (!open) {
+      SpeechRecognition.startListening({
+        continuous: true,
+        language: "en-US",
+      });
+    } else SpeechRecognition.stopListening();
     setOpen(!open);
   };
 
@@ -67,23 +89,24 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     <Container>
       {quiz ? null : (
         <IconDiv>
-          <BiVolumeFull />
+          <BiVolumeFull onClick={() => textToSpeech("apple")} />
           <TextP>듣기</TextP>
         </IconDiv>
       )}
 
       <Pdiv>
         <IconDiv>
-          <BiMicrophone onClick={handleMic} />
+          <BiMicrophone onClick={speechToText} />
           <TextP>말하기</TextP>
         </IconDiv>
         <Cdiv>
           {open ? (
             <TextDiv>
-              <TextP>text</TextP>
+              <TextP>{transcript}</TextP>
               <Icon>
                 <FaRegPaperPlane onClick={() => setSuccess(true)} />
                 <FaRegPaperPlane onClick={() => setFail(true)} />
+                <VscRefresh onClick={resetTranscript} />
               </Icon>
             </TextDiv>
           ) : null}

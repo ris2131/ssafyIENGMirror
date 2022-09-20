@@ -1,58 +1,51 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 import { FcGoogle } from "react-icons/fc";
+import { TbCameraPlus } from "react-icons/tb";
 import { Toast } from "../../assets/Toast";
 
-const SignUpContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const SingUpBox = styled.div`
   display: flex;
-  width: 70vw;
-  height: 70vh;
-  border: 1px solid #ececec;
-  border-radius: 15px;
-`;
-
-const LeftDiv = styled.div`
-  @media screen and (max-width: 640px) {
-    display: none;
-  }
-  width: 40vw;
-  background-image: url("https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898_960_720.jpg");
-  background-size: cover;
-  border-radius: 15px 0px 0px 15px;
-`;
-
-const RightDiv = styled.div`
-  @media screen and (max-width: 640px) {
-    width: 100vw;
-  }
-  display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
-  width: 35vw;
-  padding: 10px;
+  height: 100vh;
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
 `;
 
-const InputDiv = styled.div`
-  width: 70%;
-  margin-bottom: 10px;
-`;
-
-const Sdiv = styled.div`
+const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const LogoImg = styled.img`
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+`;
+
+const LogoText = styled.h1`
+  font-size: 80px;
+  font-family: OKDDUNG;
+  color: #ffca28;
+  margin: 10px;
+`;
+
+const InputDiv = styled.div`
+  width: 20vw;
+  width: ${(props) => props.width};
+  margin-bottom: 10px;
 `;
 
 const IconDiv = styled.div`
@@ -67,7 +60,7 @@ const IconDiv2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 30%;
   border-top: 1px solid #ececec;
 `;
 
@@ -82,26 +75,23 @@ const SButton = styled.button`
   color: white;
   border: none;
   background-color: #42a5f5;
-  padding: 5px;
-  margin: 10px;
-  width: 30%;
-`;
-const SButton2 = styled.button`
-  width: 100%;
-  border-radius: 20px;
-  color: white;
-  border: none;
-  background-color: #42a5f5;
-  padding: 5px;
-  margin: 10px 0;
+  padding: 10px;
+  margin: 10px 0px;
+  width: 20vw;
+  cursor: pointer;
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: end;
-  margin-bottom: 20px;
-  padding: 10px 0px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ProfileSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProfileBox = styled.div`
@@ -109,7 +99,6 @@ const ProfileBox = styled.div`
   height: 80px;
   border-radius: 70%;
   overflow: hidden;
-  margin-right: 15px;
 `;
 
 const Profileimg = styled.img`
@@ -117,13 +106,14 @@ const Profileimg = styled.img`
   height: 100%;
   object-fit: cover;
 `;
-const LogoImage = styled.img`
-  margin: 20px;
-  width: 30%;
-`;
-const SignUp = () => {
-  const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
 
+const DateWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 20vw;
+`;
+
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [emailCheck, setEmailCheck] = useState("");
   const [password, setPassword] = useState("");
@@ -133,9 +123,14 @@ const SignUp = () => {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const [nickname, setNickname] = useState("");
-  const [birth, setBirth] = useState("");
-
   const [page, setPage] = useState(1);
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("월");
+  const [day, setDay] = useState("");
+  const monthList = [...Array(12)].map((v, i) => i + 1);
+  const date = ["월", ...monthList];
+
+  const inputRef = useRef();
 
   const handlePage = () => {
     if (page === 1) {
@@ -158,6 +153,11 @@ const SignUp = () => {
     });
   };
 
+  // 월 변경
+  const handleChange = (e) => {
+    setMonth(e.target.value);
+  };
+
   const handleSubmit = () => {
     if (password !== passwordCheck) {
       Toast.fire({
@@ -170,7 +170,6 @@ const SignUp = () => {
       email,
       password,
       nickname,
-      birth,
     };
 
     const formData = new FormData();
@@ -184,119 +183,141 @@ const SignUp = () => {
   };
 
   return (
-    <SignUpContainer>
-      <SingUpBox>
-        <LeftDiv></LeftDiv>
-        {page === 1 ? (
-          <RightDiv>
-            <Sdiv>
-              <LogoImage src={logoImage} alt="#"></LogoImage>
-            </Sdiv>
-            <InputDiv>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                label="ID (email)"
-                variant="standard"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </InputDiv>
-            <InputDiv>
-              <SButton2>인증번호 보내기</SButton2>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                label="인증번호 입력"
-                variant="standard"
-                value={emailCheck}
-                onChange={(e) => setEmailCheck(e.target.value)}
-              />
-            </InputDiv>
-            <InputDiv>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                label="password"
-                type="password"
-                variant="standard"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </InputDiv>
-            <InputDiv>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                label="password check"
-                type="password"
-                variant="standard"
-                value={passwordCheck}
-                onChange={(e) => setPasswordCheck(e.target.value)}
-              />
-            </InputDiv>
+    <SingUpBox>
+      <LogoDiv>
+        <LogoImg src={process.env.PUBLIC_URL + `/assets/logo.png`} alt="#" />
+        <LogoText>IEng</LogoText>
+      </LogoDiv>
+      {page === 1 ? (
+        <>
+          <InputDiv>
+            <TextField
+              fullWidth
+              label="ID (email)"
+              variant="standard"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputDiv>
+          <InputDiv>
+            <SButton>인증번호 보내기</SButton>
+            <TextField
+              fullWidth
+              label="인증번호 입력"
+              variant="standard"
+              value={emailCheck}
+              onChange={(e) => setEmailCheck(e.target.value)}
+            />
+          </InputDiv>
+          <InputDiv>
+            <TextField
+              fullWidth
+              label="password"
+              type="password"
+              variant="standard"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </InputDiv>
+          <InputDiv>
+            <TextField
+              fullWidth
+              label="password check"
+              type="password"
+              variant="standard"
+              value={passwordCheck}
+              onChange={(e) => setPasswordCheck(e.target.value)}
+            />
+          </InputDiv>
 
-            <IconDiv onClick={handlePage}>
-              <GrLinkNext />
-            </IconDiv>
-            <IconDiv2>
-              <IconDiv3>
-                <FcGoogle />
-              </IconDiv3>
-              <p> Google로 로그인</p>
-            </IconDiv2>
-          </RightDiv>
-        ) : (
-          <>
-            <RightDiv>
-              <Sdiv>
-                <LogoImage src={logoImage} alt="#"></LogoImage>
-              </Sdiv>
-              <InputDiv>
-                <ProfileContainer>
-                  <ProfileBox>
-                    <Profileimg src={preview} alt="" />
-                  </ProfileBox>
-                  <input
-                    type="file"
-                    name="file"
-                    onChange={(e) => {
-                      changeImg(e);
-                      encodeFileToBase64(e.target.files[0]);
-                    }}
+          <IconDiv>
+            <GrLinkNext onClick={handlePage} />
+          </IconDiv>
+          <IconDiv2>
+            <IconDiv3>
+              <FcGoogle />
+            </IconDiv3>
+            <p> Google로 로그인</p>
+          </IconDiv2>
+        </>
+      ) : (
+        <>
+          <h1>프로필 입력</h1>
+          <InputDiv>
+            <ProfileContainer>
+              <ProfileSection>
+                <ProfileBox>
+                  <Profileimg src={preview} alt="" />
+                </ProfileBox>
+                <input
+                  type="file"
+                  name="file"
+                  onChange={(e) => {
+                    changeImg(e);
+                    encodeFileToBase64(e.target.files[0]);
+                  }}
+                  ref={inputRef}
+                  style={{ display: "none" }}
+                />
+                <div style={{ fontSize: "20px", marginTop: "5px" }}>
+                  <TbCameraPlus
+                    onClick={() => inputRef.current.click()}
+                    style={{ cursor: "pointer" }}
                   />
-                </ProfileContainer>
-              </InputDiv>
-              <InputDiv>
-                <TextField
-                  fullWidth
-                  id="standard-basic"
-                  label="닉네임"
-                  variant="standard"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                />
-              </InputDiv>
-              <InputDiv>
-                <TextField
-                  fullWidth
-                  id="standard-basic"
-                  label="생년월일"
-                  variant="standard"
-                  value={birth}
-                  onChange={(e) => setBirth(e.target.value)}
-                />
+                </div>
+              </ProfileSection>
+            </ProfileContainer>
+          </InputDiv>
+          <InputDiv>
+            <TextField
+              fullWidth
+              label="닉네임"
+              variant="standard"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+          </InputDiv>
+          <DateWrapper>
+            <InputDiv width="7vw">
+              <TextField
+                fullWidth
+                label="년(4자)"
+                variant="standard"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              />
+            </InputDiv>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={month}
+              onChange={handleChange}
+              label="월"
+            >
+              {date.map((v, i) => (
+                <MenuItem value={v} key={i}>
+                  {v}
+                </MenuItem>
+              ))}
+            </Select>
 
-                <IconDiv onClick={handlePage}>
-                  <GrLinkPrevious />
-                  <SButton onClick={handleSubmit}>회원가입</SButton>
-                </IconDiv>
-              </InputDiv>
-            </RightDiv>
-          </>
-        )}
-      </SingUpBox>
-    </SignUpContainer>
+            <InputDiv width="7vw">
+              <TextField
+                fullWidth
+                label="일"
+                variant="standard"
+                value={day}
+                onChange={(e) => setDay(e.target.value)}
+              />
+            </InputDiv>
+          </DateWrapper>
+          <IconDiv>
+            <GrLinkPrevious onClick={handlePage} />
+          </IconDiv>
+          <SButton onClick={handleSubmit}>회원가입</SButton>
+        </>
+      )}
+    </SingUpBox>
   );
 };
 

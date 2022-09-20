@@ -4,44 +4,39 @@ import { FcGoogle } from "react-icons/fc";
 
 import { useNavigate } from "react-router-dom";
 
+const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
+
 const LoginContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
 `;
 
-const LoginBox = styled.div`
+const LogoDiv = styled.div`
   display: flex;
-  width: 70vw;
-  height: 70vh;
-  border: 1px solid #ececec;
-  border-radius: 15px;
-  // padding: 40px;
-`;
-
-const LeftDiv = styled.div`
-  @media screen and (max-width: 640px) {
-    display: none;
-  }
-  width: 40vw;
-  background-image: url("https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898_960_720.jpg");
-  background-size: cover;
-  border-radius: 15px 0px 0px 15px;
-`;
-const RightDiv = styled.div`
-  @media screen and (max-width: 640px) {
-    width: 100vw;
-  }
-  display: flex;
-  flex-direction: column;
-
+  justify-content: center;
   align-items: center;
-  width: 35vw;
+`;
+
+const LogoImg = styled.img`
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+`;
+
+const LogoText = styled.h1`
+  font-size: 80px;
+  font-family: OKDDUNG;
+  color: #ffca28;
+  margin: 10px;
 `;
 
 const InputDiv = styled.div`
-  width: 70%;
+  width: 20vw;
   margin-bottom: 10px;
 `;
 
@@ -50,9 +45,9 @@ const SButton = styled.button`
   color: white;
   border: none;
   background-color: #42a5f5;
-  padding: 8px;
+  padding: 10px;
   margin-top: 40px;
-  width: 30%;
+  width: 20vw;
 `;
 
 const IconDiv2 = styled.div`
@@ -60,7 +55,7 @@ const IconDiv2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 300px;
   border-top: 1px solid #ececec;
 `;
 
@@ -76,59 +71,56 @@ const StyledP = styled.p`
 `;
 
 const FooterDiv = styled.div`
-  width: 50%;
+  width: 400px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 
-const LogoImage = styled.img`
-  margin: 20px;
-  width: 30%;
-`;
-
 const Login = () => {
   const navigate = useNavigate();
-  const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
 
   return (
-    <LoginContainer>
-      <LoginBox>
-        <LeftDiv></LeftDiv>
-        <RightDiv>
-          <LogoImage src={logoImage} alt="#"></LogoImage>
-          <InputDiv>
-            <TextField
-              fullWidth
-              id="standard-basic"
-              label="ID(email)"
-              variant="standard"
-            />
-          </InputDiv>
-          <InputDiv>
-            <TextField
-              fullWidth
-              id="standard-basic"
-              label="Password"
-              variant="standard"
-            />
-          </InputDiv>
-          <SButton>로그인</SButton>
-          <IconDiv2>
-            <IconDiv3>
-              <FcGoogle />
-            </IconDiv3>
-            <p> Google로 로그인</p>
-          </IconDiv2>
-          <FooterDiv>
-            <StyledP onClick={() => navigate("/forgotpassword")}>
-              비밀번호 찾기
-            </StyledP>
-            <StyledP onClick={() => navigate("/signup")}>회원가입</StyledP>
-          </FooterDiv>
-        </RightDiv>
-      </LoginBox>
-    </LoginContainer>
+    <>
+      <LoginContainer>
+        <LogoDiv>
+          <LogoImg
+            src={process.env.PUBLIC_URL + `/assets/logo.png`}
+            alt="#"
+          ></LogoImg>
+          <LogoText>IEng</LogoText>
+        </LogoDiv>
+        <InputDiv>
+          <TextField
+            fullWidth
+            id="standard-basic"
+            label="ID(email)"
+            variant="standard"
+          />
+        </InputDiv>
+        <InputDiv>
+          <TextField
+            fullWidth
+            id="standard-basic"
+            label="Password"
+            variant="standard"
+          />
+        </InputDiv>
+        <SButton>로그인</SButton>
+        <IconDiv2>
+          <IconDiv3>
+            <FcGoogle />
+          </IconDiv3>
+          <p> Google로 로그인</p>
+        </IconDiv2>
+        <FooterDiv>
+          <StyledP onClick={() => navigate("/forgotpassword")}>
+            비밀번호 찾기
+          </StyledP>
+          <StyledP onClick={() => navigate("/signup")}>회원가입</StyledP>
+        </FooterDiv>
+      </LoginContainer>
+    </>
   );
 };
 
