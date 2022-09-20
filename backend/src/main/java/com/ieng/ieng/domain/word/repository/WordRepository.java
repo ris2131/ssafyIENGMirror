@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface WordRepository extends JpaRepository<Word,Long> {
     List<Word> findAll();
-    Word findWordByWordSequence(int wordSequence);
+    Word findWordByWordSequence(Long wordSequence);
 }

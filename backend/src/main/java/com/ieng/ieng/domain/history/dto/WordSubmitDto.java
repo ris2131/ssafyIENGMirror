@@ -1,12 +1,15 @@
 package com.ieng.ieng.domain.history.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+//@AllArgsConstructor
 public class WordSubmitDto {
-    private int wordSequence;
+    @JsonProperty("word_seq")
+    private Long wordSequence;
+    @JsonProperty("is_correct")
     private boolean correct;
 
     public boolean getCorrect(){

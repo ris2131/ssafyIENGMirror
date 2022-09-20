@@ -20,12 +20,10 @@ public class WordSubmitServiceImpl implements WordSubmitService{
     private final WordRepository wordRepository;
     @Override
     public void submit(WordHistoryRequestDto wordHistoryRequestDto){
-        System.out.println("hello");
-        System.out.println("size : "+ wordHistoryRequestDto.getWordSubmitList());
-        System.out.println("world");
+
         List<WordSubmitDto> wordSubmitList = wordHistoryRequestDto.getWordSubmitList();
         for(WordSubmitDto wordSubmit : wordSubmitList){
-            int wordSequence = wordSubmit.getWordSequence();
+            Long wordSequence = wordSubmit.getWordSequence();
             Word word = wordRepository.findWordByWordSequence(wordSequence);
             Date now = new Date();
 
