@@ -3,11 +3,14 @@ import NavBar from "../../components/NavBar";
 // import Login from "../Auth/Login";
 import Mode from "./components/Mode";
 
+const backgroundImage = process.env.PUBLIC_URL + `/assets/mainback.png`;
+
 const Container = styled.div`
   @media screen and (max-width: 640px) {
     height: 100%;
   }
-  background-color: #f5f5f5;
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
   height: 100vh;
 `;
 

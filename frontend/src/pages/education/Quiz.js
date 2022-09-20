@@ -33,6 +33,7 @@ const Quiz = () => {
       <EduFooter quiz={true} setSuccess={setSuccess} setFail={setFail} />
       {success ? <Success setSuccess={setSuccess} setNum={setNum} /> : null}
       {fail ? <Fail setFail={setFail} setNum={setNum} /> : null}
+      {num}
     </Container>
   );
 };

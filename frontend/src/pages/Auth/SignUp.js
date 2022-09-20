@@ -8,9 +8,10 @@ import { FcGoogle } from "react-icons/fc";
 import { TbCameraPlus } from "react-icons/tb";
 import { Toast } from "../../assets/Toast";
 
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+
+const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const SingUpBox = styled.div`
   display: flex;
@@ -18,21 +19,32 @@ const SingUpBox = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
 `;
 
-const LogoText = styled.div`
-  font-weight: 600;
+const LogoDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LogoImg = styled.img`
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+`;
+
+const LogoText = styled.h1`
   font-size: 80px;
+  font-family: OKDDUNG;
   color: #ffca28;
-  margin-bottom: 20px;
+  margin: 10px;
 `;
 
 const InputDiv = styled.div`
-  @media screen and (max-width: 640px) {
-    width: 80%;
-  }
-  width: 30%;
+  width: 20vw;
+  width: ${(props) => props.width};
   margin-bottom: 10px;
 `;
 
@@ -64,25 +76,15 @@ const SButton = styled.button`
   border: none;
   background-color: #42a5f5;
   padding: 10px;
-  margin: 10px;
-  width: 30%;
-`;
-const SButton2 = styled.button`
-  border-radius: 20px;
-  color: white;
-  border: none;
-  background-color: #42a5f5;
-  padding: 10px;
-  margin: 10px 0;
-  width: 100%;
+  margin: 10px 0px;
+  width: 20vw;
+  cursor: pointer;
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 10px 0px;
 `;
 
 const ProfileSection = styled.div`
@@ -93,11 +95,6 @@ const ProfileSection = styled.div`
 `;
 
 const ProfileBox = styled.div`
-  @media screen and (max-width: 640px) {
-    width: 80px;
-    height: 80px;
-  }
-
   width: 80px;
   height: 80px;
   border-radius: 70%;
@@ -112,9 +109,8 @@ const Profileimg = styled.img`
 
 const DateWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 35%;
+  justify-content: space-between;
+  width: 20vw;
 `;
 
 const SignUp = () => {
@@ -129,9 +125,10 @@ const SignUp = () => {
   const [nickname, setNickname] = useState("");
   const [page, setPage] = useState(1);
   const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState("월");
   const [day, setDay] = useState("");
-  const date = [...Array(12)].map((v, i) => i + 1);
+  const monthList = [...Array(12)].map((v, i) => i + 1);
+  const date = ["월", ...monthList];
 
   const inputRef = useRef();
 
@@ -187,7 +184,10 @@ const SignUp = () => {
 
   return (
     <SingUpBox>
-      <LogoText>IEng</LogoText>
+      <LogoDiv>
+        <LogoImg src={process.env.PUBLIC_URL + `/assets/logo.png`} alt="#" />
+        <LogoText>IEng</LogoText>
+      </LogoDiv>
       {page === 1 ? (
         <>
           <InputDiv>
@@ -200,7 +200,7 @@ const SignUp = () => {
             />
           </InputDiv>
           <InputDiv>
-            <SButton2>인증번호 보내기</SButton2>
+            <SButton>인증번호 보내기</SButton>
             <TextField
               fullWidth
               label="인증번호 입력"
@@ -230,8 +230,8 @@ const SignUp = () => {
             />
           </InputDiv>
 
-          <IconDiv onClick={handlePage}>
-            <GrLinkNext />
+          <IconDiv>
+            <GrLinkNext onClick={handlePage} />
           </IconDiv>
           <IconDiv2>
             <IconDiv3>
@@ -242,6 +242,7 @@ const SignUp = () => {
         </>
       ) : (
         <>
+          <h1>프로필 입력</h1>
           <InputDiv>
             <ProfileContainer>
               <ProfileSection>
@@ -277,7 +278,7 @@ const SignUp = () => {
             />
           </InputDiv>
           <DateWrapper>
-            <InputDiv>
+            <InputDiv width="7vw">
               <TextField
                 fullWidth
                 label="년(4자)"
@@ -286,23 +287,21 @@ const SignUp = () => {
                 onChange={(e) => setYear(e.target.value)}
               />
             </InputDiv>
-            <InputDiv>
-              <InputLabel id="demo-simple-select-standard-label">월</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={month}
-                onChange={handleChange}
-                label="월"
-              >
-                {date.map((v, i) => (
-                  <MenuItem value={v} key={i}>
-                    {v}
-                  </MenuItem>
-                ))}
-              </Select>
-            </InputDiv>
-            <InputDiv>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={month}
+              onChange={handleChange}
+              label="월"
+            >
+              {date.map((v, i) => (
+                <MenuItem value={v} key={i}>
+                  {v}
+                </MenuItem>
+              ))}
+            </Select>
+
+            <InputDiv width="7vw">
               <TextField
                 fullWidth
                 label="일"
@@ -312,10 +311,10 @@ const SignUp = () => {
               />
             </InputDiv>
           </DateWrapper>
-          <IconDiv onClick={handlePage}>
-            <GrLinkPrevious />
-            <SButton onClick={handleSubmit}>회원가입</SButton>
+          <IconDiv>
+            <GrLinkPrevious onClick={handlePage} />
           </IconDiv>
+          <SButton onClick={handleSubmit}>회원가입</SButton>
         </>
       )}
     </SingUpBox>
