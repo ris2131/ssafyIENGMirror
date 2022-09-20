@@ -14,7 +14,7 @@ const LoginContainer = styled.div`
 const LoginBox = styled.div`
   display: flex;
   width: 70vw;
-  height: 70vh;
+  height: 75vh;
   border: 1px solid #ececec;
   border-radius: 15px;
   // padding: 40px;

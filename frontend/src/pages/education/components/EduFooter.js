@@ -68,17 +68,6 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     // browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  const handleMic = () => {
-    // setStatus(!status);
-    // status
-    //   ? navigator.mediaDevices
-    //       .getUserMedia({ audio: true })
-    //       .then(console.log("hi"))
-    //       :
-    //       media.stop()
-    setOpen(!open);
-  };
-
   const textToSpeech = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 0.7;

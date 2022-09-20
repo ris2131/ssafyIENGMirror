@@ -12,7 +12,7 @@ const NavDiv = styled.div`
 const logoImage = process.env.PUBLIC_URL + `/assets/logo.png`;
 
 const StyledImage = styled.img`
-  width: 100px;
+  width: 80px;
   height: 80px;
   cursor: pointer;
 `;
