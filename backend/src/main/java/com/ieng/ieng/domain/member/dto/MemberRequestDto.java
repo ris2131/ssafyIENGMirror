@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ieng.ieng.domain.member.entity.Member;
 import lombok.Getter;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 @Getter

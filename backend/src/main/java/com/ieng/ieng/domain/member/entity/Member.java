@@ -1,6 +1,5 @@
 package com.ieng.ieng.domain.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,10 +39,6 @@ public class Member {
     @Column(name = "REFRESH_TOKEN", nullable = false)
     private String refreshToken;
 
-    /*@OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonManagedReference
-    @ToString.Exclude
-    private List<Ranking> rankings;*/
 
     @Builder
     public Member(Long memberSequence, String nickname, String email, Date memberYMD, String provider,String picturePath, String password,  String refreshToken){
