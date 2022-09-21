@@ -32,7 +32,7 @@ public class SentenceHistory {
 
     @Builder
     public SentenceHistory(Sentence sentence, boolean sentenceHistoryPass, Date sentenceHistoryDTTM){
-        this.sentence =sentence;
+        this.sentence = sentence;
         this.sentenceHistoryPass = sentenceHistoryPass;
         this.sentenceHistoryDTTM = sentenceHistoryDTTM;
     }
