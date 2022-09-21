@@ -9,5 +9,5 @@ public interface MemberService {
     //MemberResponseDto updateMemberInfo(String email, MemberUpdateRequestDto memberUpdateRequestDto);
     MemberInfoResponseDto getMemberInfo(String email);
     //void deleteMember(String email);
-    //void updateRefreshToken(String email, String refreshToken);
+    void updateRefreshToken(String email, String refreshToken);
 }
