@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SentenceRepository extends JpaRepository<Sentence,Long> {
     List<Sentence> findAll();
+
+    Sentence findSentenceBySentenceSequence(Long sentenceSequence);
 }
