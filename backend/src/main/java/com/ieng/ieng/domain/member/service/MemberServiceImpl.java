@@ -61,10 +61,10 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.delete(member);
     }*/
 
-    /*@Override
+    @Override
     public void updateRefreshToken(String email, String refreshToken) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         member.updateRefreshToken(refreshToken);
         memberRepository.save(member);
-    }*/
+    }
 }

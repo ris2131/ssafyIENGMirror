@@ -33,9 +33,13 @@ public class LoginController {
         try {
             String email = loginRequestDto.getEmail();
             logger.debug("email : " + email);
+
             String accessToken = jwtService.createAccessToken(email);
             String refreshToken = jwtService.createRefreshToken();
+
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
+            memberService.updateRefreshToken(email, refreshToken);
+
             MemberInfoResponseDto loginResponseDto = memberService.getMemberInfo(email);
 
             return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", loginResponseDto));
