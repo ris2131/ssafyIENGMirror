@@ -1,10 +1,12 @@
 package com.ieng.ieng.domain.member.service;
 
+import com.ieng.ieng.domain.member.dto.MemberInfoResponseDto;
 import com.ieng.ieng.domain.member.dto.MemberRequestDto;
 import com.ieng.ieng.domain.member.dto.MemberResponseDto;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.global.exception.DuplicateNicknameException;
+import com.ieng.ieng.global.exception.NoExistMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -14,14 +16,14 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
-    /*@Override
     // 회원정보 확인
+    @Override
     public MemberInfoResponseDto getMemberInfo(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto(member);
 
         return memberInfoResponseDto;
-    }*/
+    }
 
     // 회원가입
     @Override
