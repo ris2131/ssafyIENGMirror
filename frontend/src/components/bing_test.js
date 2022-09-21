@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 let https = require("https");
 
 let host = "api.bing.microsoft.com";

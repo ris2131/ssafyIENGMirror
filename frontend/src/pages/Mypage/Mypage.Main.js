@@ -7,7 +7,7 @@ import "./Mypage.scss";
 import { Button } from "@mui/material";
 
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import './Calendar.css';
 
 // 임시 단어 문장 데이터
 const word = ["Apple", "Sky", "Pig"]
