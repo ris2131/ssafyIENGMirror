@@ -1,9 +1,6 @@
 package com.ieng.ieng.domain.member.controller;
 
-import com.ieng.ieng.domain.member.dto.MemberRequestDto;
-import com.ieng.ieng.domain.member.dto.MemberResponseDto;
-import com.ieng.ieng.domain.member.dto.MemberUpdateInfoRequestDto;
-import com.ieng.ieng.domain.member.dto.MemberUpdatePasswordRequestDto;
+import com.ieng.ieng.domain.member.dto.*;
 import com.ieng.ieng.domain.member.service.MemberService;
 import com.ieng.ieng.global.jwt.JwtService;
 import com.ieng.ieng.global.response.CommonResponse;
@@ -24,6 +21,12 @@ public class MemberController {
     private final MemberService memberService;
     private final JwtService jwtService;
     final static Logger logger = LogManager.getLogger(MemberController.class);
+    @GetMapping()
+    public ResponseEntity<?> getMember(HttpServletRequest request){
+        String email = (String) request.getAttribute("email");
+        MemberInfoResponseDto memberInfoResponseDto = memberService.getMemberInfo(email);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.createSuccess("회원정보 확인 완료.", memberInfoResponseDto));
+    }
 
     @PostMapping("/sign-up")//jwt 때문에
     public ResponseEntity<?> createMember(@RequestBody MemberRequestDto memberRequestDto){
