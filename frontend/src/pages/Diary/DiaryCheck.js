@@ -35,11 +35,58 @@ const DiaryCheck = () => {
 
   // 문법 체크 함수
   // const textCheck = async (text) => {
+
   //   let https = require("https");
 
   //   let host = "api.bing.microsoft.com";
   //   let path = "/v7.0/spellcheck";
   //   let key = "ce11f020da1241f182ed7ee34ec9fcc1";
+    
+  //   let mkt = "en-US";
+  //   let mode = "proof";
+  //   let query_string = "?mkt=" + mkt + "&mode=" + mode;
+  //   let wrongWordList = {};
+
+  //   let request_params = {
+  //     method: "POST",
+  //     hostname: host,
+  //     path: path + query_string,
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //       "Content-Length": text.length + 5,
+  //       "Ocp-Apim-Subscription-Key": key,
+  //     },
+  //   };
+
+  //   let response_handler = function (response) {
+  //     let body = "";
+  //     response.on("data", function (d) {
+  //       body += d;
+  //     });
+  //     response.on("end", function () {
+  //       let body_ = JSON.parse(body);
+      
+  //       for (const word of body_.flaggedTokens) {
+  //         for (const sugges of word.suggestions) {
+  //           if (sugges.score >= 0.65) {
+  //             if (typeof wrongWordList[word.token] == "undefined") {
+  //               wrongWordList[word.token] = [];
+  //             }
+  //             let temp = wrongWordList[word.token];
+  //             temp.push(sugges.suggestion);
+  //             wrongWordList[word.token] = temp;
+  //           }
+  //         }
+  //       }
+  //     });
+  //     response.on("error", function (e) {
+  //       console.log("Error: " + e.message);
+  //     });
+  //   };
+
+  //   let req = https.request(request_params, response_handler);
+  //   req.write("text=" + text);
+  //   req.end();
 
   //   let mkt = "en-US";
   //   let mode = "proof";
@@ -162,7 +209,7 @@ const DiaryCheck = () => {
         {/* 일기 작성 */}
         <div className="diary-body">
           {/* 내용 */}
-          <div class="text">
+          <div className="text">
             <textarea
               onChange={(e) => {
                 setContent(e.target.value);
@@ -182,9 +229,6 @@ const DiaryCheck = () => {
           <Button
             variant="outlined"
             color="primary"
-            // onClick={() => {
-            //   textCheck(content);
-            // }}
           >
             다시 검사 해 보기
           </Button>

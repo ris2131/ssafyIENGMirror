@@ -106,16 +106,16 @@ const MypageMain= () => {
                   {/* 단어 */}
                   학습한 단어
                   <div className='word'>
-                    {word.map((item) => (
-                      <div>{item}</div> 
+                    {word.map((item, index) => (
+                      <div key={index}>{item}</div> 
                     ))}
                   </div>
 
                   {/* 문장 */}
                   학습한 문장
                   <div className='sentence'>
-                    {sentence.map((item) => (
-                      <div>{item}</div> 
+                    {sentence.map((item, index) => (
+                      <div key={index}>{item}</div> 
                     ))}
                   </div>
                 </div>
