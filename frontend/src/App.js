@@ -18,6 +18,7 @@ import DiaryEnd from "./pages/Diary/DiaryEnd";
 
 // 회원 정보
 import MypageMain from "./pages/Mypage/Mypage.Main";
+import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 
 // 학습
 import Education from "./pages/education/Education";
@@ -49,6 +50,7 @@ function App() {
 
           {/* 회원 정보 */}
           <Route path="/mypage" element={<MypageMain />} />
+          <Route path="/profileedit" element={<ProfileEdit />} />
         </Routes>
       </div>
     </>

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
+import { mobileback } from "../../assets/BackgroundImg";
 import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 import { FcGoogle } from "react-icons/fc";
@@ -14,6 +15,10 @@ import Select from "@mui/material/Select";
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const SingUpBox = styled.div`
+  @media screen and (max-width: 821px) {
+    background-image: url(${mobileback});
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,12 +35,21 @@ const LogoDiv = styled.div`
 `;
 
 const LogoImg = styled.img`
+  @media screen and (max-width: 821px) {
+    width: 70px;
+    height: 70px;
+  }
+
   width: 100px;
   height: 100px;
   margin: 10px;
 `;
 
 const LogoText = styled.h1`
+  @media screen and (max-width: 821px) {
+    font-size: 50px;
+  }
+
   font-size: 80px;
   font-family: OKDDUNG;
   color: #ffca28;
@@ -43,6 +57,10 @@ const LogoText = styled.h1`
 `;
 
 const InputDiv = styled.div`
+  @media screen and (max-width: 821px) {
+    width: 50vw;
+  }
+
   width: 20vw;
   width: ${(props) => props.width};
   margin-bottom: 10px;
@@ -71,6 +89,10 @@ const IconDiv3 = styled.div`
 `;
 
 const SButton = styled.button`
+  @media screen and (max-width: 821px) {
+    width: 50vw;
+  }
+
   border-radius: 20px;
   color: white;
   border: none;
@@ -108,6 +130,10 @@ const Profileimg = styled.img`
 `;
 
 const DateWrapper = styled.div`
+  @media screen and (max-width: 821px) {
+    width: 50vw;
+  }
+
   display: flex;
   justify-content: space-between;
   width: 20vw;

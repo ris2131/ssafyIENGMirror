@@ -1,6 +1,11 @@
+import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
 
 const NavDiv = styled.div`
   display: flex;
@@ -16,15 +21,44 @@ const StyledImage = styled.img`
   height: 80px;
   cursor: pointer;
 `;
+const HamBar = styled.div`
+  cursor: pointer;
+  padding: 10px;
+`;
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <NavDiv>
       <div>
         <StyledImage src={logoImage} alt="#" onClick={() => navigate("/")} />
       </div>
-      <div></div>
+      <HamBar>
+        {/* <GiHamburgerMenu /> */}
+        <Avatar onClick={handleClick}>H</Avatar>
+      </HamBar>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
     </NavDiv>
   );
 };
