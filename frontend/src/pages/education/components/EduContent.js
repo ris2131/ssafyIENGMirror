@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { eduActions } from "./../../../redux/EduSlice";
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -30,10 +30,10 @@ const StyledImg = styled.img`
   height: 100%;
 `;
 
-// 여기서 image, 받아와야겠지?
-const EduContent = () => {
-  const { category } = useParams();
+const url = process.env.PUBLIC_URL;
 
+// 여기서 image, 받아와야겠지?
+const EduContent = ({ category }) => {
   const wordCurrent = useSelector((state) => state.edu.word);
   // const sentenceCurrent = useSelector((state) => state.edu.sentence);
 
@@ -81,7 +81,11 @@ const EduContent = () => {
               <AiOutlineLeft onClick={handlePrev} />
             </ArrowDiv>
             <StyledImg
-              src={process.env.PUBLIC_URL + `/assets/단어.jpg`}
+              src={
+                category === "word"
+                  ? url + `/assets/단어.jpg`
+                  : url + `/assets/문장.jpg`
+              }
               alt="#"
             ></StyledImg>
             <ArrowDiv>

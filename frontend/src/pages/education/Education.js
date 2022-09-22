@@ -4,13 +4,13 @@ import styled from "styled-components";
 import EduContent from "./components/EduContent";
 import EduFooter from "./components/EduFooter";
 
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #fef3ed;
+  background-color: ${(props) => props.back};
   height: 100vh;
 `;
 
@@ -21,16 +21,16 @@ const TitleDiv = styled.div`
 `;
 
 const Education = () => {
-  // const { category } = useParams();
+  const { category } = useParams();
 
   return (
     <>
-      <Container>
+      <Container back={category === "word" ? "#fef3ed" : "#FFFAC6"}>
         <NavBar />
         <TitleDiv>
           <p>APPLE</p>
         </TitleDiv>
-        <EduContent />
+        <EduContent category={category} />
         <EduFooter quiz={false} />
       </Container>
     </>

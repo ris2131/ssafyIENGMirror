@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { mobileback } from "../../assets/BackgroundImg";
 
 import { useNavigate } from "react-router-dom";
+import GoogleLogin from "../OauthLogin/GoogleLogin";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
@@ -127,10 +128,7 @@ const Login = () => {
         </InputDiv>
         <SButton>로그인</SButton>
         <IconDiv2>
-          <IconDiv3>
-            <FcGoogle />
-          </IconDiv3>
-          <p> Google로 로그인</p>
+          <GoogleLogin text="로그인" />
         </IconDiv2>
         <FooterDiv>
           <StyledP onClick={() => navigate("/forgotpassword")}>
