@@ -1,7 +1,11 @@
 package com.ieng.ieng.domain.diary.controller;
 
 
+import com.ieng.ieng.domain.diary.dto.DiaryRequestDto;
+import com.ieng.ieng.domain.diary.service.DiaryService;
+import com.ieng.ieng.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/diaries")
 @RequiredArgsConstructor
 public class DiaryController {
-    @PostMapping
-    public ResponseEntity<?> createDiaries(@RequestBody DiaryRequestDto diaryRequestDto){
 
+    private final DiaryService diaryService;
+    @PostMapping
+    public ResponseEntity<?> submitDiaries(@RequestBody DiaryRequestDto diaryRequestDto){
+        diaryService.submit(diaryRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 작성 성공",null));
     }
 
 }
