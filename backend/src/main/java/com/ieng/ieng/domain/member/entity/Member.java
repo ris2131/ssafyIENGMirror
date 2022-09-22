@@ -51,7 +51,9 @@ public class Member {
         this.password=password;
         this.refreshToken = refreshToken;
     }
-
+    public void updateInfo(String nickname){
+        this.nickname = nickname;
+    }
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }

@@ -30,16 +30,22 @@ const DiaryCheck = () => {
   const location = useLocation();
   const { preview_URL, checkedList, Emotion, diary } = location.state;
 
-  const title = "제출 확인"
-  const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?"
+  const title = "제출 확인";
+  const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
 
+<<<<<<< HEAD
   // // 문법 체크 함수
   // const textCheck = (text) => {
+=======
+  // 문법 체크 함수
+  // const textCheck = async (text) => {
+>>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
   //   let https = require("https");
 
   //   let host = "api.bing.microsoft.com";
   //   let path = "/v7.0/spellcheck";
   //   let key = "ce11f020da1241f182ed7ee34ec9fcc1";
+<<<<<<< HEAD
     
   //   let mkt = "en-US";
   //   let mode = "proof";
@@ -87,6 +93,55 @@ const DiaryCheck = () => {
   //   req.write("text=" + text);
   //   req.end();
 
+=======
+
+  //   let mkt = "en-US";
+  //   let mode = "proof";
+  //   let query_string = "?mkt=" + mkt + "&mode=" + mode;
+  //   let wrongWordList = {};
+
+  //   let request_params = {
+  //     method: "POST",
+  //     hostname: host,
+  //     path: path + query_string,
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //       "Content-Length": text.length + 5,
+  //       "Ocp-Apim-Subscription-Key": key,
+  //     },
+  //   };
+
+  //   let response_handler = function (response) {
+  //     let body = "";
+  //     response.on("data", function (d) {
+  //       body += d;
+  //     });
+  //     response.on("end", function () {
+  //       let body_ = JSON.parse(body);
+
+  //       for (const word of body_.flaggedTokens) {
+  //         for (const sugges of word.suggestions) {
+  //           if (sugges.score >= 0.65) {
+  //             if (typeof wrongWordList[word.token] == "undefined") {
+  //               wrongWordList[word.token] = [];
+  //             }
+  //             let temp = wrongWordList[word.token];
+  //             temp.push(sugges.suggestion);
+  //             wrongWordList[word.token] = temp;
+  //           }
+  //         }
+  //       }
+  //     });
+  //     response.on("error", function (e) {
+  //       console.log("Error: " + e.message);
+  //     });
+  //   };
+
+  //   let req = https.request(request_params, response_handler);
+  //   req.write("text=" + text);
+  //   req.end();
+
+>>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
   //   return  wrongWordList;
   // }
 
@@ -119,13 +174,22 @@ const DiaryCheck = () => {
 
             <div>
               <MyButton
-                onClick={() => navigate("/diaryend", {state : { preview_URL : preview_URL, checkedList : checkedList, Emotion : Emotion, diary : content }})}
+                onClick={() =>
+                  navigate("/diaryend", {
+                    state: {
+                      preview_URL: preview_URL,
+                      checkedList: checkedList,
+                      Emotion: Emotion,
+                      diary: content,
+                    },
+                  })
+                }
                 width={"200px"}
                 padding={"5px"}
                 margin={"30px 10px"}
                 text={"네 제출할게요!"}
               />
-              
+
               <MyButton
                 onClick={handleClose}
                 width={"200px"}
@@ -162,33 +226,35 @@ const DiaryCheck = () => {
               placeholder="일기를 작성해 봐요!"
               value={content}
             />
-          </div>  
-          
-          <div className="void"/>
-         
-          <div className="checked">
-            {diary}
           </div>
+
+          <div className="void" />
+
+          <div className="checked">{diary}</div>
         </div>
 
         <div className="button">
           <Button
             variant="outlined"
             color="primary"
+<<<<<<< HEAD
             >
+=======
+            // onClick={() => {
+            //   textCheck(content);
+            // }}
+          >
+>>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
             다시 검사 해 보기
           </Button>
-          
-          <Button
-            variant="outlined"
-            color="primary"
-          >
+
+          <Button variant="outlined" color="primary">
             <BasicModal title={title} description={description} />
           </Button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default DiaryCheck;

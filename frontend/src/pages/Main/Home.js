@@ -2,16 +2,14 @@ import styled from "styled-components";
 import NavBar from "../../components/NavBar";
 // import Login from "../Auth/Login";
 import Mode from "./components/Mode";
-
-const backgroundImage = process.env.PUBLIC_URL + `/assets/mainback.png`;
+import { backgroundImg } from "./../../assets/BackgroundImg";
 
 const Container = styled.div`
-  @media screen and (max-width: 640px) {
-    height: 100%;
+  @media screen and (min-width: 821px) {
+    height: 100vh;
   }
-  background-image: url(${backgroundImage});
-  background-size: 100vw 100vh;
-  height: 100vh;
+
+  background-image: url(${backgroundImg});
 `;
 
 const TitleDiv = styled.div`
@@ -24,7 +22,7 @@ const TitleDiv = styled.div`
 `;
 
 const ModeWrapper = styled.div`
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 821px) {
     flex-direction: column;
   }
   display: flex;
@@ -45,7 +43,8 @@ const modeList = [
   },
   {
     title: "영어일기",
-    description: "오늘 있었던 일을 한장의 사진으로 남기고 사진과 관련된 간단한 단어를 추천받아 일기를 작성해 보는 모드입니다.",
+    description:
+      "오늘 있었던 일을 한장의 사진으로 남기고 사진과 관련된 간단한 단어를 추천받아 일기를 작성해 보는 모드입니다.",
   },
 ];
 

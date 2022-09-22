@@ -1,12 +1,17 @@
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import { FcGoogle } from "react-icons/fc";
+import { mobileback } from "../../assets/BackgroundImg";
 
 import { useNavigate } from "react-router-dom";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const LoginContainer = styled.div`
+  @media screen and (max-width: 821px) {
+    background-image: url(${mobileback});
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,12 +28,21 @@ const LogoDiv = styled.div`
 `;
 
 const LogoImg = styled.img`
+  @media screen and (max-width: 821px) {
+    width: 70px;
+    height: 70px;
+  }
+
   width: 100px;
   height: 100px;
   margin: 10px;
 `;
 
 const LogoText = styled.h1`
+  @media screen and (max-width: 821px) {
+    font-size: 50px;
+  }
+
   font-size: 80px;
   font-family: OKDDUNG;
   color: #ffca28;
@@ -36,6 +50,10 @@ const LogoText = styled.h1`
 `;
 
 const InputDiv = styled.div`
+  @media screen and (max-width: 821px) {
+    width: 50vw;
+  }
+
   width: 20vw;
   margin-bottom: 10px;
 `;
@@ -48,6 +66,7 @@ const SButton = styled.button`
   padding: 10px;
   margin-top: 40px;
   width: 20vw;
+  cursor: pointer;
 `;
 
 const IconDiv2 = styled.div`
