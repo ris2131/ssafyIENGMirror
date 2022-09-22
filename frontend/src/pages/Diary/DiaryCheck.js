@@ -33,19 +33,14 @@ const DiaryCheck = () => {
   const title = "제출 확인";
   const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
 
-<<<<<<< HEAD
-  // // 문법 체크 함수
-  // const textCheck = (text) => {
-=======
   // 문법 체크 함수
   // const textCheck = async (text) => {
->>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
+
   //   let https = require("https");
 
   //   let host = "api.bing.microsoft.com";
   //   let path = "/v7.0/spellcheck";
   //   let key = "ce11f020da1241f182ed7ee34ec9fcc1";
-<<<<<<< HEAD
     
   //   let mkt = "en-US";
   //   let mode = "proof";
@@ -93,8 +88,6 @@ const DiaryCheck = () => {
   //   req.write("text=" + text);
   //   req.end();
 
-=======
-
   //   let mkt = "en-US";
   //   let mode = "proof";
   //   let query_string = "?mkt=" + mkt + "&mode=" + mode;
@@ -141,7 +134,6 @@ const DiaryCheck = () => {
   //   req.write("text=" + text);
   //   req.end();
 
->>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
   //   return  wrongWordList;
   // }
 
@@ -237,14 +229,7 @@ const DiaryCheck = () => {
           <Button
             variant="outlined"
             color="primary"
-<<<<<<< HEAD
-            >
-=======
-            // onClick={() => {
-            //   textCheck(content);
-            // }}
           >
->>>>>>> 7ec4f85d89731e354a4ac05300e18b6c5298fcfc
             다시 검사 해 보기
           </Button>
 
