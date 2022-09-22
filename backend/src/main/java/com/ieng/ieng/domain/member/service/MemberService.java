@@ -8,6 +8,6 @@ public interface MemberService {
     void updateMemberPassword(String email, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto);
 
     MemberInfoResponseDto getMemberInfo(String email);
-    //void deleteMember(String email);
+    void deleteMember(String email);
     void updateRefreshToken(String email, String refreshToken);
 }
