@@ -1,5 +1,7 @@
 package com.ieng.ieng.domain.member.entity;
 
+import com.ieng.ieng.domain.member.dto.MemberUpdateInfoRequestDto;
+import com.ieng.ieng.domain.member.dto.MemberUpdatePasswordRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,8 +53,13 @@ public class Member {
         this.password=password;
         this.refreshToken = refreshToken;
     }
-    public void updateInfo(String nickname){
-        this.nickname = nickname;
+    public void updateInfo(MemberUpdateInfoRequestDto memberUpdateInfoRequestDto){
+        this.nickname = memberUpdateInfoRequestDto.getNickname();
+        this.memberYMD= memberUpdateInfoRequestDto.getMemberYMD();
+    }
+    public void updatePassword(MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
+        //this.password = memberUpdatePasswordRequestDto.getCurPassword();
+        this.password= memberUpdatePasswordRequestDto.getNewPassword();
     }
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
