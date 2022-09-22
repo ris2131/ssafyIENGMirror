@@ -1,5 +1,6 @@
 "use strict";
 let https = require("https");
+// const axios = require("axios").default;
 
 let host = "api.bing.microsoft.com";
 let path = "/v7.0/spellcheck";
@@ -31,7 +32,7 @@ let response_handler = function (response) {
   });
   response.on("end", function () {
     let body_ = JSON.parse(body);
-    // console.log(body_);
+    console.log(body_);
     // console.log(body_.flaggedTokens);
     for (const word of body_.flaggedTokens) {
       for (const sugges of word.suggestions) {
@@ -56,6 +57,47 @@ let response_handler = function (response) {
   });
 };
 
+// let req = null;
+// axios({
+//   method: "post",
+//   hostname: host,
+//   url: path + query_string,
+//   headers: {
+//     "Content-Type": "application/x-www-form-urlencoded",
+//     "Content-Length": text.length + 5,
+//     "Ocp-Apim-Subscription-Key": key,
+//   },
+// })
+//   .then(function (response) {
+//     // console.log(response);
+//     let body_ = JSON.parse(body);
+//     // console.log(body_);
+//     // console.log(body_.flaggedTokens);
+//     // for (const word of body_.flaggedTokens) {
+//     //   for (const sugges of word.suggestions) {
+//     //     if (sugges.score >= 0.65) {
+//     //       // console.log(word.token, sugges);
+//     //       if (typeof wrongWordList[word.token] == "undefined") {
+//     //         wrongWordList[word.token] = [];
+//     //       }
+//     //       let temp = wrongWordList[word.token];
+//     //       // console.log(typeof temp);
+//     //       temp.push(sugges.suggestion);
+//     //       wrongWordList[word.token] = temp;
+//     //     }
+//     //     // wrongWordList[word.token]
+//     //   }
+//     // }
+//     // console.log(text);
+//     // console.log(wrongWordList);
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//     // console.log("안된다!");
+//   });
+
+// let req = axios.request(request_params, response_handler);
 let req = https.request(request_params, response_handler);
+
 req.write("text=" + text);
 req.end();
