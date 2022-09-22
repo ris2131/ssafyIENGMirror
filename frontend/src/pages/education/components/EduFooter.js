@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { BiVolumeFull, BiMicrophone } from "react-icons/bi";
+import { BiVolumeFull, BiMicrophone, BiMicrophoneOff } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { VscRefresh } from "react-icons/vsc";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // STT
 import SpeechRecognition, {
@@ -32,7 +32,7 @@ const Pdiv = styled.div`
 
 const Cdiv = styled.div`
   position: absolute;
-  top: -30px;
+  top: -80px;
   left: 50px;
 `;
 
@@ -41,10 +41,10 @@ const TextDiv = styled.div`
   justify-content: space-around;
   align-items: center;
   border-radius: 20px 20px 20px 0px;
-  width: 200%;
-  height: 40px;
   background-color: white;
+  width: ${(props) => props.width};
   padding: 5px;
+  word-break: keep-all;
 `;
 
 const TextP = styled.p`
@@ -52,6 +52,7 @@ const TextP = styled.p`
 `;
 
 const Icon = styled.div`
+  display: flex;
   font-size: 25px;
   cursor: pointer;
 `;
@@ -85,6 +86,13 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     setOpen(!open);
   };
 
+  useEffect(() => {
+    console.log(window.innerWidth > 99999);
+    return () => {
+      SpeechRecognition.stopListening();
+    };
+  }, []);
+
   return (
     <Container>
       {quiz ? null : (
@@ -96,13 +104,19 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
 
       <Pdiv>
         <IconDiv>
-          <BiMicrophone onClick={speechToText} />
+          {open ? (
+            <BiMicrophone onClick={speechToText} />
+          ) : (
+            <BiMicrophoneOff onClick={speechToText} />
+          )}
           <TextP>말하기</TextP>
         </IconDiv>
         <Cdiv>
           {open ? (
             <TextDiv>
-              <TextP>{transcript}</TextP>
+              <TextP>
+                {transcript.length === 0 ? "말해볼까요?" : transcript}
+              </TextP>
               <Icon>
                 <FaRegPaperPlane onClick={() => setSuccess(true)} />
                 <FaRegPaperPlane onClick={() => setFail(true)} />

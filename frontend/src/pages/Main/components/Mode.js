@@ -52,7 +52,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
-  width: 400,
+  width: () => {
+    return window.innerWidth > 821 ? 400 : "70%";
+  },
   border: "2px solid #ececec",
   borderRadius: "10px",
   boxShadow: 24,
