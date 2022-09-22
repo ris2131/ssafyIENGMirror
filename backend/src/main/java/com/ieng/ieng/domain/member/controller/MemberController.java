@@ -55,4 +55,12 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("비밀번호 수정이 완료되었습니다.", null));
     }
+    @DeleteMapping
+    public ResponseEntity<?> deleteMember(HttpServletRequest request){
+        String email = (String) request.getAttribute("email");
+        logger.debug("email:{}" , email);
+        memberService.deleteMember(email);
+
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("회원탈퇴 완료되었습니다.", null));
+    }
 }

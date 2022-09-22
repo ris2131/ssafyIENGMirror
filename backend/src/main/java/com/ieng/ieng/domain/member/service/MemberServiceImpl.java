@@ -66,12 +66,12 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
-    /*// 회원탈퇴
+    // 회원탈퇴
     @Override
     public void deleteMember(String email){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         memberRepository.delete(member);
-    }*/
+    }
 
     @Override
     public void updateRefreshToken(String email, String refreshToken) {
