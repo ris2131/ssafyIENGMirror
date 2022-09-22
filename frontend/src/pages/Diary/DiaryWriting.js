@@ -15,6 +15,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "../../components/MyButton";
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 const style = {
   position: "absolute",
@@ -79,6 +81,17 @@ const DiaryWriting = () => {
 
   // 일기 내용
   const [content, setContent] = useState("");
+
+  // 사용한 단어들
+  let CheckedWord = [];
+
+  const wordCheck = () => {
+    for (let i in checkedList) {
+      if (content.includes(checkedList[i])) {
+        CheckedWord.push(checkedList[i])
+      }
+    }
+  }
 
   // 모달 임시 데이터
   const title = "단어"
@@ -169,13 +182,18 @@ const DiaryWriting = () => {
               placeholder="오늘 하루는 어떤 일이 있었나요?"
               value={content}
             />
-          </div>  
+          </div>
         </div>
         
         {/* 단어 */}
         <div className="word">
           {checkedList.map((item, index) => (
-            <div class="word-list">
+            <div className="word-list" key={index}>
+              {content.includes(item) ? (
+                <TaskAltIcon/>
+              ) : (
+                <RadioButtonUncheckedIcon/>
+              )}
               <span>{item}</span>
               <BasicModal title={title} description={description} />
             </div>
@@ -183,13 +201,24 @@ const DiaryWriting = () => {
         </div>
 
         <div>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate("/diarycheck", {state : { preview_URL : preview_URL, checkedList : checkedList, Emotion : Emotion, diary : content }})}
+          {Emotion === "" || content === "" ? (
+            <Button
+              variant="outlined"
+              color="primary"
             >
-            문법 체크
-          </Button>
+              아직 입력하지 않은 내용이 있어요
+            </Button>
+            ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                wordCheck(); 
+                navigate("/diarycheck", {state : { preview_URL : preview_URL, checkedList : CheckedWord, Emotion : Emotion, diary : content }})}}
+              >
+              문법 체크
+            </Button>
+          )}
         </div>
       </div>
     </div>

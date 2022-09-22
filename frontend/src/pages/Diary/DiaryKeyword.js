@@ -113,7 +113,7 @@ const DiaryKeyword = () => {
         {/* 단어 선택 */}
         <div className="keyword-check">
           {data.map((item, index) => (
-            <div class="check-button">
+            <div className="check-button" key={index}>
               <input
                 key={item}
                 type="checkbox"
@@ -125,15 +125,25 @@ const DiaryKeyword = () => {
             </div>
           ))} 
         </div>
-
+        
         <div>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
-            >
-            일기 쓰러가기
-          </Button>
+          {checkedList[0] ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
+              >
+              일기 쓰러가기
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              >
+              일기에 쓸 단어를 골라 주세요
+            </Button>
+          )}
+          
         </div>
       </div>
     </div>

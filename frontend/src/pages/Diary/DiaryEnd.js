@@ -65,11 +65,11 @@ const DiaryEnd = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { preview_URL, checkedList, Emotion, diary } = location.state;
+  const today = new Date();
 
   // 모달 임시 데이터
   const title = "단어"
   const description = "설명"
-
 
   return (
     <div>
@@ -81,19 +81,20 @@ const DiaryEnd = () => {
           오늘의 일기 작성이 끝났어요!
 
           {/* 날짜 */}
-          <div>"오늘 날짜"</div>
+          <div className="date">오늘 : {today.getFullYear()}년 {today.getMonth()+1}월 {today.getDate()}일</div>
 
           {/* 기분 */}
           <div className="emotion">
-            <img src={`image/${Emotion}.png`} alt="이미지 없음"/>
+            <span>오늘의 기분 : {Emotion}</span>
+            <img src={`image/${Emotion}.png`} alt=""/>
           </div>
-          <div className="emotion">{Emotion}</div>
+          
         </div>
 
         {/* 일기 메인 */}
         <div className="diary-body">
           {/* 사진 */}
-          <img src={preview_URL} alt="이미지 없음"/>
+          <img src={preview_URL} alt=""/>
           
           <div className="void"/>
          
@@ -107,7 +108,7 @@ const DiaryEnd = () => {
         <div>사용한 단어</div>
         <div className="word">
           {checkedList.map((item, index) => (
-            <div class="word-list">
+            <div className="word-list" key={index}>
               <span>{item}</span>
               <BasicModal title={title} description={description} />
             </div>
