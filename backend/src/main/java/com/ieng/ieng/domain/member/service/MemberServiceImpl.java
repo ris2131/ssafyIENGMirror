@@ -1,14 +1,12 @@
 package com.ieng.ieng.domain.member.service;
 
-import com.ieng.ieng.domain.member.dto.MemberInfoResponseDto;
-import com.ieng.ieng.domain.member.dto.MemberRequestDto;
-import com.ieng.ieng.domain.member.dto.MemberResponseDto;
-import com.ieng.ieng.domain.member.dto.MemberUpdateRequestDto;
+import com.ieng.ieng.domain.member.dto.*;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.global.exception.DuplicateNicknameException;
 import com.ieng.ieng.global.exception.ExistNicknameException;
 import com.ieng.ieng.global.exception.NoExistMemberException;
+import com.ieng.ieng.global.exception.NoMatchCurPasswordException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,17 +41,29 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원정보 수정
     @Override
-    public MemberResponseDto updateMemberInfo(String email, MemberUpdateRequestDto memberUpdateRequestDto){
+    public MemberResponseDto updateMemberInfo(String email, MemberUpdateInfoRequestDto memberUpdateRequestDto){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
 
         try{
-            member.updateInfo(memberUpdateRequestDto.getNickname());
+            member.updateInfo(memberUpdateRequestDto);
             memberRepository.save(member);
             MemberResponseDto memberResponseDto = new MemberResponseDto(member);
             return memberResponseDto;
         }catch (DataIntegrityViolationException e){
             throw new ExistNicknameException("존재하는 닉네임입니다.");
         }
+    }
+    // 회원정보 비밀번호 수정
+    @Override
+    public void updateMemberPassword(String email, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+        if(!member.getPassword().equals(memberUpdatePasswordRequestDto.getCurPassword())){
+            throw new NoMatchCurPasswordException("현재 비밀번호가 맞지 않습니다.");
+        }
+        member.updatePassword(memberUpdatePasswordRequestDto);
+        memberRepository.save(member);
+        return ;
+
     }
 
     /*// 회원탈퇴
