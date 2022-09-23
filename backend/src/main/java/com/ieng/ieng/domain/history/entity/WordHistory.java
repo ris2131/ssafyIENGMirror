@@ -41,4 +41,8 @@ public class WordHistory {
         this.wordHistoryDTTM = wordHistoryDTTM;
         this.member = member;
     }
+
+    public boolean getWordHistoryPass(){
+        return this.wordHistoryPass;
+    }
 }
