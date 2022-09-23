@@ -34,14 +34,12 @@ public class DiaryServiceImpl implements DiaryService{
                 .build();
         diaryRepository.save(diary);
         List<DiaryKeywordDto> diaryKeywordList = diaryRequestDto.getDiaryKeywordList();
-        for(DiaryKeywordDto diaryKeyword : diaryKeywordList){
-//            Long diaryKeywordSequence = diaryKeyword.getDiaryKeywordSequence();
-//            Diary diaries = diaryRepository.findDiaryBydiarySequence(diaryKeywordSequence);
-            DiaryKeyword diaryKeywords = DiaryKeyword.builder()
-                    .diaryKeyword(diaryKeyword.getKeyword())
+        for(DiaryKeywordDto diaryKeywordDto : diaryKeywordList){
+            DiaryKeyword diaryKeyword = DiaryKeyword.builder()
+                    .diaryKeyword(diaryKeywordDto.getKeyword())
                     .diary(diary)
                     .build();
-            diaryKeywordRepository.save(diaryKeywords);
+            diaryKeywordRepository.save(diaryKeyword);
         }
         return;
     }
