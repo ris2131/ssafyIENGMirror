@@ -1,5 +1,6 @@
 package com.ieng.ieng.domain.history.entity;
 
+import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.word.entity.Word;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,6 +20,10 @@ public class WordHistory {
     @Column(name = "WORD_HISTORY_SEQ")
     private Long wordHistorySequence;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_SEQ")
+    private Member member;
+
     @ManyToOne()
     @JoinColumn(name = "WORD_SEQ")
     private Word word;
@@ -30,9 +35,10 @@ public class WordHistory {
     private Date wordHistoryDTTM;
 
     @Builder
-    public WordHistory(Word word,boolean wordHistoryPass,Date wordHistoryDTTM){
+    public WordHistory(Word word,boolean wordHistoryPass,Date wordHistoryDTTM, Member member){
         this.word = word;
         this.wordHistoryPass = wordHistoryPass;
         this.wordHistoryDTTM = wordHistoryDTTM;
+        this.member = member;
     }
 }

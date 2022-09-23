@@ -4,8 +4,11 @@ import com.ieng.ieng.domain.history.dto.WordHistoryRequestDto;
 import com.ieng.ieng.domain.history.dto.WordSubmitDto;
 import com.ieng.ieng.domain.history.entity.WordHistory;
 import com.ieng.ieng.domain.history.repository.WordHistoryRepository;
+import com.ieng.ieng.domain.member.entity.Member;
+import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.domain.word.entity.Word;
 import com.ieng.ieng.domain.word.repository.WordRepository;
+import com.ieng.ieng.global.exception.NoExistMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,10 @@ public class WordSubmitServiceImpl implements WordSubmitService{
 
     private final WordHistoryRepository wordHistoryRepository;
     private final WordRepository wordRepository;
+    private final MemberRepository memberRepository;
     @Override
-    public void submit(WordHistoryRequestDto wordHistoryRequestDto){
+    public void submit(String email,WordHistoryRequestDto wordHistoryRequestDto){
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
 
         List<WordSubmitDto> wordSubmitList = wordHistoryRequestDto.getWordSubmitList();
         for(WordSubmitDto wordSubmit : wordSubmitList){
@@ -31,6 +36,7 @@ public class WordSubmitServiceImpl implements WordSubmitService{
                     .word(word)
                     .wordHistoryPass(wordSubmit.getCorrect())
                     .wordHistoryDTTM(now)
+                    .member(member)
                     .build();
             wordHistoryRepository.save(wordHistory);
         }
