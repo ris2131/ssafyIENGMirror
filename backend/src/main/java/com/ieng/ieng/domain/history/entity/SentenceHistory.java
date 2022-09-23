@@ -1,6 +1,7 @@
 package com.ieng.ieng.domain.history.entity;
 
 
+import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.sentence.entity.Sentence;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,6 +21,9 @@ public class SentenceHistory {
     @Column(name = "SENTENCE_HISTORY_SEQ")
     private Long sentenceHistorySequence;
 
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_SEQ")
+    private Member member;
     @ManyToOne()
     @JoinColumn(name = "SENTENCE_SEQ")
     private Sentence sentence;
@@ -28,12 +32,17 @@ public class SentenceHistory {
     private boolean sentenceHistoryPass;
 
     @Column(name = "SENTENCE_HISOTRY_DTTM")
-    private Date sentenceHistoryDTTM;
+    private String sentenceHistoryDTTM;
 
     @Builder
-    public SentenceHistory(Sentence sentence, boolean sentenceHistoryPass, Date sentenceHistoryDTTM){
+    public SentenceHistory(Member member, Sentence sentence, boolean sentenceHistoryPass, String sentenceHistoryDTTM){
+        this.member = member;
         this.sentence = sentence;
         this.sentenceHistoryPass = sentenceHistoryPass;
         this.sentenceHistoryDTTM = sentenceHistoryDTTM;
+    }
+
+    public boolean getSentenceHistoryPass(){
+        return this.sentenceHistoryPass;
     }
 }

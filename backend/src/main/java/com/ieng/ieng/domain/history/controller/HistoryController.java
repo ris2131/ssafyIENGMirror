@@ -34,13 +34,15 @@ public class HistoryController {
     }
 
     @PostMapping(value = "/sentences")
-    public ResponseEntity<?> submitSentenceHistories(@RequestBody SentenceHistoryRequestDto sentenceHistoryRequestDto){
+    public ResponseEntity<?> submitSentenceHistories(HttpServletRequest request, @RequestBody SentenceHistoryRequestDto sentenceHistoryRequestDto){
+        String email = (String) request.getAttribute("email");
+
         List<SentenceSubmitDto> a = sentenceHistoryRequestDto.getSentenceSubmitList();
         logger.debug("[0] : "+a.get(0).getSentenceSequence() + a.get(0).getCorrect());
         logger.debug("[1] : "+a.get(1).getSentenceSequence() + a.get(1).getCorrect());
         logger.debug("[2] : "+a.get(2).getSentenceSequence() + a.get(2).getCorrect());
 
-        sentenceSubmitService.submit(sentenceHistoryRequestDto);
+        sentenceSubmitService.submit(email, sentenceHistoryRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("sentenceHistory 제출 성공",null));
     }
 }

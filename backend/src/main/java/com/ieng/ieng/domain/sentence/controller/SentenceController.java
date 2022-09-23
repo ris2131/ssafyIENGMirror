@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/sentences")
 @RequiredArgsConstructor
@@ -20,8 +22,9 @@ public class SentenceController {
     private final SentenceService SentenceService;
 
     @GetMapping
-    public ResponseEntity<?> getSentenceList(@RequestParam("number")int number){
-        SentenceGetResponseDto SentenceResponseDto = SentenceService.getSentenceList(number);
+    public ResponseEntity<?> getSentenceList(HttpServletRequest request, @RequestParam("number")int number){
+        String email = (String) request.getAttribute("email");
+        SentenceGetResponseDto SentenceResponseDto = SentenceService.getSentenceList(email, number);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("sentence 성공",SentenceResponseDto));
     }
 }

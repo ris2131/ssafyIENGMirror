@@ -4,5 +4,5 @@ import com.ieng.ieng.domain.history.dto.SentenceHistoryRequestDto;
 
 public interface SentenceSubmitService {
 
-    void submit(SentenceHistoryRequestDto sentenceHistoryRequestDto);
+    void submit(String email, SentenceHistoryRequestDto sentenceHistoryRequestDto);
 }
