@@ -1,6 +1,7 @@
 package com.ieng.ieng.domain.diary.controller;
 
 
+import com.ieng.ieng.domain.diary.dto.DiaryDeleteDto;
 import com.ieng.ieng.domain.diary.dto.DiaryRequestDto;
 import com.ieng.ieng.domain.diary.service.DiaryService;
 import com.ieng.ieng.global.response.CommonResponse;
@@ -22,6 +23,12 @@ public class DiaryController {
     public ResponseEntity<?> submitDiaries(@RequestBody DiaryRequestDto diaryRequestDto){
         diaryService.submit(diaryRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 작성 성공",null));
+    }
+    @DeleteMapping
+    public ResponseEntity<?> deleteDiaries(HttpServletRequest request, @RequestBody DiaryDeleteDto diaryDeleteDto){
+        String email = (String)request.getAttribute("email");
+        diaryService.deleteDiary(email, diaryDeleteDto);
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 삭제 성공",null));
     }
 
 
