@@ -1,5 +1,6 @@
 package com.ieng.ieng.domain.history.entity;
 
+import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.word.entity.Word;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,6 +19,10 @@ public class WordHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WORD_HISTORY_SEQ")
     private Long wordHistorySequence;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_SEQ")
+    private Member member;
 
     @ManyToOne()
     @JoinColumn(name = "WORD_SEQ")
