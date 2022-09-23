@@ -1,4 +1,10 @@
 // 전체 설정
+.background {
+  background-image: url("../../../public/assets/mainback2.PNG");
+  min-height: 100vh;
+  height: auto;
+}
+
 .diary-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
   display: flex;
@@ -91,6 +97,7 @@
     
     // 문법 수정
     .checked {
+      background-color: white;
       padding: 15px;
       height: 300px;
       width: 580px;
@@ -102,6 +109,7 @@
 
   // 단어 선택
   .keyword-check {
+    background-color: white;
     display: flex;
     margin: 10px 0;
     border: 1px solid black;
@@ -128,6 +136,7 @@
 
   // 선택한 단어들
   .word {
+    background-color: white;
     display: flex;
     margin: 10px;
     border: 1px solid black;
@@ -159,6 +168,8 @@
 
   // 버튼 공통 설정
   Button {
+    background-color: white;
+    
     margin: 10px 5px;
     font-size: 1.1rem;
     border-radius: 20px;

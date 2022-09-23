@@ -72,7 +72,7 @@ const DiaryEnd = () => {
   const description = "설명"
 
   return (
-    <div>
+    <div className="background">
       <NavBar />
 
       <div className="diary-wrapper">

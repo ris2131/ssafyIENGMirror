@@ -197,7 +197,7 @@ const DiaryCheck = () => {
   };
 
   return (
-    <div>
+    <div className="background">
       <NavBar />
 
       <div className="diary-wrapper">
