@@ -59,7 +59,9 @@ const AuthEdit = () => {
           <Pimg src={preview} alt="#"></Pimg>
         </PimgBox>
         <ImgTextBox>
-          <ImgText color="#42a5f5">변경</ImgText>
+          <ImgText color="#42a5f5" onClick={() => setPreview(preview)}>
+            변경
+          </ImgText>
           <ImgText>삭제</ImgText>
         </ImgTextBox>
       </ImgWrapper>

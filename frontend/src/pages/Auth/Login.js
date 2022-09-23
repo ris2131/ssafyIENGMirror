@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-import { FcGoogle } from "react-icons/fc";
+
 import { mobileback } from "../../assets/BackgroundImg";
 
 import { useNavigate } from "react-router-dom";
@@ -77,12 +77,6 @@ const IconDiv2 = styled.div`
   align-items: center;
   width: 300px;
   border-top: 1px solid #ececec;
-`;
-
-const IconDiv3 = styled.div`
-  margin: 5px;
-  font-size: 20px;
-  cursor: pointer;
 `;
 
 const StyledP = styled.p`
