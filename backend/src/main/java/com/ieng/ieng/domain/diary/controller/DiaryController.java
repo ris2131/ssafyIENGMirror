@@ -20,12 +20,13 @@ public class DiaryController {
 
     private final DiaryService diaryService;
     @PostMapping
-    public ResponseEntity<?> submitDiaries(@RequestBody DiaryRequestDto diaryRequestDto){
-        diaryService.submit(diaryRequestDto);
+    public ResponseEntity<?> createDiary(HttpServletRequest request, @RequestBody DiaryRequestDto diaryRequestDto){
+        String email = (String)request.getAttribute("email");
+        diaryService.createDiary(email, diaryRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 작성 성공",null));
     }
     @DeleteMapping
-    public ResponseEntity<?> deleteDiaries(HttpServletRequest request, @RequestBody DiaryDeleteDto diaryDeleteDto){
+    public ResponseEntity<?> deleteDiary(HttpServletRequest request, @RequestBody DiaryDeleteDto diaryDeleteDto){
         String email = (String)request.getAttribute("email");
         diaryService.deleteDiary(email, diaryDeleteDto);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 삭제 성공",null));

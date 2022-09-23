@@ -1,5 +1,6 @@
 package com.ieng.ieng.domain.diary.entity;
 
+import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.sentence.entity.Sentence;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -7,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Table(name = "DIARIES")
 @Entity
@@ -19,6 +20,9 @@ public class Diary {
     @Column(name = "DIARY_SEQ")
     private Long diarySequence;
 
+    @ManyToOne()
+    @JoinColumn(name = "MEMBER_SEQ")
+    private Member member;
     @Column(name = "DIARY_PICTURE_PATH") //,nullable = false)
     private String diaryPicturePath;
 
@@ -29,10 +33,11 @@ public class Diary {
     private String diaryEmotion;
 
     @Column(name = "DIARY_DTTM")
-    private Date diaryDTTM;
+    private String diaryDTTM;
 
     @Builder
-    public Diary(String diaryPicturePath, String diaryContent, String diaryEmotion, Date diaryDTTM){
+    public Diary(Member member, String diaryPicturePath, String diaryContent, String diaryEmotion, String diaryDTTM){
+        this.member = member;
         this.diaryPicturePath = diaryPicturePath;
         this.diaryContent = diaryContent;
         this.diaryEmotion = diaryEmotion;

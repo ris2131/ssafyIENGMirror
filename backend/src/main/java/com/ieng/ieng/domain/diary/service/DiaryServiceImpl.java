@@ -13,8 +13,10 @@ import com.ieng.ieng.global.exception.NoExistMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +28,17 @@ public class DiaryServiceImpl implements DiaryService{
     private final DiaryKeywordRepository diaryKeywordRepository;
 
     @Override
-    public void submit(DiaryRequestDto diaryRequestDto){
+    public void createDiary(String email, DiaryRequestDto diaryRequestDto){
 
-
-        Date now = new Date();
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Diary diary = Diary.builder()
+                .member(member)
                 .diaryPicturePath(diaryRequestDto.getPicturePath())
                 .diaryContent(diaryRequestDto.getContent())
                 .diaryEmotion(diaryRequestDto.getEmotion())
-                .diaryDTTM(now)
+                .diaryDTTM(date.format(formatter))
                 .build();
         diaryRepository.save(diary);
         List<DiaryKeywordDto> diaryKeywordList = diaryRequestDto.getDiaryKeywordList();
@@ -51,6 +55,9 @@ public class DiaryServiceImpl implements DiaryService{
     @Override
     public void deleteDiary(String email, DiaryDeleteDto diaryDeleteDto){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+        Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, diaryDeleteDto.getDate());
+        diaryRepository.delete((diary));
+
     }
 
 }
