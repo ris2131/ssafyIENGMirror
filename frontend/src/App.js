@@ -23,6 +23,7 @@ import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 // 학습
 import Education from "./pages/education/Education";
 import Quiz from "./pages/education/Quiz";
+import GoogleTest from "./pages/OauthLogin/GoogleTest";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/googletest" element={<GoogleTest />} />
 
           {/* 문장, 단어 */}
           <Route path="/edu/:category" element={<Education />} />

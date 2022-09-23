@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import useScript from "./useScript";
 
-const GoogleLogin = ({ onGoogleSignIn = () => {}, text = "signin_with" }) => {
+const GoogleLogin = ({ onGoogleSignIn = () => {} }) => {
   const googleSignInButton = useRef(null);
 
   useScript("https://accounts.google.com/gsi/client", () => {
@@ -13,7 +13,7 @@ const GoogleLogin = ({ onGoogleSignIn = () => {}, text = "signin_with" }) => {
     // https://developers.google.com/identity/gsi/web/reference/js-reference#google.accounts.id.renderButton
     window.google.accounts.id.renderButton(
       googleSignInButton.current,
-      { theme: "", size: "large", text, width: "250" } // customization attributes
+      { theme: "", size: "large", width: "250" } // customization attributes
     );
   });
 
