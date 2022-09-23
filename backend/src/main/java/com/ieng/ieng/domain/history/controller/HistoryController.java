@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -20,13 +21,10 @@ public class HistoryController {
     private final WordSubmitService wordSubmitService;
     final static Logger logger = LogManager.getLogger(HistoryController.class);
     @PostMapping(value = "/words")
-    public ResponseEntity<?> submitWordHistories(@RequestBody WordHistoryRequestDto wordHistoryRequestDto){
-        List<WordSubmitDto> a = wordHistoryRequestDto.getWordSubmitList();
-        logger.debug("[0] : "+a.get(0).getWordSequence() + a.get(0).getCorrect());
-        logger.debug("[1] : "+a.get(1).getWordSequence() + a.get(1).getCorrect());
-        logger.debug("[2] : "+a.get(2).getWordSequence() + a.get(2).getCorrect());
+    public ResponseEntity<?> submitWordHistories(HttpServletRequest request , @RequestBody WordHistoryRequestDto wordHistoryRequestDto){
+        String email = (String) request.getAttribute("email");
 
-        wordSubmitService.submit(wordHistoryRequestDto);
+        wordSubmitService.submit(email, wordHistoryRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("wordHistory 제출 성공",null));
     }
 }

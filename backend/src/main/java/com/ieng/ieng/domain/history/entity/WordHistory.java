@@ -35,9 +35,10 @@ public class WordHistory {
     private Date wordHistoryDTTM;
 
     @Builder
-    public WordHistory(Word word,boolean wordHistoryPass,Date wordHistoryDTTM){
+    public WordHistory(Word word,boolean wordHistoryPass,Date wordHistoryDTTM, Member member){
         this.word = word;
         this.wordHistoryPass = wordHistoryPass;
         this.wordHistoryDTTM = wordHistoryDTTM;
+        this.member = member;
     }
 }
