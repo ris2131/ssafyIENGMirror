@@ -3,16 +3,20 @@ import { AiFillLock } from "react-icons/ai";
 
 import TextField from "@mui/material/TextField";
 
+const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
+
 const ForgotContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 100vw;
+  height: 100vh;
   align-items: center;
-  margin-top: 50px;
+  background-image: url(${backgroundImage});
+  background-size: 100vw 100vh;
 `;
 
 const LockIcon = styled.div`
-  margin-top: 20px;
+  margin-top: 20vh;
   font-size: 100px;
 `;
 
@@ -34,6 +38,7 @@ const SButton = styled.button`
   margin-top: 40px;
   width: 100%;
   font-size: 18px;
+  cursor: pointer;
 `;
 
 const ForgotPassword = () => {

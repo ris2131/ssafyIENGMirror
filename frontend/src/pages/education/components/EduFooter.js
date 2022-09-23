@@ -1,7 +1,15 @@
 import styled from "styled-components";
-import { BiVolumeFull, BiMicrophone } from "react-icons/bi";
+import { BiVolumeFull, BiMicrophone, BiMicrophoneOff } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
-import { useState } from "react";
+import { VscRefresh } from "react-icons/vsc";
+
+import { useState, useEffect } from "react";
+
+// STT
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -24,7 +32,7 @@ const Pdiv = styled.div`
 
 const Cdiv = styled.div`
   position: absolute;
-  top: -30px;
+  top: -80px;
   left: 50px;
 `;
 
@@ -33,10 +41,10 @@ const TextDiv = styled.div`
   justify-content: space-around;
   align-items: center;
   border-radius: 20px 20px 20px 0px;
-  width: 200%;
-  height: 40px;
   background-color: white;
+  width: ${(props) => props.width};
   padding: 5px;
+  word-break: keep-all;
 `;
 
 const TextP = styled.p`
@@ -44,6 +52,7 @@ const TextP = styled.p`
 `;
 
 const Icon = styled.div`
+  display: flex;
   font-size: 25px;
   cursor: pointer;
 `;
@@ -52,38 +61,66 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
   const [open, setOpen] = useState(false);
   // const [status, setStatus] = useState(false);
 
-  const handleMic = () => {
-    // setStatus(!status);
-    // status
-    //   ? navigator.mediaDevices
-    //       .getUserMedia({ audio: true })
-    //       .then(console.log("hi"))
-    //       :
-    //       media.stop()
+  // TTS
+  const {
+    transcript,
+    // listening,
+    resetTranscript,
+    // browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  const textToSpeech = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.7;
+    utterance.lang = "en-US";
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const speechToText = () => {
+    if (!open) {
+      SpeechRecognition.startListening({
+        continuous: true,
+        language: "en-US",
+      });
+    } else SpeechRecognition.stopListening();
     setOpen(!open);
   };
+
+  useEffect(() => {
+    console.log(window.innerWidth > 99999);
+    return () => {
+      SpeechRecognition.stopListening();
+    };
+  }, []);
 
   return (
     <Container>
       {quiz ? null : (
         <IconDiv>
-          <BiVolumeFull />
+          <BiVolumeFull onClick={() => textToSpeech("apple")} />
           <TextP>듣기</TextP>
         </IconDiv>
       )}
 
       <Pdiv>
         <IconDiv>
-          <BiMicrophone onClick={handleMic} />
+          {open ? (
+            <BiMicrophone onClick={speechToText} />
+          ) : (
+            <BiMicrophoneOff onClick={speechToText} />
+          )}
           <TextP>말하기</TextP>
         </IconDiv>
         <Cdiv>
           {open ? (
             <TextDiv>
-              <TextP>text</TextP>
+              <TextP>
+                {transcript.length === 0 ? "말해볼까요?" : transcript}
+              </TextP>
               <Icon>
                 <FaRegPaperPlane onClick={() => setSuccess(true)} />
                 <FaRegPaperPlane onClick={() => setFail(true)} />
+                <VscRefresh onClick={resetTranscript} />
               </Icon>
             </TextDiv>
           ) : null}

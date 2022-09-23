@@ -18,7 +18,7 @@ const DiaryStart = () => {
       <div className="diary-wrapper">
         {/* 머리글 */}
         <div className="diary-header">
-          오늘의 일기 사진은 뭔가요?
+          오늘 일기에 쓸 사진은 뭔가요?
           <br/>
           사진을 추가 해 볼까요?
         </div>

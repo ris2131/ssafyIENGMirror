@@ -1,0 +1,136 @@
+// 전체 설정
+.mypage-wrapper {
+  font-family: 'Noto Sans KR', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  // 머리
+  .mypage-header{
+    display: flex;
+    flex-direction: row;
+    
+    min-height: 80px;
+    min-width: 1200px;
+    
+    justify-content: center;
+
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 20px;
+
+    // 프로필 크기
+    img {
+      height: 80px;
+      border-radius: 40px;
+    }
+    
+    // 이름 + 수정버튼
+    .name-button {
+      margin-left: 15px;
+
+      height: auto;
+      width: auto;
+      flex-direction: column;
+      
+      // 수정버튼
+      Button {
+        margin: 10px 5px;
+        font-size: 0.8rem;
+        border-radius: 20px;
+    
+        height: 30px;
+        width: 120px;
+      }
+    }
+
+    // 크기 조정용 공백
+    .void {
+      height: auto;
+      width: 900px;
+    }
+  }
+
+  // 몸통
+  .mypage-body {
+    display: flex;
+    margin: 0 20px 20px 20px;
+    justify-content: center;
+    min-height: auto;
+    min-width: 1200px;
+
+    flex-direction: column;
+
+    // 단어 문장 <-> 일기 전환 버튼
+    .switch {
+      display: flex;
+      justify-content: center;
+
+      // 버튼 
+      Button {
+        margin: 10px;
+      }
+      
+      // 크기 조정용 공백
+      .void {
+        height: auto;
+        width: 900px;
+      };
+    }
+    
+    // 달력 + 학습 내역
+    .cal-study {
+      display: flex;
+      flex-direction: row;
+      justify-content:center;
+
+      // 달력
+      .calender {
+        display: flex;
+        justify-content: center;
+
+        height: 400px;
+        width: 500px;
+      
+        border: 1px solid black;
+
+        margin-right: 30px;
+      }
+      
+      // 학습내역
+      .study {
+        height: 400px;
+        width: 700px;
+  
+        border: 1px solid black;
+
+        margin-left: 30px;
+        flex-direction: column;
+        
+        .date {
+          margin: 10px;
+          font-size: 1.3rem;
+        }
+
+        .word-sentence {
+          margin: 10px;
+          font-size: 1.1rem;
+
+          .word {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+          }
+
+          .sentence {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+          }
+        }
+      }
+    }
+  }
+}
+

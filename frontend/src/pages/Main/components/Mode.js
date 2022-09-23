@@ -13,6 +13,11 @@ const ModeBox = styled.div`
 `;
 
 const ModeDiv = styled.div`
+  @media screen and (max-width: 821px) {
+    width: 70vw;
+    height: 70vw;
+  }
+
   position: relative;
   width: 25vw;
   height: 50vh;
@@ -25,6 +30,7 @@ const ModeDiv = styled.div`
 const ModeImg = styled.img`
   width: 100%;
   height: 100%;
+  cursor: pointer;
 `;
 
 const ModeQuestion = styled.div`
@@ -45,8 +51,10 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
+  width: () => {
+    return window.innerWidth > 821 ? 400 : "70%";
+  },
   border: "2px solid #ececec",
   borderRadius: "10px",
   boxShadow: 24,
@@ -155,6 +163,7 @@ const Mode = ({ title, image, description }) => {
           <ModeImg
             src={process.env.PUBLIC_URL + `/assets/${title}.jpg`}
             alt="#"
+            onClick={handleOpen}
           ></ModeImg>
           <ModeQuestion>
             <BasicModal title={title} description={description} />
