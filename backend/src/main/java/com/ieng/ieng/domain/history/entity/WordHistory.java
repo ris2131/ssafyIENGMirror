@@ -32,10 +32,10 @@ public class WordHistory {
     private boolean wordHistoryPass;
 
     @Column(name = "WORD_HISTORY_DTTM")
-    private Date wordHistoryDTTM;
+    private String wordHistoryDTTM;
 
     @Builder
-    public WordHistory(Word word,boolean wordHistoryPass,Date wordHistoryDTTM, Member member){
+    public WordHistory(Word word,boolean wordHistoryPass,String wordHistoryDTTM, Member member){
         this.word = word;
         this.wordHistoryPass = wordHistoryPass;
         this.wordHistoryDTTM = wordHistoryDTTM;
