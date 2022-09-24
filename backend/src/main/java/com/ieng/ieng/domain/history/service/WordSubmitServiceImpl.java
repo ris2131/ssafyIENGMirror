@@ -10,8 +10,13 @@ import com.ieng.ieng.domain.word.entity.Word;
 import com.ieng.ieng.domain.word.repository.WordRepository;
 import com.ieng.ieng.global.exception.NoExistMemberException;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +27,7 @@ public class WordSubmitServiceImpl implements WordSubmitService{
     private final WordHistoryRepository wordHistoryRepository;
     private final WordRepository wordRepository;
     private final MemberRepository memberRepository;
+    final static Logger logger = LogManager.getLogger(WordSubmitServiceImpl.class);
     @Override
     public void submit(String email,WordHistoryRequestDto wordHistoryRequestDto){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
@@ -30,12 +36,14 @@ public class WordSubmitServiceImpl implements WordSubmitService{
         for(WordSubmitDto wordSubmit : wordSubmitList){
             Long wordSequence = wordSubmit.getWordSequence();
             Word word = wordRepository.findWordByWordSequence(wordSequence);
-            Date now = new Date();
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+            logger.debug("date format: {}",date.format(formatter));
             WordHistory wordHistory = WordHistory.builder()
                     .word(word)
                     .wordHistoryPass(wordSubmit.getCorrect())
-                    .wordHistoryDTTM(now)
+                    .wordHistoryDTTM(date.format(formatter))
                     .member(member)
                     .build();
             wordHistoryRepository.save(wordHistory);
