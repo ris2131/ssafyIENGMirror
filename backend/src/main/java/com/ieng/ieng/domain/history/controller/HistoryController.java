@@ -2,9 +2,10 @@ package com.ieng.ieng.domain.history.controller;
 
 import com.ieng.ieng.domain.history.dto.SentenceHistoryRequestDto;
 import com.ieng.ieng.domain.history.dto.SentenceSubmitDto;
+import com.ieng.ieng.domain.history.dto.StudyHistoryResponseDto;
 import com.ieng.ieng.domain.history.dto.WordHistoryRequestDto;
-import com.ieng.ieng.domain.history.dto.WordSubmitDto;
 import com.ieng.ieng.domain.history.service.SentenceSubmitService;
+import com.ieng.ieng.domain.history.service.StudyHistoryService;
 import com.ieng.ieng.domain.history.service.WordSubmitService;
 import com.ieng.ieng.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,17 @@ import java.util.List;
 @RequestMapping("/api/histories")
 @RequiredArgsConstructor
 public class HistoryController {
+    private final StudyHistoryService studyHistoryService;
     private final WordSubmitService wordSubmitService;
-
     private final SentenceSubmitService sentenceSubmitService;
     final static Logger logger = LogManager.getLogger(HistoryController.class);
+    @GetMapping(value = "/studies")
+    public ResponseEntity<?> getStudies(HttpServletRequest request, @RequestParam String date){
+        String email = (String) request.getAttribute("email");
+        logger.debug("getStudiesController");
+        StudyHistoryResponseDto studyHistoryResponseDto = studyHistoryService.getStudyHistories(email, date);
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("단어문장 히스토리 조회 성공",studyHistoryResponseDto));
+    }
     @PostMapping(value = "/words")
     public ResponseEntity<?> submitWordHistories(HttpServletRequest request , @RequestBody WordHistoryRequestDto wordHistoryRequestDto){
         String email = (String) request.getAttribute("email");
