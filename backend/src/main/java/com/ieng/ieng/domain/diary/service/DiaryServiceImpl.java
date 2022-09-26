@@ -33,7 +33,14 @@ public class DiaryServiceImpl implements DiaryService{
     public DiaryGetResponseDto diaryDetail(String email, String date){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
-        DiaryGetResponseDto diaryGetResponseDto = new DiaryGetResponseDto(diary);
+        DiaryGetResponseDto diaryGetResponseDto  = DiaryGetResponseDto.builder()
+                .diarySequence(diary.getDiarySequence())
+                .memberSequence(member.getMemberSequence())
+                .diaryPicturePath(diary.getDiaryPicturePath())
+                .diaryContent(diary.getDiaryContent())
+                .diaryEmotion(diary.getDiaryEmotion())
+                .diaryDTTM(diary.getDiaryDTTM())
+                .build();
         return diaryGetResponseDto;
     }
 
