@@ -31,7 +31,7 @@ public class SentenceHistory {
     @Column(name = "SENTENNCE_HISTORY_PASS")
     private boolean sentenceHistoryPass;
 
-    @Column(name = "SENTENCE_HISOTRY_DTTM")
+    @Column(name = "SENTENCE_HISTORY_DTTM")
     private String sentenceHistoryDTTM;
 
     @Builder
