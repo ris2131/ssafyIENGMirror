@@ -21,6 +21,7 @@ public class DiaryGetResponseDto {
     private String diaryEmotion;
     private String diaryDTTM;
 
+
     @Builder
     public DiaryGetResponseDto(Long memberSequence, Long diarySequence, String diaryPicturePath, String diaryContent, String diaryEmotion, String diaryDTTM){
         this.memberSequence = memberSequence;
