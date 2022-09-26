@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -146,8 +146,15 @@ const DetailModal = ({ open, handleClose, title }) => {
 
 const Mode = ({ title, image, description }) => {
   const [openDetail, setOpenDetail] = useState(false);
+  const [engTitle, setEngTitle] = useState("");
   const handleOpen = () => setOpenDetail(true);
   const handleClose = () => setOpenDetail(false);
+
+  useEffect(() => {
+    setEngTitle(
+      title === "단어" ? "word" : title === "문장" ? "sentence" : "diary"
+    );
+  }, [title]);
   return (
     <>
       <ModeBox>
@@ -161,7 +168,7 @@ const Mode = ({ title, image, description }) => {
           }
         >
           <ModeImg
-            src={process.env.PUBLIC_URL + `/assets/${title}.jpg`}
+            src={process.env.PUBLIC_URL + `/assets/${engTitle}.jpg`}
             alt="#"
             onClick={handleOpen}
           ></ModeImg>

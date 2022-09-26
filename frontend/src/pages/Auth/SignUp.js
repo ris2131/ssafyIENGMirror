@@ -170,6 +170,7 @@ const SignUp = () => {
   };
 
   const changeImg = (e) => {
+    console.log(profile);
     setProfile(e.target.files[0]);
   };
 
