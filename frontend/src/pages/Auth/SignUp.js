@@ -11,6 +11,8 @@ import { Toast } from "../../assets/Toast";
 
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { signup } from "../../redux/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
@@ -158,6 +160,8 @@ const SignUp = () => {
 
   const inputRef = useRef();
 
+  const dispatch = useDispatch();
+
   const handlePage = () => {
     if (page === 1) {
       setPage(2);
@@ -179,9 +183,33 @@ const SignUp = () => {
     });
   };
 
+  // 년 변경
+  const handleYear = (e) => {
+    if (e.target.value > 2022) {
+      Toast.fire({
+        icon: "error",
+        title: "1900~2022까지 입력가능해요",
+      });
+      return;
+    }
+    setYear(e.target.value);
+  };
+
   // 월 변경
-  const handleChange = (e) => {
+  const handleMonth = (e) => {
     setMonth(e.target.value);
+  };
+
+  // 일 변경
+  const handleDay = (e) => {
+    if (e.target.value > 31) {
+      Toast.fire({
+        icon: "error",
+        title: "날짜는 31일까지 입력가능해요",
+      });
+      return;
+    }
+    setDay(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -192,20 +220,43 @@ const SignUp = () => {
       });
       return;
     }
+
+    if (year < 1900) {
+      Toast.fire({
+        icon: "error",
+        title: "1900~2022까지 입력가능해요",
+      });
+      return;
+    }
+
+    const mm = month >= 10 ? month : "0" + month;
+    const dd = day >= 10 ? day : "0" + day;
+
+    const birth = year + "-" + mm + "-" + dd;
+
     const data = {
-      email,
+      provider: "ieng",
+      username: email,
       password,
       nickname,
+      birth_YMD: birth,
     };
 
-    const formData = new FormData();
+    console.log(data);
 
-    const blob = new Blob([JSON.stringify(data)], {
-      type: "application/json",
-    });
+    dispatch(signup(data))
+      .unwrap()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
 
-    formData.append("data", blob);
-    formData.append("profile", profile);
+    // const formData = new FormData();
+
+    // const blob = new Blob([JSON.stringify(data)], {
+    //   type: "application/json",
+    // });
+
+    // formData.append("data", blob);
+    // formData.append("profile", profile);
   };
 
   return (
@@ -310,14 +361,14 @@ const SignUp = () => {
                 label="년(4자)"
                 variant="standard"
                 value={year}
-                onChange={(e) => setYear(e.target.value)}
+                onChange={handleYear}
               />
             </InputDiv>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               value={month}
-              onChange={handleChange}
+              onChange={handleMonth}
               label="월"
             >
               {date.map((v, i) => (
@@ -333,7 +384,7 @@ const SignUp = () => {
                 label="일"
                 variant="standard"
                 value={day}
-                onChange={(e) => setDay(e.target.value)}
+                onChange={handleDay}
               />
             </InputDiv>
           </DateWrapper>
