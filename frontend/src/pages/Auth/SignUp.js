@@ -159,6 +159,7 @@ const SignUp = () => {
   const date = ["월", ...monthList];
 
   const inputRef = useRef();
+  const nicknameRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -185,10 +186,10 @@ const SignUp = () => {
 
   // 년 변경
   const handleYear = (e) => {
-    if (e.target.value > 2022) {
+    if (e.target.value > 2022 || isNaN(Number(e.target.value))) {
       Toast.fire({
         icon: "error",
-        title: "1900~2022까지 입력가능해요",
+        title: "1900~2022까지의 숫자만 입력가능해요",
       });
       return;
     }
@@ -259,6 +260,8 @@ const SignUp = () => {
     // formData.append("profile", profile);
   };
 
+  // useEffect(() => (page === 2 ? nicknameRef.current.focus() : null), [page]);
+
   return (
     <SingUpBox>
       <LogoDiv>
@@ -304,6 +307,7 @@ const SignUp = () => {
               variant="standard"
               value={passwordCheck}
               onChange={(e) => setPasswordCheck(e.target.value)}
+              onKeyPress={(e) => (e.key === "Enter" ? setPage(2) : null)}
             />
           </InputDiv>
 
@@ -349,6 +353,7 @@ const SignUp = () => {
             <TextField
               fullWidth
               label="닉네임"
+              ref={nicknameRef}
               variant="standard"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
