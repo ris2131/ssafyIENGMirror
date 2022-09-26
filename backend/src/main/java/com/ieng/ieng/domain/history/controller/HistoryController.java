@@ -1,11 +1,9 @@
 package com.ieng.ieng.domain.history.controller;
 
-import com.ieng.ieng.domain.history.dto.SentenceHistoryRequestDto;
-import com.ieng.ieng.domain.history.dto.SentenceSubmitDto;
-import com.ieng.ieng.domain.history.dto.StudyHistoryResponseDto;
-import com.ieng.ieng.domain.history.dto.WordHistoryRequestDto;
+import com.ieng.ieng.domain.history.dto.*;
 import com.ieng.ieng.domain.history.service.SentenceSubmitService;
 import com.ieng.ieng.domain.history.service.StudyHistoryService;
+import com.ieng.ieng.domain.history.service.TotalHistoryService;
 import com.ieng.ieng.domain.history.service.WordSubmitService;
 import com.ieng.ieng.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,17 @@ public class HistoryController {
     private final StudyHistoryService studyHistoryService;
     private final WordSubmitService wordSubmitService;
     private final SentenceSubmitService sentenceSubmitService;
+
+    private final TotalHistoryService totalHistoryService;
     final static Logger logger = LogManager.getLogger(HistoryController.class);
+
+    @GetMapping()
+    public ResponseEntity<?> getHistories(HttpServletRequest request, @RequestParam String date){
+        String email = (String) request.getAttribute("email");
+        TotalHistoryResponseDto totalHistoryResponseDto = totalHistoryService.getTotalHistories(email, date);
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("전체 히스토리 조회 성공", totalHistoryResponseDto));
+    }
+
     @GetMapping(value = "/studies")
     public ResponseEntity<?> getStudies(HttpServletRequest request, @RequestParam String date){
         String email = (String) request.getAttribute("email");

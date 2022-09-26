@@ -9,4 +9,6 @@ import java.util.List;
 public interface WordHistoryRepository extends JpaRepository<WordHistory,Long> {
     List<WordHistory> findWordHistoriesByMember(Member member);
     List<WordHistory> findWordHistoriesByMemberAndWordHistoryDTTM(Member member, String wordHistoryDTTM);
+
+    List<WordHistory> findWordHistoriesByMemberAndWordHistoryDTTMStartsWith(Member member, String date);
 }
