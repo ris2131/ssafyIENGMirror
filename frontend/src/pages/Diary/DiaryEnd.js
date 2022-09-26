@@ -75,57 +75,64 @@ const DiaryEnd = () => {
     <div className="background">
       <NavBar />
 
-      <div className="diary-wrapper">
-        {/* 머리글 */}
-        <div className="diary-header">
-          오늘의 일기 작성이 끝났어요!
+      <div className="back">
+        <div className="diary-wrapper">
+          {/* 머리글 */}
+          <div className="diary-header">
+            오늘의 일기 작성이 끝났어요!
 
-          {/* 날짜 */}
-          <div className="date">오늘 : {today.getFullYear()}년 {today.getMonth()+1}월 {today.getDate()}일</div>
+            {/* 날짜 */}
+            <div className="date">오늘 : {today.getFullYear()}년 {today.getMonth()+1}월 {today.getDate()}일</div>
 
-          {/* 기분 */}
-          <div className="emotion">
-            <span>오늘의 기분 : {Emotion}</span>
-            <img src={`image/${Emotion}.png`} alt=""/>
-          </div>
-          
-        </div>
-
-        {/* 일기 메인 */}
-        <div className="diary-body">
-          {/* 사진 */}
-          <img src={preview_URL} alt=""/>
-          
-          <div className="void"/>
-         
-         {/* 일기 */}
-          <div className="checked">
-            {diary}
-          </div>
-        </div>
-
-        {/* 단어 */}
-        <div>사용한 단어</div>
-        <div className="word">
-          {checkedList.map((item, index) => (
-            <div className="word-list" key={index}>
-              <span>{item}</span>
-              <BasicModal title={title} description={description} />
+            {/* 기분 */}
+            <div className="emotion">
+              <span>오늘의 기분 : {Emotion}</span>
+              <img src={`image/${Emotion}.png`} alt=""/>
             </div>
-          ))} 
-        </div>
+            
+          </div>
 
-        <div>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate("/")}
-            >
-            메인화면으로 가기
-          </Button>
+          {/* 일기 메인 */}
+          <div className="diary-body">
+            <div className="text">
+              {/* 사진 */}
+              <img src={preview_URL} alt=""/>
+            
+              {/* 일기 */}
+              <div className="checked">
+                {diary}
+              </div>
+            </div>
+            
+          </div>
+
+          {/* 단어 */}
+          <div className="words">
+            <div className="diary-header">사용한 단어</div>
+
+            <div className="word">
+              {checkedList.map((item, index) => (
+                <div className="word-list" key={index}>
+                  <span>{item}</span>
+                  <BasicModal title={title} description={description} />
+                </div>
+              ))} 
+            </div>
+
+          </div>
+
+          <div>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate("/")}
+              >
+              메인화면으로 가기
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </div>  
   );
 }
 

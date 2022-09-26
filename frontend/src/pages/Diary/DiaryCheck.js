@@ -33,110 +33,6 @@ const DiaryCheck = () => {
   const title = "제출 확인";
   const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
 
-  // 문법 체크 함수
-  // const textCheck = async (text) => {
-
-  //   let https = require("https");
-
-  //   let host = "api.bing.microsoft.com";
-  //   let path = "/v7.0/spellcheck";
-  //   let key = "ce11f020da1241f182ed7ee34ec9fcc1";
-    
-  //   let mkt = "en-US";
-  //   let mode = "proof";
-  //   let query_string = "?mkt=" + mkt + "&mode=" + mode;
-  //   let wrongWordList = {};
-
-  //   let request_params = {
-  //     method: "POST",
-  //     hostname: host,
-  //     path: path + query_string,
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //       "Content-Length": text.length + 5,
-  //       "Ocp-Apim-Subscription-Key": key,
-  //     },
-  //   };
-
-  //   let response_handler = function (response) {
-  //     let body = "";
-  //     response.on("data", function (d) {
-  //       body += d;
-  //     });
-  //     response.on("end", function () {
-  //       let body_ = JSON.parse(body);
-      
-  //       for (const word of body_.flaggedTokens) {
-  //         for (const sugges of word.suggestions) {
-  //           if (sugges.score >= 0.65) {
-  //             if (typeof wrongWordList[word.token] == "undefined") {
-  //               wrongWordList[word.token] = [];
-  //             }
-  //             let temp = wrongWordList[word.token];
-  //             temp.push(sugges.suggestion);
-  //             wrongWordList[word.token] = temp;
-  //           }
-  //         }
-  //       }
-  //     });
-  //     response.on("error", function (e) {
-  //       console.log("Error: " + e.message);
-  //     });
-  //   };
-
-  //   let req = https.request(request_params, response_handler);
-  //   req.write("text=" + text);
-  //   req.end();
-
-  //   let mkt = "en-US";
-  //   let mode = "proof";
-  //   let query_string = "?mkt=" + mkt + "&mode=" + mode;
-  //   let wrongWordList = {};
-
-  //   let request_params = {
-  //     method: "POST",
-  //     hostname: host,
-  //     path: path + query_string,
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //       "Content-Length": text.length + 5,
-  //       "Ocp-Apim-Subscription-Key": key,
-  //     },
-  //   };
-
-  //   let response_handler = function (response) {
-  //     let body = "";
-  //     response.on("data", function (d) {
-  //       body += d;
-  //     });
-  //     response.on("end", function () {
-  //       let body_ = JSON.parse(body);
-
-  //       for (const word of body_.flaggedTokens) {
-  //         for (const sugges of word.suggestions) {
-  //           if (sugges.score >= 0.65) {
-  //             if (typeof wrongWordList[word.token] == "undefined") {
-  //               wrongWordList[word.token] = [];
-  //             }
-  //             let temp = wrongWordList[word.token];
-  //             temp.push(sugges.suggestion);
-  //             wrongWordList[word.token] = temp;
-  //           }
-  //         }
-  //       }
-  //     });
-  //     response.on("error", function (e) {
-  //       console.log("Error: " + e.message);
-  //     });
-  //   };
-
-  //   let req = https.request(request_params, response_handler);
-  //   req.write("text=" + text);
-  //   req.end();
-
-  //   return  wrongWordList;
-  // }
-
   const [content, setContent] = useState(diary);
 
   // 단어 설명 모달창
@@ -200,42 +96,49 @@ const DiaryCheck = () => {
     <div className="background">
       <NavBar />
 
-      <div className="diary-wrapper">
-        {/* 머리글 */}
-        <div className="diary-header">
-          00 님의 일기에 어색한 부분을 같이 수정 해 볼까요?
-        </div>
-
-        {/* 일기 작성 */}
-        <div className="diary-body">
-          {/* 내용 */}
-          <div className="text">
-            <textarea
-              onChange={(e) => {
-                setContent(e.target.value);
-              }}
-              className="text"
-              placeholder="일기를 작성해 봐요!"
-              value={content}
-            />
+      <div className="back">
+        <div className="diary-wrapper">
+          {/* 머리글 */}
+          <div className="diary-header">
+            00 님의 일기에 어색한 부분을 같이 수정 해 볼까요?
           </div>
 
-          <div className="void" />
+          {/* 일기 작성 */}
+          <div className="diary-body">
+            {/* 내용 */}
+            <div className="text">
+              <div>
+                <div className="diary-header">작성한 내용</div>
+                <textarea
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                  }}
+                  className="text"
+                  placeholder="일기를 작성해 봐요!"
+                  value={content}
+                />
+              </div>
 
-          <div className="checked">{diary}</div>
-        </div>
+              {/* 문법 체크 결과 */}
+              <div>
+                <div className="diary-header">수정할 내용</div>
+                <div className="checked">{diary}</div>
+              </div>
+            </div>
+          </div>
 
-        <div className="button">
-          <Button
-            variant="outlined"
-            color="primary"
-          >
-            다시 검사 해 보기
-          </Button>
+          <div className="button">
+            <Button
+              variant="outlined"
+              color="primary"
+            >
+              다시 검사 해 보기
+            </Button>
 
-          <Button variant="outlined" color="primary">
-            <BasicModal title={title} description={description} />
-          </Button>
+            <Button variant="outlined" color="primary">
+              <BasicModal title={title} description={description} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

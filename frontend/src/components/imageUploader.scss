@@ -7,17 +7,35 @@
 
   .img-wrapper {
     img {
-      height: 330px;
+      height: 40vh;
+      width: 40vw;
       border-radius: 20px;
-      object-fit: cover;
+      object-fit: fill;
     }
   }
   
   .upload-button {
     button {
+      background-color: white;
+    
       margin: 10px 5px;
-      font-size: 1.1rem;
+      font-size: 1.5vw;
       border-radius: 20px;
+
+      min-height: 5vh;
+      min-width: 10vw;
+    }
+  }
+}
+
+// 모바일 기준
+@media all and (max-width: 821px) {
+  .uploader-wrapper{
+    .img-wrapper {
+      img {
+        width: 80vw;
+        height: auto;
+      }
     }
   }
 }

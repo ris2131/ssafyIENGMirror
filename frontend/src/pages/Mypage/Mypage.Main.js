@@ -32,100 +32,112 @@ const MypageMain= () => {
   
  
   return (
-    <div>
+    <div className='background'>
       <NavBar />
+      
+      <div className='back'>
+        <div className="mypage-wrapper">
+          {/* 회원정보 상자*/}
+          <div className="mypage-header">
+            {/* 회원 사진 */}
+            <img src="image/profile.png" alt=""/>
+          
+            <div className='name-button'>
+              {/* 이름 */}
+              <div>00님 안녕하세요</div>
 
-      <div className="mypage-wrapper">
-        {/* 회원정보 상자*/}
-        <div className="mypage-header">
-          {/* 회원 사진 */}
-          <img src="image/profile.png" alt=""/>
-         
-          <div className='name-button'>
-            {/* 이름 */}
-            <div>00님 안녕하세요</div>
-
-            {/* 정보 수정 버튼 */}
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => navigate("/")}
-              >
-              회원정보 수정
-            </Button>
+              {/* 정보 수정 버튼 */}
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => navigate("/")}
+                >
+                회원정보 수정
+              </Button>
+            </div>
           </div>
 
-          {/* 빈공간 */}
-          <div className='void'/>
-        </div>
+          <div className='mypage-body'>
+            {/* 버튼 */}
+            <div className='switch'>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setSelectedButton("단어 - 문장 학습")}
+                >
+                단어 & 문장 학습
+              </Button>
 
-        <div className='mypage-body'>
-          {/* 버튼 */}
-          <div className='switch'>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => setSelectedButton("단어 - 문장 학습")}
-              >
-              단어 & 문장 학습
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => setSelectedButton("일기")}
-              >
-              그림 일기
-            </Button>
-
-            <div className='void'/>
-          </div>
-
-          <div className='cal-study'>
-            {/* 달력 */}
-            <div className='calender'>
-              <Calendar
-                onChange={setDate}
-                value={date}
-              />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setSelectedButton("일기")}
+                >
+                그림 일기
+              </Button>
             </div>
 
-            {/* 학습 내용 */}
-            <div className='study'>
-              {/* 오늘의 날짜 */}
-              <div className='date'>
-                {dateToStr(date)} 
+            <div className='cal-study'>
+              {/* 달력 */}
+              <div className='calender'>
+                <Calendar
+                  onChange={setDate}
+                  value={date}
+                />
               </div>
 
-              <div className='date'>
-                {selectedButton}
-              </div>
-              
-              {selectedButton === "단어 - 문장 학습" ? (
-                <div className='word-sentence'>
-                  {/* 단어 */}
-                  학습한 단어
-                  <div className='word'>
-                    {word.map((item, index) => (
-                      <div key={index}>{item}</div> 
-                    ))}
-                  </div>
-
-                  {/* 문장 */}
-                  학습한 문장
-                  <div className='sentence'>
-                    {sentence.map((item, index) => (
-                      <div key={index}>{item}</div> 
-                    ))}
-                  </div>
+              {/* 학습 내용 */}
+              <div className='study'>
+                {/* 오늘의 날짜 */}
+                <div className='date'>
+                  {dateToStr(date)} 
                 </div>
 
-                ) : (
+                <div className='date'>
+                  {selectedButton}
+                </div>
+                
+                {selectedButton === "단어 - 문장 학습" ? (
+                  <div className='word-sentence'>
+                    {/* 단어 */}
+                    학습한 단어
+                    <div className='word'>
+                      {word.map((item, index) => (
+                        <div key={index}>{item}</div> 
+                      ))}
+                    </div>
 
-                <div className='diary'>
-                  일 기 내 용 넣 어 야 함
-                </div>    
-              )}
+                    {/* 문장 */}
+                    학습한 문장
+                    <div className='sentence'>
+                      {sentence.map((item, index) => (
+                        <div key={index}>{item}</div> 
+                      ))}
+                    </div>
+                  </div>
+
+                  ) : (
+
+                  <div className='diary'>
+                    <div className='img-content'>
+                      {/* 사진 */}
+                      <img src="image/default_image.png" alt=""/>
+
+                      {/* 일기 */}
+                      <div className='content'> 일 기 내 용 </div>
+                    </div>
+                    
+                    {/* 단어 */}
+                    <div className='word'>
+                      <div>
+                        {word.map((item, index) => (
+                          <div key={index}>{item}</div> 
+                        ))}
+                      </div>
+                    </div>
+                  </div>    
+                )}
+              </div>
             </div>
           </div>
         </div>

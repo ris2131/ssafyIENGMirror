@@ -96,54 +96,57 @@ const DiaryKeyword = () => {
   return (
     <div className="background">
       <NavBar />
+      
+      <div className="back">
+        <div className="diary-wrapper">
+          {/* 머리글 */}
+          <div className="diary-header">
+            00 님이 고르신 사진이네요
+            <br/>
+            일기장에 쓸 단어를 골라볼까요?
+          </div>
 
-      <div className="diary-wrapper">
-        {/* 머리글 */}
-        <div className="diary-header">
-          00 님이 고르신 사진이네요
-          <br/>
-          일기장에 쓸 단어를 골라볼까요?
-        </div>
+          {/* 사진 */}
+          <div className="img-body">
+            <img src={preview_URL} alt="이미지 없음"/>
+          </div>
 
-        {/* 사진 */}
-        <div className="img-body">
-          <img src={preview_URL} alt="이미지 없음"/>
-        </div>
-
-        {/* 단어 선택 */}
-        <div className="keyword-check">
-          {data.map((item, index) => (
-            <div className="check-button" key={index}>
-              <input
-                key={item}
-                type="checkbox"
-                onChange={(e) => onCheckedElement(e.target.checked, item)}
-                checked={checkedList.includes(item) ? true : false}
-              />
-              <span>{item}</span>
-              <BasicModal title={title} description={description} />
+          {/* 단어 선택 */}
+          <div className="words">
+            <div className="keyword-check">
+              {data.map((item, index) => (
+                <div className="check-button" key={index}>
+                  <input
+                    key={item}
+                    type="checkbox"
+                    onChange={(e) => onCheckedElement(e.target.checked, item)}
+                    checked={checkedList.includes(item) ? true : false}
+                  />
+                  <span>{item}</span>
+                  <BasicModal title={title} description={description} />
+                </div>
+              ))} 
             </div>
-          ))} 
-        </div>
-        
-        <div>
-          {checkedList[0] ? (
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
-              >
-              일기 쓰러가기
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              color="primary"
-              >
-              일기에 쓸 단어를 골라 주세요
-            </Button>
-          )}
+          </div>
           
+          <div>
+            {checkedList[0] ? (
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => navigate("/diarywriting", {state : { preview_URL : preview_URL, checkedList : checkedList }})}
+                >
+                일기 쓰러가기
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="primary"
+                >
+                일기에 쓸 단어를 골라 주세요
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

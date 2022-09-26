@@ -1,28 +1,24 @@
-// 전체 설정
-.background {
-  background-image: url("../../../public/assets/mainback2.PNG");
-  min-height: 100vh;
-  height: auto;
+// 전체 설정 - 기본 PC 기준
+.back {
+  display: flex;
+  justify-content: center;
 }
 
 .diary-wrapper {
   font-family: 'Noto Sans KR', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
-  min-width: 1300px;
+  width: 95vw;
 
   // 머리말
   .diary-header{
     text-align: center;
-    font-size: 2rem;
+    font-size: 2vw;
     font-weight: bold;
     margin: 20px 0;
 
     // 날짜
     .date {
-      font-size: 1.5rem;
+      font-size: 2vw;
       margin-top: 10px;
     }
     
@@ -33,137 +29,174 @@
 
       align-items: center;
 
-      margin: 20px;
-      font-size: 1rem;
+      margin: 10px;
 
       img {
-        width: 50px;
-        height: 50px;
+        width: 4vw;
       }
     }
-  }
-  
-  // 이미지만 표시하는 몸통
-  .img-body {
-    display: flex;
-    margin: 10px 0;
-    justify-content: center;
-    flex-wrap: wrap;
-    height: 350px;
-    width: auto;
-    
-    img {  
-      height: 330px;
-      border-radius: 20px;
-      object-fit: scale-down;
-    }
-
   }
 
   // 기본 몸통
   .diary-body {
     display: flex;
-    margin: 10px 0;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
-    height: 350px;
-    width: auto;
 
-    // 간격 조절용 빈공간
-    .void {
-      width: 30px;
-    }
+    height: 55vh;
 
-    img {  
-      height: 330px;
-      border-radius: 20px;
-      object-fit: scale-down;
-    }
+    flex-direction: column;
     
     // 글상자
     .text {
       display: flex;
-      height: 330px;
-      width: 580px;
+      justify-content: center;
+      align-items: center;
       
+      // 사진
+      img {  
+        width: 43.5vw;
+        height: 43.5vh;
+
+        border: 1px solid black;
+        border-radius: 20px;
+
+        object-fit: fill;
+        margin: 10px;
+      }
+
+      // 글상자
       textarea {
         padding: 15px;
-        height: 300px;
+        height: 40vh;
+        width: 40vw;
+
         resize: none;
-        font-size: 1rem;
+        font-size: 1.5vw;
+
         border-radius: 20px;
+        margin: 10px;
+      }
+
+      // 문법 수정
+      .checked {
+        display: flex;
+        background-color: white;
+
+        padding: 15px;
+
+        height: 40vh;
+        width: 40vw;
+
+        font-size: 1.5vw;
+
+        border: 1px solid black;
+        border-radius: 20px;
+        margin: 10px;
       }
     }  
-    
-    // 문법 수정
-    .checked {
-      background-color: white;
-      padding: 15px;
-      height: 300px;
-      width: 580px;
-      font-size: 1rem;
+  }
+
+  // img 만 있는 body
+  .img-body {
+    img {
+      width: 43.5vw;
+      
       border: 1px solid black;
       border-radius: 20px;
+
+      object-fit: fill;
+      margin: 10px;
+
     }
   }
 
   // 단어 선택
-  .keyword-check {
-    background-color: white;
+  .words {
     display: flex;
-    margin: 10px 0;
-    border: 1px solid black;
-    border-radius: 20px;
-    height: 150px;
-    width: 800px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    // 체크 박스
-    .check-button {
+    .keyword-check {
+      background-color: white;
+  
       display: flex;
-      margin: 10px;
-      padding: 10px;
+  
+      margin: 10px 0;
       border: 1px solid black;
       border-radius: 20px;
-      height: 30px;
+  
+      height: 8vh;
+      min-height: 50px;
+      width: 85vw;
+  
+      // 체크 박스
+      .check-button {
+        display: flex;
+        align-items: center;
+  
+        margin: 10px;
+        padding: 10px;
+  
+        border: 1px solid black;
+        border-radius: 20px;
+  
+        height: 3vh;
+  
+        font-size: 1.5vw;
+  
+        // 좌우 여백
+        span {
+          padding-left: 1vw;
+          padding-right: 1vw;
+        }
+      }
+    }
+  
+    // 선택한 단어들
+    .word {
+      background-color: white;
+      
+      display: flex;
+      align-items: center;
 
-      // 좌우 여백
-      span {
-        padding-left: 20px;
-        padding-right: 20px;
+      border: 1px solid black;
+      border-radius: 20px;
+  
+      height: 8vh;
+      min-height: 50px;
+      width: 85vw;
+  
+      // 각각의 단어
+      .word-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+  
+        margin: 10px;
+        padding: 10px;
+  
+        border: 1px solid black;
+        border-radius: 20px;
+  
+        height: 3vh;
+  
+        font-size: 1.5vw;
+  
+        // 좌우 여백
+        span {
+          display: flex;
+          padding-left: 1vw;
+          padding-right: 1vw;
+        }
       }
     }
   }
-
-  // 선택한 단어들
-  .word {
-    background-color: white;
-    display: flex;
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
-    height: 150px;
-    width: 1030px;
-
-    // 각각의 단어
-    .word-list {
-      display: flex;
-      margin: 10px;
-      padding: 10px;
-      border: 1px solid black;
-      border-radius: 20px;
-      height: 30px;
-
-      // 좌우 여백
-      span {
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-    }
-  }
-
-  // 버튼 중앙정렬용
+  
   .button {
-    margin-right: 30px;
+    display: flex;
+    justify-content: center;
   }
 
   // 버튼 공통 설정
@@ -171,11 +204,62 @@
     background-color: white;
     
     margin: 10px 5px;
-    font-size: 1.1rem;
+    font-size: 1.5vw;
     border-radius: 20px;
 
-    min-height: 50px;
-    min-width: 250px;
+    min-height: 5vh;
+    min-width: 20vw;
   }
   
+}
+
+// 반응형 설정
+
+// PC 기준
+@media all and (min-width: 821px) {
+  .background {
+    background-image: url("../../../public/assets/mainback2.PNG");
+    
+    min-height: 100vh;
+    height: auto;
+  }
+}
+
+// 모바일 기준
+@media all and (max-width: 821px) {
+  .background {
+    background-image: url("../../../public/assets/mainback2.PNG");
+    
+    min-height: 100vh;
+    height: auto;
+  }
+
+  .diary-wrapper {
+    .diary-body {
+      height: auto;
+      
+      .text {
+        flex-direction: column;
+        justify-content: center;
+
+        img {
+          width: 84vw;
+        }
+
+        textarea {
+          width: 80vw;
+        }
+
+        .checked {
+          width: 80vw;
+        }
+      }
+    }
+
+    .img-body {
+      img {
+        width: 80vw;
+      }
+    }
+  }
 }
