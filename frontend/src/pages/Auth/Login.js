@@ -128,7 +128,7 @@ const Login = () => {
             fullWidth
             label="ID(email)"
             variant="standard"
-            value={username}
+            value={username || ""}
             onChange={(e) => setUsername(e.target.value)}
           />
         </InputDiv>
@@ -138,7 +138,7 @@ const Login = () => {
             type="password"
             label="Password"
             variant="standard"
-            value={password}
+            value={password || ""}
             onChange={(e) => setPassword(e.target.value)}
           />
         </InputDiv>
