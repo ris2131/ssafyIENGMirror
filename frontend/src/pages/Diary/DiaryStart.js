@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ImageUploader from "../../components/ImageUploader";
+import ImageUploader from "./ImageUploader";
 import NavBar from "../../components/NavBar";
 
 // css

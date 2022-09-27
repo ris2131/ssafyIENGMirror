@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import NavBar from "../../components/NavBar";
+import { diaryApi } from "../../shared/diaryApi";
 
 // css
 import "./Diary.scss";
@@ -9,6 +11,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "../../components/MyButton";
+
 
 const style = {
   position: "absolute",
@@ -26,21 +29,104 @@ const style = {
   alignItems: "center",
 };
 
+// headers 설정
+const sp_api = axios.create({
+  baseURL: "https://api.bing.microsoft.com/v7.0/spellcheck",
+  headers:{
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Ocp-Apim-Subscription-Key': 'ce11f020da1241f182ed7ee34ec9fcc1',
+  }
+})
+
 const DiaryCheck = () => {
   const location = useLocation();
-  const { preview_URL, checkedList, Emotion, diary } = location.state;
+  const { preview_URL, checkedList, emotion, diary } = location.state;
+  const navigate = useNavigate();
 
   const title = "제출 확인";
   const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
 
+  // 입력한 일기 내용
   const [content, setContent] = useState(diary);
+
+  // 맞춤법 검사 결과
+  const [checked, setChecked] = useState({});
+
+  // 맞춤법 검사 함수
+  const spellCheck = async(text) => {
+    const mkt = "en-US"
+    const mode = "proof"
+
+    const {data} = await sp_api.post(`?mkt=${mkt}&mode=${mode}&text=${text}`);
+
+    let wrongWordList = {};
+
+    for (const word of data.flaggedTokens) {
+      for (const sugges of word.suggestions) {
+        if (sugges.score >= 0.65) {
+          if (typeof wrongWordList[word.token] == "undefined") {
+            wrongWordList[word.token] = [];
+          }
+          let temp = wrongWordList[word.token];
+          temp.push(sugges.suggestion);
+          wrongWordList[word.token] = temp;
+        }
+      }
+    }
+
+   setChecked(wrongWordList)
+  }
+
+  // 일기 제출하기
+  const handleSubmit = useCallback(async () => {
+    const keywords = []
+    for (let i = 0; i < checkedList.length; i++) {
+      keywords.push({"keyword" : checkedList[i]})
+    }
+
+    const picture_path = ""
+
+    const data = {
+      picture_path,
+      content, 
+      emotion,
+      keywords,
+    }
+
+    try{  
+      const test = await diaryApi.getdiary("2022-09-27")
+
+      console.log(test)
+
+      const res = await diaryApi.postdiary(data);
+
+      console.log(res)
+
+      if (res.message === "SUCCESS") {
+        window.alert("등록이 완료되었습니다.");
+        
+        navigate("/diaryend", {
+          state: {
+            preview_URL: preview_URL,
+            checkedList: checkedList,
+            emotion: emotion,
+            diary: content,
+          },
+        })
+      }
+      
+    } catch (e) {
+      // 서버에서 받은 에러 메시지 출력
+      console.log(e)
+    }
+
+  }, [navigate, content, emotion, checkedList, preview_URL]);
 
   // 단어 설명 모달창
   const BasicModal = ({ title, description }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const navigate = useNavigate();
 
     return (
       <div>
@@ -62,16 +148,7 @@ const DiaryCheck = () => {
 
             <div>
               <MyButton
-                onClick={() =>
-                  navigate("/diaryend", {
-                    state: {
-                      preview_URL: preview_URL,
-                      checkedList: checkedList,
-                      Emotion: Emotion,
-                      diary: content,
-                    },
-                  })
-                }
+                onClick={handleSubmit}
                 width={"200px"}
                 padding={"5px"}
                 margin={"30px 10px"}
@@ -122,7 +199,19 @@ const DiaryCheck = () => {
               {/* 문법 체크 결과 */}
               <div>
                 <div className="diary-header">수정할 내용</div>
-                <div className="checked">{diary}</div>
+                <div className="checked">
+                  {Object.keys(checked).length === 0 ? (
+                    <span>고칠 내용이 없어요</span>
+                  ) : (
+                    <div>
+                    {Object.entries(checked).map((item, index) => (
+                      <div key={index}>
+                        {item[0]} -&gt; {item[1]}
+                      </div>
+                    ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -131,8 +220,9 @@ const DiaryCheck = () => {
             <Button
               variant="outlined"
               color="primary"
+              onClick={() => {spellCheck(content)}}
             >
-              다시 검사 해 보기
+              검사 하기
             </Button>
 
             <Button variant="outlined" color="primary">
