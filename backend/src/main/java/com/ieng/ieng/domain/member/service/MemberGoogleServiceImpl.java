@@ -9,11 +9,13 @@ import com.ieng.ieng.domain.member.dto.MemberGoogleRequestDto;
 import com.ieng.ieng.domain.member.dto.MemberResponseDto;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
+import com.ieng.ieng.global.exception.DuplicateNicknameException;
 import com.ieng.ieng.global.exception.NoGoogleAuthorizeException;
 import com.ieng.ieng.global.jwt.JwtService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -62,6 +64,8 @@ public class MemberGoogleServiceImpl implements MemberGoogleService{
         }
         catch (GeneralSecurityException | IOException e){
             return null;
+        }catch (DataIntegrityViolationException e){
+            throw new DuplicateNicknameException("닉네임 중복");
         }
     }
 }
