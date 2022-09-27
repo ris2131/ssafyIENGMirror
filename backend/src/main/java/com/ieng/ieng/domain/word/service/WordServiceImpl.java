@@ -2,7 +2,6 @@ package com.ieng.ieng.domain.word.service;
 
 import com.ieng.ieng.domain.history.entity.WordHistory;
 import com.ieng.ieng.domain.history.repository.WordHistoryRepository;
-import com.ieng.ieng.domain.login.controller.LoginController;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.domain.word.dto.WordGetResponseDto;
