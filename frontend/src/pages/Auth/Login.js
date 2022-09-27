@@ -5,9 +5,9 @@ import { mobileback } from "../../assets/BackgroundImg";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GoogleLogin from "../OauthLogin/GoogleLogin";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/AuthSlice";
+import GoogleTest from "../OauthLogin/GoogleTest";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
@@ -144,7 +144,7 @@ const Login = () => {
         </InputDiv>
         <SButton onClick={handleSubmit}>로그인</SButton>
         <IconDiv2>
-          <GoogleLogin text="로그인" />
+          <GoogleTest text="로그인" />
         </IconDiv2>
         <FooterDiv>
           <StyledP onClick={() => navigate("/forgotpassword")}>
