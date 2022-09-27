@@ -53,7 +53,6 @@ const NavBar = () => {
         <StyledImage src={logoImage} alt="#" onClick={() => navigate("/")} />
       </div>
       <HamBar>
-        {/* <GiHamburgerMenu /> */}
         <Avatar onClick={handleClick}>H</Avatar>
       </HamBar>
       <Menu
@@ -65,9 +64,11 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={() => navigate("/profileedit")}>
+          회원정보 수정
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
       </Menu>
     </NavDiv>
   );
