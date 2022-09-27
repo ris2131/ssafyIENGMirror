@@ -4,7 +4,6 @@ import { setRefreshToken } from "../shared/Cookie";
 
 const initialState = {
   isLoggedIn: false,
-  googleLogin: true,
 };
 
 export const signup = createAsyncThunk(
@@ -38,6 +37,22 @@ export const googleLogin = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await authApi.googlelogin(data);
+      if (res.headers.authorization) {
+        localStorage.setItem("token", res.headers.authorization);
+      }
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
+export const googleNickname = createAsyncThunk(
+  "AuthSlice/googleNickname",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await authApi.googlesignup(data);
+      localStorage.setItem("token", res.headers.authorization);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);
@@ -58,7 +73,12 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
     },
     [googleLogin.fulfilled]: (state, action) => {
-      state.googleLogin = action.data;
+      if (action.payload.data) {
+        state.isLoggedIn = true;
+      }
+    },
+    [googleNickname.fulfilled]: (state) => {
+      state.isLoggedIn = true;
     },
   },
 });

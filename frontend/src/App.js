@@ -27,6 +27,7 @@ import Quiz from "./pages/education/Quiz";
 
 // NotFound
 import NotFound from "./pages/error/NotFound";
+import DiaryTest from "./pages/OauthLogin/DiaryTest";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/dtest" element={<DiaryTest />} />
         </Routes>
       </div>
     </>
