@@ -6,6 +6,9 @@ import styled from "styled-components";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
+import { removeRefreshToken } from "../shared/Cookie";
+import { useDispatch } from "react-redux";
+import { authActions } from "../redux/AuthSlice";
 
 const NavDiv = styled.div`
   display: flex;
@@ -28,6 +31,7 @@ const HamBar = styled.div`
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -35,6 +39,12 @@ const NavBar = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.setItem("token", "");
+    removeRefreshToken();
+    dispatch(authActions.logout());
   };
 
   return (
@@ -57,7 +67,7 @@ const NavBar = () => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </NavDiv>
   );
