@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { backgroundImg } from "../../assets/BackgroundImg";
 import styled from "styled-components";
 import NavBar from "../../components/NavBar";
 import AuthEdit from "./AuthEdit";
 import PasswordEdit from "./PasswordEdit";
+import { authApi } from "../../shared/authApi";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -40,28 +41,21 @@ const TitleText = styled.h1`
   cursor: pointer;
 `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 20px;
-`;
-
-const SButton = styled.button`
-  border-radius: 15px;
-  color: white;
-  border: none;
-  background-color: ${(props) => props.color};
-  padding: 10px;
-  cursor: pointer;
-  margin: 5px;
-`;
-
 const ProfileEdit = () => {
   const [status, setStatus] = useState(1);
+  const [originData, setOriginData] = useState("");
 
   const colorSelect = (v) => {
     return status === v ? "black" : "#bdbdbd";
   };
+
+  const getUser = useCallback(() => {
+    authApi.getuser().then((res) => setOriginData(() => res.data.data));
+  }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
 
   return (
     <Container>
@@ -76,11 +70,11 @@ const ProfileEdit = () => {
               비밀번호 변경
             </TitleText>
           </TitleDiv>
-          {status === 1 ? <AuthEdit /> : <PasswordEdit />}
-          <ButtonDiv>
-            <SButton color="#42a5f5">수정</SButton>
-            <SButton color="#bdbdbd">취소</SButton>
-          </ButtonDiv>
+          {status === 1 ? (
+            <AuthEdit originData={originData} />
+          ) : (
+            <PasswordEdit />
+          )}
         </EditWrapper>
       </Box>
     </Container>

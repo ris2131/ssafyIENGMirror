@@ -168,7 +168,7 @@ const Mode = ({ title, image, description }) => {
           }
         >
           <ModeImg
-            src={process.env.PUBLIC_URL + `/assets/${engTitle}.jpg`}
+            src={process.env.PUBLIC_URL + `/assets/${engTitle}.jpg` || ""}
             alt="#"
             onClick={handleOpen}
           ></ModeImg>

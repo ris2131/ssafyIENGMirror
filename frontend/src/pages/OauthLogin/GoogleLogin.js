@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import useScript from "./useScript";
 
-const GoogleLogin = ({ onGoogleSignIn = () => {} }) => {
+const GoogleLogin = ({ onGoogleSignIn }) => {
   const googleSignInButton = useRef(null);
 
   useScript("https://accounts.google.com/gsi/client", () => {
