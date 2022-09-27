@@ -1,6 +1,10 @@
 import { TextField } from "@mui/material";
 import { googleback } from "../../assets/BackgroundImg";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { googleNickname } from "../../redux/AuthSlice";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   background-image: url(${googleback});
@@ -47,21 +51,53 @@ const MyButton = styled.button`
   margin-top: 40px;
   width: 60px;
   font-size: 14px;
+  cursor: pointer;
 `;
 
 const GoogleIntro = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const [nickname, setNickname] = useState("");
+  const [birth, setBirth] = useState("");
+  const handleSubmit = () => {
+    const data = {
+      ...location.state,
+      provider: "google",
+      nickname,
+      birth_YMD: birth,
+    };
+    dispatch(googleNickname(data))
+      .unwrap()
+      .then(() => navigate("/"))
+      .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    isLoggedIn && navigate("/");
+  }, [isLoggedIn, navigate]);
   return (
     <Container>
       <Wrapper>
         <Post />
         <h1>추가정보입력</h1>
         <InputBox>
-          <TextField label="닉네임" variant="standard" />
+          <TextField
+            label="닉네임"
+            variant="standard"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
         </InputBox>
         <InputBox>
-          <TextField label="생년월일(YYYY-MM-DD)" variant="standard" />
+          <TextField
+            label="생년월일(YYYY-MM-DD)"
+            variant="standard"
+            value={birth}
+            onChange={(e) => setBirth(e.target.value)}
+          />
         </InputBox>
-        <MyButton>전송</MyButton>
+        <MyButton onClick={handleSubmit}>전송</MyButton>
       </Wrapper>
     </Container>
   );
