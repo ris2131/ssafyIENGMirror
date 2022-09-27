@@ -11,7 +11,7 @@ import { Toast } from "../../assets/Toast";
 
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { signup } from "../../redux/AuthSlice";
+import { emailAuth, signup } from "../../redux/AuthSlice";
 import { useDispatch } from "react-redux";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
@@ -244,8 +244,6 @@ const SignUp = () => {
       birth_YMD: birth,
     };
 
-    console.log(data);
-
     dispatch(signup(data))
       .unwrap()
       .then((res) => console.log(res))
@@ -259,6 +257,11 @@ const SignUp = () => {
 
     // formData.append("data", blob);
     // formData.append("profile", profile);
+  };
+  const handleEmail = () => {
+    dispatch(emailAuth(email))
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   };
 
   // useEffect(() => (page === 2 ? nicknameRef.current.focus() : null), [page]);
@@ -281,7 +284,7 @@ const SignUp = () => {
             />
           </InputDiv>
           <InputDiv>
-            <SButton>인증번호 보내기</SButton>
+            <SButton onClick={handleEmail}>인증번호 보내기</SButton>
             <TextField
               fullWidth
               label="인증번호 입력"

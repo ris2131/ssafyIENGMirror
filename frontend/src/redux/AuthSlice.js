@@ -60,6 +60,18 @@ export const googleNickname = createAsyncThunk(
   }
 );
 
+export const emailAuth = createAsyncThunk(
+  "AuthSlice/emailcehck",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await authApi.emailauth(email);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
