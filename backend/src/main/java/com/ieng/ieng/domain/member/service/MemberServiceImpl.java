@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원가입
     @Override
-    public MemberResponseDto createMember(MemberRequestDto memberRequestDto, String refreshToken){
+    public MemberResponseDto createMember(MemberRequestDto memberRequestDto, String refreshToken) throws DataIntegrityViolationException{
         try {
             memberRequestDto.updateRefreshToken(refreshToken);
             Member member = memberRepository.save(memberRequestDto.toEntity());
