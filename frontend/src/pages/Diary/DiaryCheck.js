@@ -12,7 +12,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "../../components/MyButton";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -94,15 +93,9 @@ const DiaryCheck = () => {
     }
 
     try{  
-      const test = await diaryApi.getdiary("2022-09-27")
-
-      console.log(test)
-
       const res = await diaryApi.postdiary(data);
 
-      console.log(res)
-
-      if (res.message === "SUCCESS") {
+      if (res.data.status === "SUCCESS") {
         window.alert("등록이 완료되었습니다.");
         
         navigate("/diaryend", {
