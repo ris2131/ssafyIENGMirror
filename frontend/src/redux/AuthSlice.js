@@ -79,6 +79,9 @@ const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
     },
+    reload(state) {
+      state.isLoggedIn = true;
+    },
   },
   extraReducers: {
     [login.fulfilled]: (state) => {
