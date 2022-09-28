@@ -20,7 +20,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/api/members/sign-up")
                 .excludePathPatterns("/api/login")
                 .excludePathPatterns("/api/google-login")
+                .excludePathPatterns("/api/members/email/**")
                 .excludePathPatterns("/api/members/google-sign-up");
+
 
     }
 }
