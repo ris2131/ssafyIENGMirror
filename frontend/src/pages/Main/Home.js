@@ -4,9 +4,9 @@ import NavBar from "../../components/NavBar";
 import Mode from "./components/Mode";
 import { backgroundImg } from "./../../assets/BackgroundImg";
 import { modeList } from "./ModeList";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect } from "react";
 
 const Container = styled.div`
   @media screen and (min-width: 821px) {
@@ -35,12 +35,20 @@ const ModeWrapper = styled.div`
 `;
 
 const Home = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
 
+  const reload = useCallback(() => {
+    const token = localStorage.getItem("token");
+    // 원래는 유효성검사해야함
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   useEffect(() => {
-    !isLoggedIn && navigate("/login");
-  }, [isLoggedIn, navigate]);
+    reload();
+    console.log("hi");
+  }, [reload]);
 
   return (
     <Container>
@@ -50,7 +58,13 @@ const Home = () => {
       </TitleDiv>
       <ModeWrapper>
         {modeList.map((it, idx) => (
-          <Mode key={idx} title={it.title} description={it.description} />
+          <Mode
+            key={idx}
+            title={it.title}
+            description={it.description}
+            image={it.image}
+            back={it.back}
+          />
         ))}
       </ModeWrapper>
     </Container>
