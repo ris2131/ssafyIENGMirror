@@ -1,6 +1,7 @@
 package com.ieng.ieng.domain.member.controller;
 
 import com.ieng.ieng.domain.member.dto.*;
+import com.ieng.ieng.domain.member.service.EmailService;
 import com.ieng.ieng.domain.member.service.MemberService;
 import com.ieng.ieng.global.jwt.JwtService;
 import com.ieng.ieng.global.response.CommonResponse;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 public class MemberController {
     private final MemberService memberService;
     private final JwtService jwtService;
+
+    private final EmailService emailService;
     final static Logger logger = LogManager.getLogger(MemberController.class);
     @GetMapping()
     public ResponseEntity<?> getMember(HttpServletRequest request){
@@ -66,4 +69,25 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("회원탈퇴 완료되었습니다.", null));
     }
+
+    @PostMapping("/email/check")
+    public ResponseEntity<?> checkEmail(@RequestBody MemberEmailRequestDto memberEmailRequestDto){
+        logger.debug(memberEmailRequestDto.getEmail());
+        Boolean chk = emailService.checkEmail(memberEmailRequestDto.getEmail());
+        logger.debug("chk:{}" , chk);
+        if (chk==false){
+            return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("사용가능한 이메일입니다.",!chk));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createError("이미 존재하는 이메일 입니다."));
+    }
+
+    @PostMapping("/email/send")
+    public ResponseEntity<?> sendEmail(@RequestBody MemberEmailRequestDto memberEmailRequestDto) throws Exception {
+        String code = emailService.sendSimpleMessage(memberEmailRequestDto.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("이메일 전송이 완료 되었습니다.", code));
+    }
+
+
+
+
 }
