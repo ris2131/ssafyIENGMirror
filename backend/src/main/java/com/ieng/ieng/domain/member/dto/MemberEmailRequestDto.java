@@ -8,4 +8,7 @@ import lombok.Getter;
 public class MemberEmailRequestDto {
     @JsonProperty("email")
     private String email;
+
+    @JsonProperty("certification_number")
+    private String certificationNumber;
 }

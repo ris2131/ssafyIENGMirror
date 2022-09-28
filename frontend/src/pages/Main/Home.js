@@ -3,6 +3,10 @@ import NavBar from "../../components/NavBar";
 // import Login from "../Auth/Login";
 import Mode from "./components/Mode";
 import { backgroundImg } from "./../../assets/BackgroundImg";
+import { modeList } from "./ModeList";
+
+import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect } from "react";
 
 const Container = styled.div`
   @media screen and (min-width: 821px) {
@@ -30,30 +34,20 @@ const ModeWrapper = styled.div`
   align-items: center;
 `;
 
-const modeList = [
-  {
-    title: "단어",
-    description:
-      "3개의 단어 카드를 스피커 버튼으로 들은 후 말하기 버튼을 눌러 직접 발음하여 학습해보아요.",
-  },
-  {
-    title: "문장",
-    description:
-      "3개의 문장 카드를 스피커 버튼으로 들은 후 말하기 버튼을 눌러 직접 발음하여 학습해보아요",
-  },
-  {
-    title: "영어일기",
-    description:
-      "오늘 있었던 일을 한 장의 사진으로 남기고 사진과 관련된 간단한 단어를 추천받아 일기를 작성해 보아요.",
-  },
-];
-
 const Home = () => {
-  // if(!isLoggedIn){
-  //   return <Login />
-  // }
+  const navigate = useNavigate();
 
-  //
+  const reload = useCallback(() => {
+    const token = localStorage.getItem("token");
+    // 원래는 유효성검사해야함
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
   return (
     <Container>
@@ -63,7 +57,13 @@ const Home = () => {
       </TitleDiv>
       <ModeWrapper>
         {modeList.map((it, idx) => (
-          <Mode key={idx} title={it.title} description={it.description} />
+          <Mode
+            key={idx}
+            title={it.title}
+            description={it.description}
+            image={it.image}
+            back={it.back}
+          />
         ))}
       </ModeWrapper>
     </Container>

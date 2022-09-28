@@ -6,6 +6,9 @@ import styled from "styled-components";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
+import { removeRefreshToken } from "../shared/Cookie";
+import { useDispatch } from "react-redux";
+import { authActions } from "../redux/AuthSlice";
 
 const NavDiv = styled.div`
   display: flex;
@@ -28,6 +31,7 @@ const HamBar = styled.div`
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -37,13 +41,18 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.setItem("token", "");
+    removeRefreshToken();
+    dispatch(authActions.logout());
+  };
+
   return (
     <NavDiv>
       <div>
         <StyledImage src={logoImage} alt="#" onClick={() => navigate("/")} />
       </div>
       <HamBar>
-        {/* <GiHamburgerMenu /> */}
         <Avatar onClick={handleClick}>H</Avatar>
       </HamBar>
       <Menu
@@ -55,9 +64,11 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={() => navigate("/profileedit")}>
+          회원정보 수정
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
       </Menu>
     </NavDiv>
   );

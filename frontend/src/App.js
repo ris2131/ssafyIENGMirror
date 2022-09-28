@@ -8,6 +8,7 @@ import Home from "./pages/Main/Home";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import GoogleIntro from "./pages/OauthLogin/GoogleIntro";
 
 // 일기 작성
 import DiaryStart from "./pages/Diary/DiaryStart";
@@ -23,7 +24,10 @@ import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 // 학습
 import Education from "./pages/education/Education";
 import Quiz from "./pages/education/Quiz";
-import GoogleTest from "./pages/OauthLogin/GoogleTest";
+
+// NotFound
+import NotFound from "./pages/error/NotFound";
+import DiaryTest from "./pages/OauthLogin/DiaryTest";
 
 function App() {
   return (
@@ -37,11 +41,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/googletest" element={<GoogleTest />} />
+          <Route path="/googleintro" element={<GoogleIntro />} />
 
           {/* 문장, 단어 */}
-          <Route path="/edu/:category" element={<Education />} />
-          <Route path="/edu/:category/quiz" element={<Quiz />} />
+          <Route path="/:category" element={<Education />} />
+          <Route path="/:category/quiz" element={<Quiz />} />
 
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />
@@ -53,6 +57,10 @@ function App() {
           {/* 회원 정보 */}
           <Route path="/mypage" element={<MypageMain />} />
           <Route path="/profileedit" element={<ProfileEdit />} />
+
+          {/* Not Found */}
+          <Route path="*" element={<NotFound />} />
+          <Route path="/dtest" element={<DiaryTest />} />
         </Routes>
       </div>
     </>

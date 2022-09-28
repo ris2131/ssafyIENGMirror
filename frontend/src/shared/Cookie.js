@@ -6,8 +6,6 @@ export const setRefreshToken = (refreshToken) => {
   return cookies.set("refresh_token", refreshToken, {
     sameSite: "strict",
     path: "/",
-    httpOnly: true,
-    secure: true,
   });
 };
 

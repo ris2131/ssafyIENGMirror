@@ -57,7 +57,7 @@ const Icon = styled.div`
   cursor: pointer;
 `;
 
-const EduFooter = ({ quiz, setSuccess, setFail }) => {
+const EduFooter = ({ quiz, word, setSuccess, setFail }) => {
   const [open, setOpen] = useState(false);
   // const [status, setStatus] = useState(false);
 
@@ -87,7 +87,6 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
   };
 
   useEffect(() => {
-    console.log(window.innerWidth > 99999);
     return () => {
       SpeechRecognition.stopListening();
     };
@@ -97,7 +96,7 @@ const EduFooter = ({ quiz, setSuccess, setFail }) => {
     <Container>
       {quiz ? null : (
         <IconDiv>
-          <BiVolumeFull onClick={() => textToSpeech("apple")} />
+          <BiVolumeFull onClick={() => textToSpeech(word)} />
           <TextP>듣기</TextP>
         </IconDiv>
       )}

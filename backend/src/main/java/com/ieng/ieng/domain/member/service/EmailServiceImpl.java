@@ -1,6 +1,7 @@
 package com.ieng.ieng.domain.member.service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -9,14 +10,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import com.ieng.ieng.domain.member.controller.MemberController;
-import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
-import com.ieng.ieng.domain.member.service.EmailService;
-import com.ieng.ieng.global.exception.NoExistMemberException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -31,11 +30,13 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender; // Bean 등록해둔 MailConfig 를 emailsender 라는 이름으로 autowired
 
+    private final StringRedisTemplate redisTemplate;
+
     private String ePw; // 인증번호
 
 
     // 메일 중복 체크
-    public Boolean checkEmail(String email){
+    public boolean checkEmail(String email){
         return memberRepository.existsByEmail(email);
     }
 
@@ -43,12 +44,12 @@ public class EmailServiceImpl implements EmailService {
     // 메일 내용 작성
 
 
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createMessage(String email) throws MessagingException, UnsupportedEncodingException {
 
 
         MimeMessage message = emailSender.createMimeMessage();
 
-        message.addRecipients(RecipientType.TO, to);// 보내는 대상
+        message.addRecipients(RecipientType.TO, email);// 보내는 대상
         message.setSubject("Ieng 회원가입 이메일 인증");// 제목
 
         String msgg = "";
@@ -104,12 +105,12 @@ public class EmailServiceImpl implements EmailService {
     // MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
     // 그리고 bean 으로 등록해둔 javaMail 객체를 사용해서 이메일 send!!
 
-    public String sendSimpleMessage(String to) throws Exception {
+    public void sendSimpleMessage(String email) throws Exception {
 
         ePw = createKey(); // 랜덤 인증번호 생성
 
 
-        MimeMessage message = createMessage(to); // 메일 발송
+        MimeMessage message = createMessage(email); // 메일 발송
         try {// 예외처리
             emailSender.send(message);
         } catch (MailException es) {
@@ -117,7 +118,30 @@ public class EmailServiceImpl implements EmailService {
             throw new IllegalArgumentException();
         }
 
+        setDataExpire(ePw, email, 60 * 5L);
 
-        return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+
     }
+    public String getData(String key) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        return valueOperations.get(key);
+    }
+
+    public void setData(String key, String value) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(key, value);
+    }
+
+// 유효 시간 동안 (key, value) 저장
+    public void setDataExpire(String key, String value, long duration) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        Duration expireDuration = Duration.ofSeconds(duration);
+        valueOperations.set(key, value, expireDuration);
+    }
+
+    public boolean confirmEmail(String email, String key){
+         if (getData(key)==null) return false;
+        else return true;
+    }
+
 }
