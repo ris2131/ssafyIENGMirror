@@ -7,6 +7,7 @@ import com.ieng.ieng.domain.member.service.MemberService;
 import com.ieng.ieng.global.exception.DuplicateNicknameException;
 import com.ieng.ieng.global.jwt.JwtService;
 import com.ieng.ieng.global.response.CommonResponse;
+import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,8 @@ public class MemberController {
     private final MemberGoogleService memberGoogleService;
     private final LoginService loginService;
     private final JwtService jwtService;
+    private final S3UploaderServiceImpl s3UploaderService;
+
     final static Logger logger = LogManager.getLogger(MemberController.class);
     @GetMapping()
     public ResponseEntity<?> getMember(HttpServletRequest request){
@@ -35,8 +39,8 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> createMember(@RequestBody MemberRequestDto memberRequestDto){
-        try{
+    public ResponseEntity<?> createMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data") MemberRequestDto memberRequestDto){
+        try {
             logger.debug("api/sign-up");
             String email = memberRequestDto.getEmail();
 
@@ -46,9 +50,10 @@ public class MemberController {
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
 
             MemberResponseDto memberResponseDto = memberService.createMember(memberRequestDto, refreshToken);
+            logger.debug("done : createMember");
+            memberService.uploadProfile(multipartFile , email);
             return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("회원가입이 완료되었습니다.", memberResponseDto));
-        }
-        catch(DuplicateNicknameException e){
+        } catch (DuplicateNicknameException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError("닉네임 중복 회원 가입 불가."));
         }
 
