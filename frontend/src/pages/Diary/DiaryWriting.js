@@ -74,7 +74,7 @@ const DiaryWriting = () => {
   const { preview_URL, checkedList } = location.state;
 
   // 오늘의 기분
-  const [Emotion, setEmotion] = useState("");
+  const [emotion, setEmotion] = useState("");
   const handleSelect = (e) => {
     setEmotion(e.target.value);
   };
@@ -152,7 +152,7 @@ const DiaryWriting = () => {
                       p: 2,
                       width: '2vw'
                     }}
-                    onChange={handleSelect} value={Emotion}
+                    onChange={handleSelect} value={emotion}
                   >
                     <Radio id={value} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
                     <img src={`image/${value}.png`} alt=""/>
@@ -201,7 +201,7 @@ const DiaryWriting = () => {
           </div>
 
           <div>
-            {Emotion === "" || content === "" ? (
+            {emotion === "" || content === "" ? (
               <Button
                 variant="outlined"
                 color="primary"
@@ -214,7 +214,7 @@ const DiaryWriting = () => {
                 color="primary"
                 onClick={() => {
                   wordCheck(); 
-                  navigate("/diarycheck", {state : { preview_URL : preview_URL, checkedList : CheckedWord, Emotion : Emotion, diary : content }})}}
+                  navigate("/diarycheck", {state : { preview_URL : preview_URL, checkedList : CheckedWord, emotion : emotion, diary : content }})}}
                 >
                 문법 체크
               </Button>
