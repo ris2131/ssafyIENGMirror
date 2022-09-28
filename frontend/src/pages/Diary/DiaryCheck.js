@@ -91,13 +91,12 @@ const DiaryCheck = () => {
       emotion,
       keywords,
     }
-
+    
     try{  
       const res = await diaryApi.postdiary(data);
 
       if (res.data.status === "SUCCESS") {
         window.alert("등록이 완료되었습니다.");
-        
         navigate("/diaryend", {
           state: {
             preview_URL: preview_URL,
@@ -107,12 +106,10 @@ const DiaryCheck = () => {
           },
         })
       }
-      
     } catch (e) {
       // 서버에서 받은 에러 메시지 출력
       console.log(e)
     }
-
   }, [navigate, content, emotion, checkedList, preview_URL]);
 
   // 단어 설명 모달창

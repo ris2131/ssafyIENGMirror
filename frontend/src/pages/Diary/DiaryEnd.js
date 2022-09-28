@@ -99,7 +99,7 @@ const DiaryEnd = () => {
               <img src={preview_URL} alt=""/>
             
               {/* 일기 */}
-              <div className="checked">
+              <div className="content">
                 {diary}
               </div>
             </div>

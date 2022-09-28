@@ -1,6 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
+import { authApi } from "../../shared/authApi";
 
 // css
 import "./Diary.scss";
@@ -93,6 +94,15 @@ const DiaryKeyword = () => {
     [checkedList]
   );
 
+  const [nickname, setNickname] = useState("");
+  const getUser = useCallback(() => {
+    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
+  }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
   return (
     <div className="background">
       <NavBar />
@@ -101,7 +111,7 @@ const DiaryKeyword = () => {
         <div className="diary-wrapper">
           {/* 머리글 */}
           <div className="diary-header">
-            00 님이 고르신 사진이네요
+            {nickname} 님이 고르신 사진이네요
             <br/>
             일기장에 쓸 단어를 골라볼까요?
           </div>
