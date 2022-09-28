@@ -2,9 +2,11 @@ import NavBar from "../../components/NavBar";
 
 import styled from "styled-components";
 import EduContent from "./components/EduContent";
-import EduFooter from "./components/EduFooter";
 
+import { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getdata } from "../../redux/EduSlice";
 
 const Container = styled.div`
   display: flex;
@@ -14,24 +16,31 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const TitleDiv = styled.div`
-  text-align: center;
-  font-size: 40px;
-  font-weight: bold;
-`;
-
 const Education = () => {
+  const dispatch = useDispatch();
   const { category } = useParams();
+
+  const [originData, setOriginData] = useState();
+
+  const getInit = useCallback(() => {
+    dispatch(getdata(category))
+      .unwrap()
+      .then((res) => {
+        category === "word"
+          ? setOriginData(res.data?.wordSet)
+          : setOriginData(res.data?.sentenceSet);
+      });
+  }, [dispatch, category]);
+
+  useEffect(() => {
+    getInit();
+  }, [getInit]);
 
   return (
     <>
       <Container back={category === "word" ? "#fef3ed" : "#FFFAC6"}>
         <NavBar />
-        <TitleDiv>
-          <p>APPLE</p>
-        </TitleDiv>
-        <EduContent category={category} />
-        <EduFooter quiz={false} />
+        <EduContent category={category} originData={originData} />
       </Container>
     </>
   );

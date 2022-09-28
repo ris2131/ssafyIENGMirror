@@ -47,7 +47,6 @@ const Home = () => {
 
   useEffect(() => {
     reload();
-    console.log("hi");
   }, [reload]);
 
   return (

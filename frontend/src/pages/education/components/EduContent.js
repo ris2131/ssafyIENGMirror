@@ -5,13 +5,20 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { eduActions } from "./../../../redux/EduSlice";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import EduFooter from "./EduFooter";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+`;
+
+const TitleDiv = styled.div`
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
 `;
 
 const ContentDiv = styled.div`
@@ -33,20 +40,22 @@ const StyledImg = styled.img`
 const url = process.env.PUBLIC_URL;
 
 // 여기서 image, 받아와야겠지?
-const EduContent = ({ category }) => {
+const EduContent = ({ category, originData }) => {
   const wordCurrent = useSelector((state) => state.edu.word);
-  // const sentenceCurrent = useSelector((state) => state.edu.sentence);
+  const sentenceCurrent = useSelector((state) => state.edu.sentence);
 
   const [quiz, setQuiz] = useState(false);
+  const [word, setWord] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleNext = () => {
-    if (wordCurrent < 3) {
+    if (category === "word" ? wordCurrent < 3 : sentenceCurrent < 3) {
       dispatch(eduActions.goNext(category));
     }
 
-    if (wordCurrent === 3) {
+    if (category === "word" ? wordCurrent === 3 : sentenceCurrent === 3) {
       Swal.fire({
         title: `학습이 다 끝났어요`,
         text: "퀴즈 풀러갈까요?",
@@ -61,41 +70,59 @@ const EduContent = ({ category }) => {
         // reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate(`/edu/${category}/quiz`);
+          navigate(`/${category}/quiz`);
         } else setQuiz(false);
       });
     }
   };
 
   const handlePrev = () => {
-    if (wordCurrent > 1) {
+    if (category === "word" ? wordCurrent > 1 : sentenceCurrent > 1) {
       dispatch(eduActions.goPrev(category));
     }
   };
+
+  const setInit = useCallback(() => {
+    if (originData !== undefined) {
+      category === "word"
+        ? setWord(originData[wordCurrent - 1].word)
+        : setWord(originData[sentenceCurrent - 1].sentence);
+    }
+  }, [originData, wordCurrent, sentenceCurrent, category]);
+
+  useEffect(() => {
+    setInit();
+  }, [setInit]);
+
   return (
-    <Container>
-      {quiz ? null : (
-        <>
-          <ContentDiv>
-            <ArrowDiv>
-              <AiOutlineLeft onClick={handlePrev} />
-            </ArrowDiv>
-            <StyledImg
-              src={
-                category === "word"
-                  ? url + `/assets/단어.jpg`
-                  : url + `/assets/문장.jpg`
-              }
-              alt="#"
-            ></StyledImg>
-            <ArrowDiv>
-              <AiOutlineRight onClick={handleNext} />
-            </ArrowDiv>
-          </ContentDiv>
-          <div>{wordCurrent}/3</div>
-        </>
-      )}
-    </Container>
+    <>
+      <TitleDiv>{originData && word}</TitleDiv>
+
+      <Container>
+        {quiz ? null : (
+          <>
+            <ContentDiv>
+              <ArrowDiv>
+                <AiOutlineLeft onClick={handlePrev} />
+              </ArrowDiv>
+              <StyledImg
+                src={
+                  category === "word"
+                    ? url + `/assets/word.jpg`
+                    : url + `/assets/sentence.jpg`
+                }
+                alt="#"
+              ></StyledImg>
+              <ArrowDiv>
+                <AiOutlineRight onClick={handleNext} />
+              </ArrowDiv>
+            </ContentDiv>
+            <div>{category === "word" ? wordCurrent : sentenceCurrent}/3</div>
+            <EduFooter quiz={false} word={word} />
+          </>
+        )}
+      </Container>
+    </>
   );
 };
 

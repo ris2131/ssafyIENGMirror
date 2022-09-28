@@ -44,8 +44,8 @@ function App() {
           <Route path="/googleintro" element={<GoogleIntro />} />
 
           {/* 문장, 단어 */}
-          <Route path="/edu/:category" element={<Education />} />
-          <Route path="/edu/:category/quiz" element={<Quiz />} />
+          <Route path="/:category" element={<Education />} />
+          <Route path="/:category/quiz" element={<Quiz />} />
 
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />
