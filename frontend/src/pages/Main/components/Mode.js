@@ -105,8 +105,8 @@ const DetailModal = ({ open, handleClose, title }) => {
     if (t === "영어일기") {
       navigate("/diarystart");
     } else if (t === "단어") {
-      navigate("/edu/word");
-    } else navigate("/edu/sentence");
+      navigate("/word");
+    } else navigate("/sentence");
   };
   return (
     <div>
