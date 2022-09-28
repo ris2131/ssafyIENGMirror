@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,6 +34,12 @@ public class DiaryServiceImpl implements DiaryService{
     public DiaryGetResponseDto diaryDetail(String email, String date){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
+        List<DiaryKeyword> diaryKeywordList = diaryKeywordRepository.findByDiary_DiarySequence(diary.getDiarySequence());
+        List<String> diaryKeywords = new ArrayList<>();
+        for(DiaryKeyword diaryKeyword :diaryKeywordList){
+            diaryKeywords.add(diaryKeyword.getDiaryKeyword());
+        }
+
         DiaryGetResponseDto diaryGetResponseDto  = DiaryGetResponseDto.builder()
                 .diarySequence(diary.getDiarySequence())
                 .memberSequence(member.getMemberSequence())
@@ -40,6 +47,7 @@ public class DiaryServiceImpl implements DiaryService{
                 .diaryContent(diary.getDiaryContent())
                 .diaryEmotion(diary.getDiaryEmotion())
                 .diaryDTTM(diary.getDiaryDTTM())
+                .diaryKeywordList(diaryKeywords)
                 .build();
         return diaryGetResponseDto;
     }
