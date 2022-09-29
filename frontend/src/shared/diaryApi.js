@@ -8,7 +8,7 @@ export const diaryApi = {
   postdiary: (data) => axios.post("api/diaries", data),
 
   // 일기 삭제
-  deletediary: () => axios.delete("api/diaries"),
+  deletediary: (data) => axios.delete("api/diaries", data),
 
   // 사진분석 - 키워드 추출
   postkeyword: (data) => axios.post("ai-api/diaries/keywords", data),

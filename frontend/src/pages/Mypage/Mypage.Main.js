@@ -10,6 +10,26 @@ import "./Mypage.scss";
 import { Button } from "@mui/material";
 import Calendar from 'react-calendar';
 import './Calendar.css';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import MyButton from "../../components/MyButton";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "background.paper",
+  border: "2px solid #ececec",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
 
 const MypageMain= () => {
   const navigate = useNavigate();
@@ -76,7 +96,7 @@ const MypageMain= () => {
       }
     } catch (e) {
       // 데이터가 없어 조회 실패시 빈값 세팅
-      setDiaryContent("이날은 작성한 일기가 없어요.");
+      setDiaryContent("");
       setDiaryEmotion("");
       // setDiaryKeywordList([]);
       setToday(dateToStr(date))
@@ -114,6 +134,39 @@ const MypageMain= () => {
     }
   }, [date]);
 
+  // 일기 삭제하기
+  const handleDeleteDiary = useCallback(async () => {
+    let temp = date.getMonth()+1;
+
+    let month = temp;
+
+    if (temp < 10) {
+      month = `0${temp}`;
+    }
+
+    const data = {
+      data : {
+        date : `${date.getFullYear()}-${month}-${date.getDate()}`
+      }
+    }
+
+    console.log(data)
+
+    try{  
+      const res = await diaryApi.deletediary(data);
+
+      console.log(res)
+
+      if (res.data.status === "SUCCESS") {
+        setDiaryContent("");
+        setDiaryEmotion("");
+        // setDiaryKeywordList([]);
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }, [date]);
+
   useEffect(() => {
     setToday(dateToStr(date))
 
@@ -124,6 +177,56 @@ const MypageMain= () => {
       handleChangeDiary();
     }
   },[date, selectedButton, handleChangeStudy, handleChangeDiary])
+
+  const title = "삭제 확인";
+  const description = "소중한 추억이 담긴 일기를 삭제하면 되돌릴 수 없어요! 정말로 삭제하시겠나요?";
+
+  // 일기 삭제 모달
+  const BasicModal = ({ title, description }) => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    return (
+      <div>
+        <div onClick={handleOpen}>삭제하기</div>
+
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {title}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {description}
+            </Typography>
+
+            <div>
+              <MyButton
+                onClick={handleDeleteDiary}
+                width={"200px"}
+                padding={"5px"}
+                margin={"30px 10px"}
+                text={"네 삭제할게요!"}
+              />
+
+              <MyButton
+                onClick={handleClose}
+                width={"200px"}
+                padding={"5px"}
+                margin={"30px 10px"}
+                text={"좀 더 생각 해 볼게요!"}
+              />
+            </div>
+          </Box>
+        </Modal>
+      </div>
+    );
+  };
  
   return (
     <div className='background'>
@@ -196,60 +299,87 @@ const MypageMain= () => {
                     {/* 단어 */}
                     학습한 단어
                     <div className='word'>
-                      <div>맞춘 단어</div>
-                      <div className='box'>
-                      {correctWordList.map((item, index) => (
-                        <div key={index}>{item}</div> 
-                      ))}
-                      </div>
-                      
-                      <div>틀린 단어</div>
-                      <div className='box'>
-                      {incorrectWordList.map((item, index) => (
-                        <div key={index}>{item}</div> 
-                      ))}
-                      </div>
+                      {correctWordList && incorrectWordList ? (
+                        <div className='box'>학습한 단어가 없어요!</div>
+                      ) : (
+                        <div>
+                          <div>맞춘 단어</div>
+                          <div className='box'>
+                          {correctWordList.map((item, index) => (
+                            <div key={index}>{item}</div> 
+                          ))}
+                          </div>
+                          
+                          <div>틀린 단어</div>
+                          <div className='box'>
+                          {incorrectWordList.map((item, index) => (
+                            <div key={index}>{item}</div> 
+                          ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* 문장 */}
                     학습한 문장
                     <div className='sentence'>
-                      <div>맞춘 문장</div>
-                      <div className='box'>
-                      {correctSentenceList.map((item, index) => (
-                        <div key={index}>{item}</div> 
-                      ))}
-                      </div>
+                      {correctWordList && incorrectWordList ? (
+                          <div className='box'>학습한 문장이 없어요!</div>
+                        ) : (
+                        <div>
+                          <div>맞춘 문장</div>
+                          <div className='box'>
+                          {correctSentenceList.map((item, index) => (
+                            <div key={index}>{item}</div> 
+                          ))}
+                          </div>
 
-                      <div>틀린 문장</div>
-                      <div className='box'>
-                      {incorrectSentenceList.map((item, index) => (
-                        <div key={index}>{item}</div> 
-                      ))}
-                      </div>
+                          <div>틀린 문장</div>
+                          <div className='box'>
+                          {incorrectSentenceList.map((item, index) => (
+                            <div key={index}>{item}</div> 
+                          ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   ) : (
 
                   <div className='diary'>
-                    <div className='emotion'>{diaryEmotion}</div>
-                    <div className='img-content'>
-                      {/* 사진 */}
-                      <img src="image/default_image.png" alt=""/>
+                    {diaryEmotion ? (
+                      <div>
+                        <div className='button'>
+                        <Button variant="outlined" color="primary">
+                          <BasicModal title={title} description={description} />
+                        </Button>
+                        </div>
 
-                      {/* 일기 */}
-                      <div className='content'> {diaryContent} </div>
-                    </div>
-                    
-                    {/* 단어 */}
-                    <div className='word'>
-                      {/* <div>
-                        {diaryKeywordList.map((item, index) => (
-                          <div key={index}>{item}</div> 
-                        ))}
-                      </div> */}
-                    </div>
+                        <div className='emotion'>
+                          <img src={`image/${diaryEmotion}.png`} alt=""/>
+                          <div>{diaryEmotion}</div>
+                        </div>
+                        <div className='img-content'>
+                          {/* 사진 */}
+                          <img src="image/default_image.png" alt=""/>
+    
+                          {/* 일기 */}
+                          <div className='content'> {diaryContent} </div>
+                        </div>
+                        
+                        {/* 단어 */}
+                        <div className='word'>
+                          {/* <div>
+                            {diaryKeywordList.map((item, index) => (
+                              <div key={index}>{item}</div> 
+                            ))}
+                          </div> */}
+                        </div>
+                      </div>
+                    ):(
+                      <div>작성한 일기가 없어요!</div>
+                    )}
                   </div>    
                 )}
               </div>

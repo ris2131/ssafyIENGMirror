@@ -150,6 +150,15 @@
           justify-content: center;
           align-items: center;
 
+          .button {
+            display: flex;
+            justify-content: flex-end;
+
+            Button {
+              border-radius: 20px;
+            }
+          }
+
           .img-content {
             display: flex;
             flex-direction: row;
@@ -169,7 +178,7 @@
               font-size: 1rem;
               text-align: start;
 
-              width: 20vw;
+              width: 18vw;
             }
           }
           
@@ -182,6 +191,12 @@
             width: 42vw;
 
             margin: 10px;
+          }
+
+          .emotion{
+            img {
+              width: 5vw;
+            }
           }
         }
       }
@@ -261,7 +276,7 @@
               }
 
               .content{
-                width: 70vw;
+                width: 67vw;
                 height: 50vh;
               }
             }

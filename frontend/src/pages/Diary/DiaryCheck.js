@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
@@ -76,6 +76,11 @@ const DiaryCheck = () => {
    setChecked(wrongWordList)
   }
 
+  useEffect(() => {
+    spellCheck(diary);
+
+  },[diary])
+
   // 일기 제출하기
   const handleSubmit = useCallback(async () => {
     const keywords = []
@@ -112,7 +117,7 @@ const DiaryCheck = () => {
     }
   }, [navigate, content, emotion, checkedList, preview_URL]);
 
-  // 단어 설명 모달창
+  // 제출 모달창
   const BasicModal = ({ title, description }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
