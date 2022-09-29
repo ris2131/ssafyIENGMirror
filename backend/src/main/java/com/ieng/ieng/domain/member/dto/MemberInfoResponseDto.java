@@ -6,6 +6,7 @@ import com.ieng.ieng.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,5 +29,8 @@ public class MemberInfoResponseDto {
         this.memberYMD=entity.getMemberYMD();
         this.provider=entity.getProvider();
         this.picturePath= entity.getPicturePath();
+    }
+    public void updatePicturePath(String picturePath){
+        this.picturePath= picturePath;
     }
 }
