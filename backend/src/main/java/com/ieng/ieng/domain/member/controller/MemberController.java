@@ -58,15 +58,17 @@ public class MemberController {
 
     }
     @PostMapping("google-sign-up")
-    public ResponseEntity<?> createGoogleMember(@RequestBody MemberGoogleRequestDto memberGoogleRequestDto){
+    public ResponseEntity<?> createGoogleMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data")  MemberGoogleRequestDto memberGoogleRequestDto){
         try {
             logger.debug("api/google-sign-up");
 
             String refreshToken = jwtService.createRefreshToken();
             MemberResponseDto memberResponseDto = memberGoogleService.signUpOauthGoogle(memberGoogleRequestDto, refreshToken);
             String email = memberResponseDto.getEmail();
-            String accessToken = jwtService.createAccessToken(email);
 
+            memberService.uploadProfile(multipartFile , email);
+
+            String accessToken = jwtService.createAccessToken(email);
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
 
             return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
