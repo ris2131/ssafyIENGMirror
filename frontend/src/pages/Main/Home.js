@@ -6,7 +6,8 @@ import { backgroundImg } from "./../../assets/BackgroundImg";
 import { modeList } from "./ModeList";
 
 import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   @media screen and (min-width: 821px) {
@@ -36,18 +37,13 @@ const ModeWrapper = styled.div`
 
 const Home = () => {
   const navigate = useNavigate();
-
-  const reload = useCallback(() => {
-    const token = localStorage.getItem("token");
-    // 원래는 유효성검사해야함
-    if (!token) {
-      navigate("/login");
-    }
-  }, [navigate]);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    reload();
-  }, [reload]);
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <Container>
