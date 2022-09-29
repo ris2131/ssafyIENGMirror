@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
+import { authApi } from "../../shared/authApi";
 
 // css
 import "./Diary.scss";
@@ -93,6 +94,15 @@ const DiaryWriting = () => {
     }
   }
 
+  const [nickname, setNickname] = useState("");
+  const getUser = useCallback(() => {
+    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
+  }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
   // 모달 임시 데이터
   const title = "단어"
   const description = "설명"
@@ -105,7 +115,7 @@ const DiaryWriting = () => {
         <div className="diary-wrapper">
           {/* 머리글 */}
           <div className="diary-header">
-            00 님의 특별한 일기를 작성 해 주세요!
+            {nickname} 님의 특별한 일기를 작성 해 주세요!
 
             {/* 감정 선택 */}
             <div className="emotion">

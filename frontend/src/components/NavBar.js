@@ -64,7 +64,9 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={() => navigate("/mypage")}>
+          My account
+        </MenuItem>
         <MenuItem onClick={() => navigate("/profileedit")}>
           회원정보 수정
         </MenuItem>
