@@ -1,21 +1,28 @@
 package com.ieng.ieng.domain.member.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.ieng.ieng.domain.member.dto.*;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
-import com.ieng.ieng.global.exception.DuplicateNicknameException;
-import com.ieng.ieng.global.exception.ExistNicknameException;
-import com.ieng.ieng.global.exception.NoExistMemberException;
-import com.ieng.ieng.global.exception.NoMatchCurPasswordException;
+import com.ieng.ieng.global.exception.*;
+import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
-
+    private final AmazonS3Client amazonS3Client;
+    private final S3UploaderServiceImpl s3UploaderService;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
+    final static Logger logger = LogManager.getLogger(MemberServiceImpl.class);
     // 회원정보 확인
     @Override
     public MemberInfoResponseDto getMemberInfo(String email) {
@@ -27,11 +34,10 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원가입
     @Override
-    public MemberResponseDto createMember(MemberRequestDto memberRequestDto, String refreshToken) throws DataIntegrityViolationException{
+    public MemberResponseDto createMember(MemberRequestDto memberRequestDto, String refreshToken) {
         try {
             memberRequestDto.updateRefreshToken(refreshToken);
             Member member = memberRepository.save(memberRequestDto.toEntity());
-
             MemberResponseDto memberResponseDto = new MemberResponseDto(member);
             return memberResponseDto;
         }catch(DataIntegrityViolationException e){
@@ -79,4 +85,23 @@ public class MemberServiceImpl implements MemberService{
         member.updateRefreshToken(refreshToken);
         memberRepository.save(member);
     }
+
+    @Override
+    public void uploadProfile(MultipartFile multipartFile, String email ){
+        if(multipartFile.isEmpty()){
+            throw new EmptyFileException("파일이 없습니다.");
+        }
+
+        int index = multipartFile.getOriginalFilename().indexOf(".");
+        String fileNameExtension = multipartFile.getOriginalFilename().substring(index);
+
+        String fileName= "user/"+email+"/profile"+"/profile"+fileNameExtension;
+
+        s3UploaderService.uploadPicture(multipartFile, fileName);
+
+        //return amazonS3Client.getUrl(bucketName, fileName).toString();
+        logger.debug("image url: {}",amazonS3Client.getUrl(bucketName, fileName).toString());
+        return;
+    }
+
 }

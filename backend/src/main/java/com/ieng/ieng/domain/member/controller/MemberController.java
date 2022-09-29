@@ -15,9 +15,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
 
 @RestController
 @RequestMapping("/api/members")
@@ -38,8 +38,8 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> createMember(@RequestBody MemberRequestDto memberRequestDto){
-        try{
+    public ResponseEntity<?> createMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data") MemberRequestDto memberRequestDto){
+        try {
             logger.debug("api/sign-up");
             String email = memberRequestDto.getEmail();
 
@@ -49,9 +49,10 @@ public class MemberController {
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
 
             MemberResponseDto memberResponseDto = memberService.createMember(memberRequestDto, refreshToken);
+            logger.debug("done : createMember");
+            memberService.uploadProfile(multipartFile , email);
             return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("회원가입이 완료되었습니다.", memberResponseDto));
-        }
-        catch(DuplicateNicknameException e){
+        } catch (DuplicateNicknameException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError("닉네임 중복 회원 가입 불가."));
         }
 
@@ -96,7 +97,6 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("회원탈퇴 완료되었습니다.", null));
     }
-
     @PostMapping("/email/check")
     public ResponseEntity<?> checkEmail(@RequestBody MemberEmailRequestDto memberEmailRequestDto){
         logger.debug(memberEmailRequestDto.getEmail());
@@ -107,7 +107,6 @@ public class MemberController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createError("이미 존재하는 이메일 입니다."));
     }
-
     @PostMapping("/email/send")
     public ResponseEntity<?> sendEmail(@RequestBody MemberEmailRequestDto memberEmailRequestDto) throws Exception {
         emailService.sendSimpleMessage(memberEmailRequestDto.getEmail());
@@ -122,8 +121,5 @@ public class MemberController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createError("이메일 인증이 실패 되었습니다."));
     }
-
-
-
 
 }
