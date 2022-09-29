@@ -77,10 +77,15 @@ public class MemberController {
         }
     }
     @PutMapping("/info")
-    public ResponseEntity<?> updateMemberInfo(HttpServletRequest request, @RequestBody MemberUpdateInfoRequestDto memberUpdateRequestDto){
+    public ResponseEntity<?> updateMemberInfo(HttpServletRequest request, @RequestPart(value = "profile_image", required = false) MultipartFile multipartFile ,@RequestPart(value = "data") MemberUpdateInfoRequestDto memberUpdateRequestDto){
         String email = (String) request.getAttribute("email");
         logger.debug("email:{}" , email);
         MemberResponseDto memberResponseDto = memberService.updateMemberInfo(email, memberUpdateRequestDto);
+
+        logger.debug("profile_image is empty: {}",multipartFile.isEmpty());
+        if(!multipartFile.isEmpty()){
+            memberService.uploadProfile(multipartFile , email);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("회원정보 수정이 완료되었습니다.",memberResponseDto));
     }
     @PutMapping("/password")
