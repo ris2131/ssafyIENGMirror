@@ -6,12 +6,13 @@ import EduContent from "./components/EduContent";
 import { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getdata } from "../../redux/EduSlice";
+import { getdata, quizSubmit } from "../../redux/EduSlice";
+import FinalPage from "./components/FinalPage";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: ${(props) => props.justify};
   background-color: ${(props) => props.back};
   height: 100vh;
 `;
@@ -19,8 +20,11 @@ const Container = styled.div`
 const Education = () => {
   const dispatch = useDispatch();
   const { category } = useParams();
-
   const [originData, setOriginData] = useState();
+  const [data, setData] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
+  const [final, setFinal] = useState(false);
 
   const getInit = useCallback(() => {
     dispatch(getdata(category))
@@ -36,11 +40,49 @@ const Education = () => {
     getInit();
   }, [getInit]);
 
+  const handleSubmit = () => {
+    const info = {
+      category,
+      data,
+    };
+    dispatch(quizSubmit(info))
+      .unwrap()
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
-      <Container back={category === "word" ? "#fef3ed" : "#FFFAC6"}>
+      <Container
+        back={
+          success
+            ? "#A5D6A7"
+            : fail
+            ? "#FFA270"
+            : category === "word"
+            ? "#fef3ed"
+            : "#FFFAC6"
+        }
+        justify={final ? "start" : "space-between"}
+      >
         <NavBar />
-        <EduContent category={category} originData={originData} />
+        {final ? (
+          <>
+            <FinalPage handleSubmit={handleSubmit} />
+          </>
+        ) : (
+          <EduContent
+            category={category}
+            originData={originData}
+            setSuccess={setSuccess}
+            setFail={setFail}
+            success={success}
+            fail={fail}
+            setFinal={setFinal}
+            data={data}
+            setData={setData}
+          />
+        )}
       </Container>
     </>
   );

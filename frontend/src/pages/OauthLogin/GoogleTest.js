@@ -9,6 +9,7 @@ const GoogleTest = () => {
 
   const onGoogleSignIn = async (res) => {
     const { credential } = res;
+    console.log(credential);
     const data = {
       id_token: credential,
     };

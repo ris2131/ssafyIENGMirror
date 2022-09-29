@@ -23,11 +23,10 @@ import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 
 // 학습
 import Education from "./pages/education/Education";
-import Quiz from "./pages/education/Quiz";
 
 // NotFound
 import NotFound from "./pages/error/NotFound";
-import DiaryTest from "./pages/OauthLogin/DiaryTest";
+import EduTest from "./pages/education/components/EduTest";
 
 function App() {
   return (
@@ -45,7 +44,7 @@ function App() {
 
           {/* 문장, 단어 */}
           <Route path="/:category" element={<Education />} />
-          <Route path="/:category/quiz" element={<Quiz />} />
+          <Route path="/edutest" element={<EduTest />} />
 
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />
@@ -60,7 +59,6 @@ function App() {
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/dtest" element={<DiaryTest />} />
         </Routes>
       </div>
     </>

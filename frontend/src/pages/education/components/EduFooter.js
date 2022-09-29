@@ -3,7 +3,7 @@ import { BiVolumeFull, BiMicrophone, BiMicrophoneOff } from "react-icons/bi";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { VscRefresh } from "react-icons/vsc";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 // STT
 import SpeechRecognition, {
@@ -14,6 +14,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 `;
 
 const IconDiv = styled.div`
@@ -57,8 +58,7 @@ const Icon = styled.div`
   cursor: pointer;
 `;
 
-const EduFooter = ({ quiz, word, setSuccess, setFail }) => {
-  const [open, setOpen] = useState(false);
+const EduFooter = ({ quiz, word, setSuccess, setFail, open, setOpen }) => {
   // const [status, setStatus] = useState(false);
 
   // TTS
@@ -86,11 +86,19 @@ const EduFooter = ({ quiz, word, setSuccess, setFail }) => {
     setOpen(!open);
   };
 
+  const handleCheck = () => {
+    console.log(word.sentence);
+    console.log("내가 말함" + transcript);
+    transcript === word.sentence ? setSuccess(true) : setFail(true);
+  };
+
   useEffect(() => {
+    console.log(word);
+    SpeechRecognition.stopListening();
     return () => {
       SpeechRecognition.stopListening();
     };
-  }, []);
+  }, [word]);
 
   return (
     <Container>
@@ -117,8 +125,7 @@ const EduFooter = ({ quiz, word, setSuccess, setFail }) => {
                 {transcript.length === 0 ? "말해볼까요?" : transcript}
               </TextP>
               <Icon>
-                <FaRegPaperPlane onClick={() => setSuccess(true)} />
-                <FaRegPaperPlane onClick={() => setFail(true)} />
+                <FaRegPaperPlane onClick={handleCheck} />
                 <VscRefresh onClick={resetTranscript} />
               </Icon>
             </TextDiv>
