@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, } from 'react';
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import { diaryApi } from '../../shared/diaryApi';
@@ -280,6 +280,7 @@ const MypageMain= () => {
                 <Calendar
                   onChange={setDate}
                   value={date}
+                  showNeighboringMonth={false}
                 />
               </div>
 
@@ -299,21 +300,21 @@ const MypageMain= () => {
                     {/* 단어 */}
                     학습한 단어
                     <div className='word'>
-                      {correctWordList && incorrectWordList ? (
+                      {correctWordList.length === 0 && incorrectWordList.length === 0 ? (
                         <div className='box'>학습한 단어가 없어요!</div>
                       ) : (
                         <div>
                           <div>맞춘 단어</div>
                           <div className='box'>
                           {correctWordList.map((item, index) => (
-                            <div key={index}>{item}</div> 
+                            <div key={index}>{item.word}</div> 
                           ))}
                           </div>
                           
                           <div>틀린 단어</div>
                           <div className='box'>
                           {incorrectWordList.map((item, index) => (
-                            <div key={index}>{item}</div> 
+                            <div key={index}>{item.word}</div> 
                           ))}
                           </div>
                         </div>
@@ -323,22 +324,22 @@ const MypageMain= () => {
                     {/* 문장 */}
                     학습한 문장
                     <div className='sentence'>
-                      {correctWordList && incorrectWordList ? (
-                          <div className='box'>학습한 문장이 없어요!</div>
-                        ) : (
+                      {correctSentenceList.length === 0 && incorrectSentenceList.length === 0 ? (
+                        <div className='box'>학습한 문장이 없어요!</div>
+                      ) : (
                         <div>
                           <div>맞춘 문장</div>
                           <div className='box'>
-                          {correctSentenceList.map((item, index) => (
-                            <div key={index}>{item}</div> 
-                          ))}
+                            {correctSentenceList.map((item, index) => (
+                              <div key={index}>{item.sentence}</div> 
+                            ))}
                           </div>
 
                           <div>틀린 문장</div>
                           <div className='box'>
-                          {incorrectSentenceList.map((item, index) => (
-                            <div key={index}>{item}</div> 
-                          ))}
+                            {incorrectSentenceList.map((item, index) => (
+                              <div key={index}>{item.sentence}</div> 
+                            ))}
                           </div>
                         </div>
                       )}

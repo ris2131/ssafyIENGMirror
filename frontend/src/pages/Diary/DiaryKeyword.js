@@ -80,8 +80,10 @@ const DiaryKeyword = () => {
   const title = "단어"
   const description = "설명"
 
+  // 선택된 단어
   const [checkedList, setCheckedLists] = useState([]);
 
+  // 선택에 따라 리스트 값 변경
   const onCheckedElement = useCallback(
     (checked, item) => {
       if (checked) {
@@ -94,11 +96,13 @@ const DiaryKeyword = () => {
     [checkedList]
   );
 
+  // 닉네임 불러오기
   const [nickname, setNickname] = useState("");
   const getUser = useCallback(() => {
     authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
   }, []);
 
+  // 페이지 로딩시 닉네임 바로 불러오기
   useEffect(() => {
     getUser();
   }, [getUser]);

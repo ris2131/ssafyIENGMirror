@@ -76,9 +76,10 @@ const DiaryWriting = () => {
 
   // 오늘의 기분
   const [emotion, setEmotion] = useState("");
-  const handleSelect = (e) => {
+
+  const handleSelect = useCallback((e) => {
     setEmotion(e.target.value);
-  };
+  },[]);
 
   // 일기 내용
   const [content, setContent] = useState("");
