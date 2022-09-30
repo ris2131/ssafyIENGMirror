@@ -39,12 +39,12 @@ public class LoginController {
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
             memberService.updateRefreshToken(email, refreshToken);
 
-            MemberInfoResponseDto loginResponseDto = memberService.getMemberInfo(email);
+            MemberInfoResponseDto memberInfoResponseDto = memberService.getMemberInfo(email);
 
             String picturePath = "user/"+email+"/profile/profile.jpg";
-            loginResponseDto.updatePicturePath(s3Domain + picturePath);
+            memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
 
-            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", loginResponseDto));
+            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", memberInfoResponseDto));
         }catch(NoExistMemberException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createSuccess("로그인 실패",null));
         }
