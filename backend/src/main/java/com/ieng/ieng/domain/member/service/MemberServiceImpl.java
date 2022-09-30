@@ -20,8 +20,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final AmazonS3Client amazonS3Client;
     private final S3UploaderServiceImpl s3UploaderService;
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucketName;
+
     final static Logger logger = LogManager.getLogger(MemberServiceImpl.class);
     // 회원정보 확인
     @Override
@@ -99,8 +98,6 @@ public class MemberServiceImpl implements MemberService{
 
         s3UploaderService.uploadPicture(multipartFile, fileName);
 
-        //return amazonS3Client.getUrl(bucketName, fileName).toString();
-        logger.debug("image url: {}",amazonS3Client.getUrl(bucketName, fileName).toString());
         return;
     }
 
