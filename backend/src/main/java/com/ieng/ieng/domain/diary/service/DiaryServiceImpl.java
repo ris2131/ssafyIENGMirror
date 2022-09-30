@@ -15,6 +15,7 @@ import com.ieng.ieng.global.exception.EmptyFileException;
 import com.ieng.ieng.global.exception.NoExistMemberException;
 import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,8 @@ public class DiaryServiceImpl implements DiaryService{
     private final DiaryKeywordRepository diaryKeywordRepository;
     private final AmazonS3Client amazonS3Client;
     private final S3UploaderServiceImpl s3UploaderService;
+    @Value("${cloud.aws.s3.domain}")
+    String s3Domain ;
 
     @Override
     public DiaryGetResponseDto diaryDetail(String email, String date){
@@ -45,10 +48,14 @@ public class DiaryServiceImpl implements DiaryService{
             diaryKeywords.add(diaryKeyword.getDiaryKeyword());
         }
 
+        String picturePath = "user/"+email+"/diary"+"/"+date+"/photo.jpg";
+
+
         DiaryGetResponseDto diaryGetResponseDto  = DiaryGetResponseDto.builder()
                 .diarySequence(diary.getDiarySequence())
                 .memberSequence(member.getMemberSequence())
-                .diaryPicturePath(diary.getDiaryPicturePath())
+                //.diaryPicturePath(diary.getDiaryPicturePath())
+                .diaryPicturePath(s3Domain+picturePath)
                 .diaryContent(diary.getDiaryContent())
                 .diaryEmotion(diary.getDiaryEmotion())
                 .diaryDTTM(diary.getDiaryDTTM())
