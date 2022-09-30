@@ -11,7 +11,7 @@ APP_ID = 'image_recog'
 MODEL_ID = 'general-image-recognition'
 # IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg'
 
-# IMAGE_FILE_LOCATION = './HKPU_04_04_pic1.jpg'
+
 # This is optional. You can specify a model version or the empty string for the default
 MODEL_VERSION_ID = ''
 
@@ -22,10 +22,13 @@ MODEL_VERSION_ID = ''
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.grpc.api.status import status_code_pb2
+import os
 
 def test(path):
-    IMAGE_URL = path
-    print("HHHHHHHHHHHHhhhhhhhhhhhhh")
+    print('!!!!!!!!!!!!!!!!!!!!!')
+    scriptpath = os.path.dirname(__file__)
+    IMAGE_FILE_LOCATION = os.path.join(scriptpath, '../../media/'+path)
+    
     channel = ClarifaiChannel.get_grpc_channel()
     stub = service_pb2_grpc.V2Stub(channel)
     #모듈 불러오는 부분
@@ -36,28 +39,6 @@ def test(path):
     userDataObject = resources_pb2.UserAppIDSet(user_id=USER_ID, app_id=APP_ID)
 
     # 이미지를 url로 받을때
-    post_model_outputs_response = stub.PostModelOutputs(
-        service_pb2.PostModelOutputsRequest(
-            user_app_id=userDataObject,  # The userDataObject is created in the overview and is required when using a PAT
-            model_id=MODEL_ID,
-            version_id=MODEL_VERSION_ID,  # This is optional. Defaults to the latest model version
-            inputs=[
-                resources_pb2.Input(
-                    data=resources_pb2.Data(
-                        image=resources_pb2.Image(
-                            url=IMAGE_URL
-                        )
-                    )
-                )
-            ]
-        ),
-        metadata=metadata
-    )
-
-    # 이미지를 static 하게 받아 올때
-    # with open(IMAGE_FILE_LOCATION, "rb") as f:
-    #     file_bytes = f.read()
-
     # post_model_outputs_response = stub.PostModelOutputs(
     #     service_pb2.PostModelOutputsRequest(
     #         user_app_id=userDataObject,  # The userDataObject is created in the overview and is required when using a PAT
@@ -67,7 +48,7 @@ def test(path):
     #             resources_pb2.Input(
     #                 data=resources_pb2.Data(
     #                     image=resources_pb2.Image(
-    #                         base64=file_bytes
+    #                         url=IMAGE_URL
     #                     )
     #                 )
     #             )
@@ -75,6 +56,28 @@ def test(path):
     #     ),
     #     metadata=metadata
     # )
+
+   # 이미지를 static 하게 받아 올때
+    with open(IMAGE_FILE_LOCATION, "rb") as f:
+        file_bytes = f.read()
+
+    post_model_outputs_response = stub.PostModelOutputs(
+        service_pb2.PostModelOutputsRequest(
+            user_app_id=userDataObject,  # The userDataObject is created in the overview and is required when using a PAT
+            model_id=MODEL_ID,
+            version_id=MODEL_VERSION_ID,  # This is optional. Defaults to the latest model version
+            inputs=[
+                resources_pb2.Input(
+                    data=resources_pb2.Data(
+                        image=resources_pb2.Image(
+                            base64=file_bytes
+                        )
+                    )
+                )
+            ]
+        ),
+        metadata=metadata
+    )
 
     if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
         print(post_model_outputs_response.status)
@@ -91,6 +94,5 @@ def test(path):
 
     # Uncomment this line to print the full Response JSON
     # print(output)
-    print(ansList)
     return ansList
     
