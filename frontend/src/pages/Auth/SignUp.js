@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
   checkEmail,
@@ -173,7 +174,7 @@ const SignUp = () => {
   const [month, setMonth] = useState("월");
   const [day, setDay] = useState("");
   const [emailPass, setEmailPass] = useState(false);
-  const [timeOn, setTimeOn] = useState(true);
+  const [timeOn, setTimeOn] = useState(false);
 
   // 타이머
   // const [min, setMin] = useState(5);
@@ -191,6 +192,7 @@ const SignUp = () => {
   const nicknameRef = useRef();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handlePage = () => {
     if (!emailPass) {
@@ -204,7 +206,6 @@ const SignUp = () => {
   };
 
   const changeImg = (e) => {
-    console.log(profile);
     setProfile(e.target.files[0]);
   };
 
@@ -248,6 +249,7 @@ const SignUp = () => {
     setDay(e.target.value);
   };
 
+  // 회원가입 요청
   const handleSubmit = () => {
     if (password !== passwordCheck) {
       Toast.fire({
@@ -267,7 +269,6 @@ const SignUp = () => {
 
     const mm = month >= 10 ? month : "0" + month;
     const dd = day >= 10 ? day : "0" + day;
-
     const birth = year + "-" + mm + "-" + dd;
 
     const data = {
@@ -278,19 +279,20 @@ const SignUp = () => {
       birth_YMD: birth,
     };
 
-    dispatch(signup(data))
+    const formData = new FormData();
+
+    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+
+    formData.append("data", blob);
+    formData.append("profile_image", profile);
+
+    dispatch(signup(formData))
       .unwrap()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    // const formData = new FormData();
-
-    // const blob = new Blob([JSON.stringify(data)], {
-    //   type: "application/json",
-    // });
-
-    // formData.append("data", blob);
-    // formData.append("profile", profile);
+      .then(() => {
+        Swal.fire({ icon: "success", title: "회원가입 완료!" });
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
   };
 
   // 이메일 형식 체크 함수
@@ -337,36 +339,20 @@ const SignUp = () => {
     const data = {
       certification_number: emailCheck,
     };
-    console.log(data);
-
     dispatch(confirmEmail(data))
       .unwrap()
-      .then(() => {
-        Swal.fire({ icon: "success", title: "인증이 완료되었습니다." });
-        setEmailPass(true);
-        setTimeOn(false);
-      })
-      .catch(() => {
-        Swal.fire({ icon: "error", title: "인증번호를 다시 확인해주세요." });
-        setEmailPass(false);
+      .then((res) => {
+        if (res.status === "ERROR") {
+          Swal.fire({ icon: "error", title: "인증번호를 다시 확인해주세요." });
+          setEmailPass(false);
+          return;
+        } else {
+          Swal.fire({ icon: "success", title: "인증이 완료되었습니다." });
+          setEmailPass(true);
+          setTimeOn(false);
+        }
       });
   };
-
-  // useEffect(() => {
-  //   timerId.current = setInterval(() => {
-  //     setMin(parseInt(time.current / 60));
-  //     setSec(time.current % 60);
-  //     time.current -= 1;
-  //   }, 1000);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (time.current <= 0) {
-  //     window.alert("인증시간이 초과하였습니다.");
-  //     clearInterval(timerId.current);
-  //   }
-  //   return () => clearInterval(timerId.current);
-  // }, [sec]);
 
   return (
     <SingUpBox>
