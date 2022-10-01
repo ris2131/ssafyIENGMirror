@@ -20,7 +20,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: "80vw",
+  maxWidth: 600,
   bgcolor: "background.paper",
   border: "2px solid #ececec",
   borderRadius: "10px",
@@ -44,7 +45,7 @@ const MypageMain = () => {
 
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryEmotion, setDiaryEmotion] = useState("");
-  // const [diaryKeywordList, setDiaryKeywordList] = useState([]);
+  const [diaryKeywordList, setDiaryKeywordList] = useState([]);
   // const [diaryPicturePath, setDiaryPicturePath] = useState("");
 
   // 단어 문장
@@ -82,7 +83,15 @@ const MypageMain = () => {
       month = `0${temp}`;
     }
 
-    const data = `${date.getFullYear()}-${month}-${date.getDate()}`;
+    let temp2 = date.getDate();
+
+    let day = temp2;
+
+    if (temp2< 10) {
+      day = `0${temp2}`;
+    }
+
+    const data = `${date.getFullYear()}-${month}-${day}`
 
     try {
       const res = await diaryApi.getdiary(data);
@@ -90,14 +99,14 @@ const MypageMain = () => {
       if (res.data.status === "SUCCESS") {
         setDiaryContent(res.data.data.diaryContent);
         setDiaryEmotion(res.data.data.diaryEmotion);
-        // setDiaryKeywordList(res.data.data.diaryKeywordList);
+        setDiaryKeywordList(res.data.data.diaryKeywordList);
         setToday(dateToStr(date));
       }
     } catch (e) {
       // 데이터가 없어 조회 실패시 빈값 세팅
       setDiaryContent("");
       setDiaryEmotion("");
-      // setDiaryKeywordList([]);
+      setDiaryKeywordList([]);
       setToday(dateToStr(date));
     }
   }, [date]);
@@ -114,7 +123,15 @@ const MypageMain = () => {
       month = `0${temp}`;
     }
 
-    const data = `${date.getFullYear()}-${month}-${date.getDate()}`;
+    let temp2 = date.getDate();
+
+    let day = temp2;
+
+    if (temp2< 10) {
+      day = `0${temp2}`;
+    }
+
+    const data = `${date.getFullYear()}-${month}-${day}`
 
     try {
       const res = await studyApi.gethistory(data);
@@ -143,9 +160,17 @@ const MypageMain = () => {
       month = `0${temp}`;
     }
 
+    let temp2 = date.getDate();
+
+    let day = temp2;
+
+    if (temp2< 10) {
+      day = `0${temp2}`;
+    }
+
     const data = {
       data: {
-        date: `${date.getFullYear()}-${month}-${date.getDate()}`,
+        date: `${date.getFullYear()}-${month}-${day}`,
       },
     };
 
@@ -159,7 +184,7 @@ const MypageMain = () => {
       if (res.data.status === "SUCCESS") {
         setDiaryContent("");
         setDiaryEmotion("");
-        // setDiaryKeywordList([]);
+        setDiaryKeywordList([]);
       }
     } catch (e) {
       console.log(e);
@@ -294,48 +319,72 @@ const MypageMain = () => {
                   <div className="word-sentence">
                     {/* 단어 */}
                     학습한 단어
-                    <div className='word'>
+                    <div className='content'>
                       {correctWordList.length === 0 && incorrectWordList.length === 0 ? (
-                        <div className='box'>학습한 단어가 없어요!</div>
+                        <div>학습한 단어가 없어요!</div>
                       ) : (
                         <div>
                           <div>맞춘 단어</div>
-                          <div className='box'>
-                          {correctWordList.map((item, index) => (
-                            <div key={index}>{item.word}</div> 
-                          ))}
-                          </div>
+                          { correctWordList.length === 0 ? (
+                            <div className='text'>맞춘 단어가 없어요!</div>
+                          ) : (
+                            <div className='box'>
+                              {correctWordList.map((item, index) => (
+                                <div className='item' key={index}>
+                                  <span>{item.word}</span>
+                                </div> 
+                              ))}
+                            </div>
+                          )}
 
                           <div>틀린 단어</div>
-                          <div className='box'>
-                          {incorrectWordList.map((item, index) => (
-                            <div key={index}>{item.word}</div> 
-                          ))}
-                          </div>
+                          { incorrectWordList.length === 0 ? (
+                            <div className='text'>틀린 단어가 없어요!</div>
+                          ) : (
+                            <div className='box'>
+                              {incorrectWordList.map((item, index) => (
+                                <div className='item' key={index}>
+                                  <span>{item.word}</span>
+                                </div> 
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
 
                     {/* 문장 */}
                     학습한 문장
-                    <div className='sentence'>
+                    <div className='content'>
                       {correctSentenceList.length === 0 && incorrectSentenceList.length === 0 ? (
-                        <div className='box'>학습한 문장이 없어요!</div>
+                        <div>학습한 문장이 없어요!</div>
                       ) : (
                         <div>
                           <div>맞춘 문장</div>
-                          <div className='box'>
-                            {correctSentenceList.map((item, index) => (
-                              <div key={index}>{item.sentence}</div> 
-                            ))}
-                          </div>
+                          { correctSentenceList.length === 0 ? (
+                              <div className='text'>맞춘 문장이 없어요!</div>
+                            ) : (
+                              <div className='box'>
+                                {correctSentenceList.map((item, index) => (
+                                  <div className='item' key={index}>
+                                    <span>{item.sentence}</span>
+                                  </div> 
+                                ))}
+                              </div>
+                            )}
 
                           <div>틀린 문장</div>
-                          <div className='box'>
-                            {incorrectSentenceList.map((item, index) => (
-                              <div key={index}>{item.sentence}</div> 
-                            ))}
-                          </div>
+                          { incorrectSentenceList.length === 0 ? (
+                            <div className='text'>틀린 문장이 없어요!</div>
+                          ) : (
+                            <div className='box'>
+                              {incorrectSentenceList.map((item, index) => (
+                                <div className='item' key={index}>
+                                  <span>{item.sentence}</span>
+                                </div> 
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -366,12 +415,12 @@ const MypageMain = () => {
                         </div>
 
                         {/* 단어 */}
-                        <div className="word">
-                          {/* <div>
-                            {diaryKeywordList.map((item, index) => (
-                              <div key={index}>{item}</div> 
-                            ))}
-                          </div> */}
+                        <div className="words">
+                          {diaryKeywordList.map((item, index) => (
+                            <div className="word" key={index}>
+                              <span>{item}</span>
+                            </div> 
+                          ))}
                         </div>
                       </div>
                     ) : (
