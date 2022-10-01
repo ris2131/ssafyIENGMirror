@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -40,6 +39,12 @@ const HamBar = styled.div`
   cursor: pointer;
   margin: 5px;
 `;
+const RightBar = styled.div`
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -73,9 +78,11 @@ const NavBar = () => {
           <RightImage onClick={handleClick} src={userImg} alt="#" />
         </HamBar>
       ) : (
-        <Avatar onClick={handleClick}>
-          {username && username.slice(0, 3)}
-        </Avatar>
+        <RightBar>
+          <Avatar onClick={handleClick}>
+            {username && username.slice(0, 3)}
+          </Avatar>
+        </RightBar>
       )}
 
       <Menu
@@ -87,7 +94,7 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => navigate("/mypage")}>My account</MenuItem>
+        <MenuItem onClick={() => navigate("/mypage")}>내 정보</MenuItem>
         <MenuItem onClick={() => navigate("/profileedit")}>
           회원정보 수정
         </MenuItem>

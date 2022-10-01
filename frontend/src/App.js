@@ -26,7 +26,6 @@ import Education from "./pages/education/Education";
 
 // NotFound
 import NotFound from "./pages/error/NotFound";
-import EduTest from "./pages/education/components/EduTest";
 
 function App() {
   return (
@@ -44,7 +43,6 @@ function App() {
 
           {/* 문장, 단어 */}
           <Route path="/:category" element={<Education />} />
-          <Route path="/edutest" element={<EduTest />} />
 
           {/* 일기 작성 */}
           <Route path="/diarystart" element={<DiaryStart />} />

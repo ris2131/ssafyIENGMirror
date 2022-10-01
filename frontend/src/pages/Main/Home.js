@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
-  @media screen and (min-width: 821px) {
+  @media screen and (min-width: 1000px) {
     height: 100vh;
   }
 
@@ -27,7 +27,7 @@ const TitleDiv = styled.div`
 `;
 
 const ModeWrapper = styled.div`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
   display: flex;

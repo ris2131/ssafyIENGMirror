@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getdata, quizSubmit } from "../../redux/EduSlice";
 import FinalPage from "./components/FinalPage";
+import Loading from "../../util/Loading";
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const Education = () => {
   const [success, setSuccess] = useState(false);
   const [fail, setFail] = useState(false);
   const [final, setFinal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getInit = useCallback(() => {
     dispatch(getdata(category))
@@ -33,6 +35,7 @@ const Education = () => {
         category === "word"
           ? setOriginData(res.data?.wordSet)
           : setOriginData(res.data?.sentenceSet);
+        setLoading(false);
       });
   }, [dispatch, category]);
 
@@ -47,7 +50,6 @@ const Education = () => {
     };
     dispatch(quizSubmit(info))
       .unwrap()
-      .then((res) => console.log(res))
       .catch((err) => console.error(err));
   };
 
@@ -66,7 +68,9 @@ const Education = () => {
         justify={final ? "start" : "space-between"}
       >
         <NavBar />
-        {final ? (
+        {loading ? (
+          <Loading />
+        ) : final ? (
           <>
             <FinalPage handleSubmit={handleSubmit} />
           </>

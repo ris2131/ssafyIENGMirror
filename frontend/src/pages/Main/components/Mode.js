@@ -13,7 +13,7 @@ const ModeBox = styled.div`
 `;
 
 const ModeDiv = styled.div`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 1000px) {
     width: 70vw;
     height: 70vw;
   }
@@ -53,7 +53,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   width: () => {
-    return window.innerWidth > 821 ? 400 : "70%";
+    return window.innerWidth > 900 ? 400 : "70%";
   },
   border: "2px solid #ececec",
   borderRadius: "10px",
