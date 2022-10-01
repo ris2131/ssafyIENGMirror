@@ -1,7 +1,7 @@
 import baseaxios from "axios";
 
 // const baseURL = "https://j7d209.p.ssafy.io/api/";
-const baseURL = "";
+const baseURL = "http://localhost:3000/";
 
 const axios = baseaxios.create({
   baseURL,

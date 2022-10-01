@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authApi } from "../shared/authApi";
+import { authApi, imgApi } from "../shared/authApi";
 import { setRefreshToken } from "../shared/Cookie";
 
 const initialState = {
@@ -10,7 +10,8 @@ export const signup = createAsyncThunk(
   "AuthSlice/signup",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await authApi.signup(data);
+      const res = await imgApi.signup(data);
+      localStorage.setItem("token", res.headers.Authorization);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);
@@ -123,6 +124,9 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
+    [signup.fulfilled]: (state) => {
+      state.isLoggedIn = true;
+    },
     [login.fulfilled]: (state) => {
       state.isLoggedIn = true;
     },
