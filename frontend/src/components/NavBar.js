@@ -49,7 +49,7 @@ const RightBar = styled.div`
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userImg = useSelector((state) => state.auth.userImg);
+  let userImg = useSelector((state) => state.auth.userImg);
   const username = useSelector((state) => state.auth.username);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -65,6 +65,11 @@ const NavBar = () => {
     removeRefreshToken();
     dispatch(authActions.logout());
     navigate("/login");
+  };
+
+  // 유저 이미지 없으면 기본 이미지로 대체
+  if (userImg === "https://ieng-bucket.s3.ap-northeast-2.amazonaws.com/user/kyon0723@naver.com/profile/profile.jpg") {
+    userImg = "image/profile.png"
   };
 
   return (

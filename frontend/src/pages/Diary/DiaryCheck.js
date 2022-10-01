@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
 import { diaryApi } from "../../shared/diaryApi";
-import { authApi } from "../../shared/authApi";
+import { useSelector } from "react-redux";
+
 
 // css
 import "./Diary.scss";
@@ -12,6 +13,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "../../components/MyButton";
+import Loading from "../../util/Loading";
 
 const style = {
   position: "absolute",
@@ -40,9 +42,11 @@ const sp_api = axios.create({
 })
 
 const DiaryCheck = () => {
+  const username = useSelector((state) => state.auth.username);
   const location = useLocation();
   const { preview_URL, checkedList, emotion, diary } = location.state;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const title = "제출 확인";
   const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
@@ -74,8 +78,8 @@ const DiaryCheck = () => {
         }
       }
     }
-
-   setChecked(wrongWordList)
+    setLoading(false);
+    setChecked(wrongWordList)
   }
 
   useEffect(() => {
@@ -165,79 +169,72 @@ const DiaryCheck = () => {
     );
   };
 
-  // 닉네임 불러오기
-  const [nickname, setNickname] = useState("");
-  const getUser = useCallback(() => {
-    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
-  }, []);
-
-  // 페이지 로딩시 닉네임 바로 불러오기
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
-
   return (
     <div className="background">
       <NavBar />
 
-      <div className="back">
-        <div className="diary-wrapper">
-          {/* 머리글 */}
-          <div className="diary-header">
-            {nickname}님의 일기에 어색한 부분을 같이 수정 해 볼까요?
-          </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="back">
+          <div className="diary-wrapper">
+            {/* 머리글 */}
+            <div className="diary-header">
+              {username}님의 일기에 어색한 부분을 같이 수정 해 볼까요?
+            </div>
 
-          {/* 일기 작성 */}
-          <div className="diary-body">
-            {/* 내용 */}
-            <div className="text">
-              <div>
-                <div className="diary-header">작성한 내용</div>
-                <textarea
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                  className="text"
-                  placeholder="일기를 작성해 봐요!"
-                  value={content}
-                />
-              </div>
+            {/* 일기 작성 */}
+            <div className="diary-body">
+              {/* 내용 */}
+              <div className="text">
+                <div>
+                  <div className="diary-header">작성한 내용</div>
+                  <textarea
+                    onChange={(e) => {
+                      setContent(e.target.value);
+                    }}
+                    className="text"
+                    placeholder="일기를 작성해 봐요!"
+                    value={content}
+                  />
+                </div>
 
-              {/* 문법 체크 결과 */}
-              <div>
-                <div className="diary-header">수정할 내용</div>
-                <div className="checked">
-                  {Object.keys(checked).length === 0 ? (
-                    <span>완벽하네요!</span>
-                  ) : (
-                    <div>
-                    {Object.entries(checked).map((item, index) => (
-                      <div key={index}>
-                        {item[0]} -&gt; {item[1]}
+                {/* 문법 체크 결과 */}
+                <div>
+                  <div className="diary-header">수정할 내용</div>
+                  <div className="checked">
+                    {Object.keys(checked).length === 0 ? (
+                      <span>완벽하네요!</span>
+                    ) : (
+                      <div>
+                      {Object.entries(checked).map((item, index) => (
+                        <div key={index}>
+                          {item[0]} -&gt; {item[1]}
+                        </div>
+                      ))}
                       </div>
-                    ))}
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="button">
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {spellCheck(content)}}
-            >
-              검사 하기
-            </Button>
+            <div className="button">
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {spellCheck(content)}}
+              >
+                검사 하기
+              </Button>
 
-            <Button variant="outlined" color="primary">
-              <BasicModal title={title} description={description} />
-            </Button>
+              <Button variant="outlined" color="primary">
+                <BasicModal title={title} description={description} />
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

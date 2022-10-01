@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import { diaryApi } from "../../shared/diaryApi";
 import { studyApi } from "../../shared/studyApi";
-import { authApi } from "../../shared/authApi";
+import { useSelector } from "react-redux";
 
 // css
 import "./Mypage.scss";
@@ -34,14 +34,14 @@ const style = {
 
 const MypageMain = () => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState("");
-  const getUser = useCallback(() => {
-    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
-  }, []);
 
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+  let userImg = useSelector((state) => state.auth.userImg);
+  const username = useSelector((state) => state.auth.username);
+
+  // 유저 이미지 없으면 기본 이미지로 대체
+  if (userImg === "https://ieng-bucket.s3.ap-northeast-2.amazonaws.com/user/kyon0723@naver.com/profile/profile.jpg") {
+    userImg = "image/profile.png"
+  };
 
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryEmotion, setDiaryEmotion] = useState("");
@@ -261,11 +261,11 @@ const MypageMain = () => {
           {/* 회원정보 상자*/}
           <div className="mypage-header">
             {/* 회원 사진 */}
-            <img src="image/profile.png" alt="" />
+            <img src={userImg} alt="" />
 
             <div className="name-button">
               {/* 이름 */}
-              <div>{nickname}님 안녕하세요</div>
+              <div>{username}님 안녕하세요</div>
 
               {/* 정보 수정 버튼 */}
               <Button
