@@ -117,29 +117,65 @@
           margin: 10px;
           font-size: 1.1rem;
 
-          .word {
+          .content {
             margin: 10px;
             padding: 10px;
             border: 1px solid black;
             border-radius: 20px;
 
-            .box {
+            .text {
               display: flex;
-              flex-direction: column;
-              min-height: 4vh;
+              flex-wrap: wrap;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+
+              border: 1px solid black;
+              border-radius: 20px;
+              margin: 5px;
+              padding: 5px;
             }
-          }
-
-          .sentence {
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid black;
-            border-radius: 20px;
 
             .box {
               display: flex;
-              flex-direction: column;
-              min-height: 4vh;
+              flex-wrap: wrap;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
+
+              border: 1px solid black;
+              border-radius: 20px;
+              margin: 5px;
+              padding: 5px;
+
+              max-height: 4.5vh;
+              overflow: auto;
+
+              .item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                margin: 5px;
+                padding: 5px;
+
+                border: 1px solid black;
+                border-radius: 20px;
+
+                height: 2vh;
+                min-width: 5vw;
+
+                font-size: 1.5vw;
+
+                span {
+                  display: flex;
+                  padding-left: 1vw;
+                  padding-right: 1vw;
+                }
+              }
+            }
+            .box::-webkit-scrollbar {
+              display: none;
             }
           }
         }
@@ -153,6 +189,7 @@
           .button {
             display: flex;
             justify-content: flex-end;
+            margin: -20px 10px;
 
             Button {
               border-radius: 20px;
@@ -174,28 +211,54 @@
               border: 1px solid black;
               border-radius: 20px;
               margin: 10px;
-              padding: 10px;
-              font-size: 1rem;
+              padding: 1vw 1vh;
+              font-size: 1.2vw;
               text-align: start;
 
               width: 18vw;
             }
           }
           
-          .word {
+          .words {
+            display: flex;
+            flex-direction: row;
             border: 1px solid black;
             border-radius: 20px;
-            font-size: 1rem;
+            font-size: 1vw;
             
             min-height: 5vh;
             width: 42vw;
 
             margin: 10px;
+
+            .word {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              margin: 5px;
+              padding: 5px;
+
+              border: 1px solid black;
+              border-radius: 20px;
+
+              height: 2vh;
+              min-width: 5vw;
+
+              font-size: 1vw;
+        
+              // 좌우 여백
+              span {
+                display: flex;
+                padding-left: 1vw;
+                padding-right: 1vw;
+              }
+            }
           }
 
           .emotion{
             img {
-              width: 5vw;
+              width: 50px;
             }
           }
         }
@@ -220,7 +283,7 @@
         .study {
           .diary{
             .img-content{
-              max-width: 680px;
+              max-width: 700px;
 
               img {
                 max-width: 300px;
@@ -231,8 +294,8 @@
               }
             }
 
-            .word {
-              max-width: 650px;
+            .words {
+              max-width: 640px;
             }
           }
         }
@@ -278,11 +341,18 @@
               .content{
                 width: 67vw;
                 height: 50vh;
+                max-height: 350px;
+
+                font-size: 3vw;
               }
             }
 
-            .word {
+            .words {
               width: 70vw;
+
+              .word {
+                font-size: 2vw;
+              }
             }
           }
         }

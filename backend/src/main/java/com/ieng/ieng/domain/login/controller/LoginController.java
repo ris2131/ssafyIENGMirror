@@ -38,8 +38,7 @@ public class LoginController {
 
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
             memberService.updateRefreshToken(email, refreshToken);
-
-            MemberInfoResponseDto memberInfoResponseDto = memberService.getMemberInfo(email);
+            MemberInfoResponseDto memberInfoResponseDto = loginService.loginIeng(loginRequestDto);
 
             String picturePath = "user/"+email+"/profile/profile.jpg";
             memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);

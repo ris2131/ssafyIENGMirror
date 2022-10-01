@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
 import { diaryApi } from "../../shared/diaryApi";
+import { authApi } from "../../shared/authApi";
 
 // css
 import "./Diary.scss";
@@ -17,7 +18,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: "80vw",
+  maxWidth: 600,
   bgcolor: "background.paper",
   border: "2px solid #ececec",
   borderRadius: "10px",
@@ -78,7 +80,6 @@ const DiaryCheck = () => {
 
   useEffect(() => {
     spellCheck(diary);
-
   },[diary])
 
   // 일기 제출하기
@@ -144,7 +145,7 @@ const DiaryCheck = () => {
             <div>
               <MyButton
                 onClick={handleSubmit}
-                width={"200px"}
+                width={"180px"}
                 padding={"5px"}
                 margin={"30px 10px"}
                 text={"네 제출할게요!"}
@@ -152,7 +153,7 @@ const DiaryCheck = () => {
 
               <MyButton
                 onClick={handleClose}
-                width={"200px"}
+                width={"180px"}
                 padding={"5px"}
                 margin={"30px 10px"}
                 text={"좀 더 생각 해 볼게요!"}
@@ -164,6 +165,17 @@ const DiaryCheck = () => {
     );
   };
 
+  // 닉네임 불러오기
+  const [nickname, setNickname] = useState("");
+  const getUser = useCallback(() => {
+    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
+  }, []);
+
+  // 페이지 로딩시 닉네임 바로 불러오기
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
   return (
     <div className="background">
       <NavBar />
@@ -172,7 +184,7 @@ const DiaryCheck = () => {
         <div className="diary-wrapper">
           {/* 머리글 */}
           <div className="diary-header">
-            00 님의 일기에 어색한 부분을 같이 수정 해 볼까요?
+            {nickname}님의 일기에 어색한 부분을 같이 수정 해 볼까요?
           </div>
 
           {/* 일기 작성 */}
@@ -196,7 +208,7 @@ const DiaryCheck = () => {
                 <div className="diary-header">수정할 내용</div>
                 <div className="checked">
                   {Object.keys(checked).length === 0 ? (
-                    <span>고칠 내용이 없어요</span>
+                    <span>완벽하네요!</span>
                   ) : (
                     <div>
                     {Object.entries(checked).map((item, index) => (

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./imageUploader.scss";
 import { Button } from "@mui/material";
 
-const ImageUploader = ({ preview_URL, setImage }) => {
+const ImageUploader = ({ image, setImage }) => {
   const navigate = useNavigate();
   let inputRef;
 
@@ -22,6 +22,10 @@ const ImageUploader = ({ preview_URL, setImage }) => {
         image_file: e.target.files[0],
         preview_URL: fileReader.result,
       });
+
+      console.log(e.target.files[0])
+      console.log(image)
+      
     };
   };
 
@@ -38,12 +42,12 @@ const ImageUploader = ({ preview_URL, setImage }) => {
 
       {/* 미리보기 */}
       <div className="img-wrapper">
-        <img src={preview_URL} alt="이미지 없음"/>
+        <img src={image.preview_URL} alt="이미지 없음"/>
       </div>
       
       {/* 업로드 버튼 */}
       <div className="upload-button">
-        {preview_URL === "image/default_image.png" ? (
+        {image.preview_URL === "image/default_image.png" ? (
           <Button
             variant="outlined"
             color="primary"
@@ -66,7 +70,7 @@ const ImageUploader = ({ preview_URL, setImage }) => {
             <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate("/DiaryKeyword", {state : {preview_URL : preview_URL}})}
+            onClick={() => navigate("/DiaryKeyword", {state : {preview_URL : image.preview_URL}})}
             >
             일기 쓰러가기
             </Button>

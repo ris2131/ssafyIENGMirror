@@ -8,7 +8,7 @@ import "./Diary.scss";
 
 const DiaryStart = () => {
   const [image, setImage] = useState({
-    image_file: "",
+    image_file: {},
     preview_URL: "image/default_image.png",
   });
 
@@ -26,17 +26,24 @@ const DiaryStart = () => {
       month = `0${temp}`;
     }
 
-    //const data = `${date.getFullYear()}-${month}}`
-    const data2 = `${date.getFullYear()}-${month}-${date.getDate()}`
+    let temp2 = date.getDate();
+
+    let day = temp2;
+
+    if (temp2< 10) {
+      day = `0${temp2}`;
+    }
+
+    const data = `${date.getFullYear()}-${month}-${day}`
 
     try{  
-      const res = await studyApi.gethistorylist(data2);
+      const res = await studyApi.gethistorylist(data);
 
       if (res.data.status === "SUCCESS") {
         let diaryList = res.data.data.diary_histories;
 
         for (let i=0; i<diaryList.length; i++) {
-          if (diaryList[i] === data2) {
+          if (diaryList[i] === data) {
             setCheck(true)
           }
         }
@@ -72,7 +79,7 @@ const DiaryStart = () => {
 
             {/* 사진 업로드 */}
             <div className="diary-body">
-              <ImageUploader setImage={setImage} preview_URL={image.preview_URL}/>
+              <ImageUploader image={image} setImage={setImage}/>
             </div>
           </div>)}
         </div>
