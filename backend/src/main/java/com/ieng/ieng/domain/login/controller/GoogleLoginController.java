@@ -12,6 +12,7 @@ import com.ieng.ieng.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public class GoogleLoginController {
     private final LoginService loginService;
     private final MemberService memberService;
     private final JwtService jwtService;
+    @Value("${cloud.aws.s3.domain}")
+    String s3Domain ;
 
     final static Logger logger = LogManager.getLogger(LoginController.class);
     @PostMapping
@@ -45,6 +48,9 @@ public class GoogleLoginController {
 
             HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
             memberService.updateRefreshToken(email, refreshToken);
+
+            String picturePath = "user/"+email+"/profile/profile.jpg";
+            memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
 
             return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", memberInfoResponseDto));
         }catch(NoExistMemberException e){

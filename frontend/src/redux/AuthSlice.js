@@ -60,6 +60,45 @@ export const googleNickname = createAsyncThunk(
   }
 );
 
+// 이메일 중복체크
+export const checkEmail = createAsyncThunk(
+  "AuthSlice/checkEmail",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await authApi.checkemail(email);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
+// 이메일 인증번호 보내기
+export const sendEmail = createAsyncThunk(
+  "AuthSlice/sendEmail",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await authApi.sendemail(email);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
+// 이메일 인증번호 확인
+export const confirmEmail = createAsyncThunk(
+  "AuthSlice/confirmEmail",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await authApi.confirmemail(data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
 export const emailAuth = createAsyncThunk(
   "AuthSlice/emailcehck",
   async (email, { rejectWithValue }) => {

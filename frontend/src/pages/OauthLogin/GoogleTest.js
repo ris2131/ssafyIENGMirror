@@ -2,6 +2,7 @@ import GoogleLogin from "./GoogleLogin";
 import { useDispatch } from "react-redux";
 import { googleLogin } from "../../redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const GoogleTest = () => {
   const dispatch = useDispatch();
@@ -29,4 +30,4 @@ const GoogleTest = () => {
   return <GoogleLogin onGoogleSignIn={onGoogleSignIn} />;
 };
 
-export default GoogleTest;
+export default React.memo(GoogleTest);

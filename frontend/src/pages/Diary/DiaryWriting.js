@@ -6,18 +6,18 @@ import { authApi } from "../../shared/authApi";
 // css
 import "./Diary.scss";
 import { Button } from "@mui/material";
-import FormLabel from '@mui/joy/FormLabel';
-import Radio, { radioClasses } from '@mui/joy/Radio';
-import RadioGroup from '@mui/joy/RadioGroup';
-import Sheet from '@mui/joy/Sheet';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import FormLabel from "@mui/joy/FormLabel";
+import Radio, { radioClasses } from "@mui/joy/Radio";
+import RadioGroup from "@mui/joy/RadioGroup";
+import Sheet from "@mui/joy/Sheet";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { FaQuestion } from "react-icons/fa";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MyButton from "../../components/MyButton";
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 const style = {
   position: "absolute",
@@ -90,10 +90,10 @@ const DiaryWriting = () => {
   const wordCheck = () => {
     for (let i in checkedList) {
       if (content.includes(checkedList[i])) {
-        CheckedWord.push(checkedList[i])
+        CheckedWord.push(checkedList[i]);
       }
     }
-  }
+  };
 
   const [nickname, setNickname] = useState("");
   const getUser = useCallback(() => {
@@ -105,8 +105,8 @@ const DiaryWriting = () => {
   }, [getUser]);
 
   // 모달 임시 데이터
-  const title = "단어"
-  const description = "설명"
+  const title = "단어";
+  const description = "설명";
 
   return (
     <div className="background">
@@ -117,7 +117,6 @@ const DiaryWriting = () => {
           {/* 머리글 */}
           <div className="diary-header">
             {nickname} 님의 특별한 일기를 작성 해 주세요!
-
             {/* 감정 선택 */}
             <div className="emotion">
               <div className="diary-header">오늘의 감정</div>
@@ -127,47 +126,65 @@ const DiaryWriting = () => {
                 overlay
                 name="platform"
                 sx={{
-                  flexDirection: 'row',
+                  flexDirection: "row",
                   gap: 2,
                   [`& .${radioClasses.checked}`]: {
                     [`& .${radioClasses.action}`]: {
                       inset: -1,
-                      border: '3px solid',
-                      borderColor: 'primary.500',
+                      border: "3px solid",
+                      borderColor: "primary.500",
                     },
                   },
                   [`& .${radioClasses.radio}`]: {
-                    display: 'contents',
-                    '& > svg': {
+                    display: "contents",
+                    "& > svg": {
                       zIndex: 2,
-                      position: 'absolute',
-                      top: '-8px',
-                      right: '-8px',
-                      bgcolor: 'background.body',
-                      borderRadius: '50%',
+                      position: "absolute",
+                      top: "-8px",
+                      right: "-8px",
+                      bgcolor: "background.body",
+                      borderRadius: "50%",
                     },
                   },
                 }}
               >
-                {['Happy', 'Fun', 'Envy', 'Curious', 'Nervous', 'SoSo', 'Shy', 'Tired', 'Sad', 'Angry'].map((value) => (
+                {[
+                  "Happy",
+                  "Fun",
+                  "Envy",
+                  "Curious",
+                  "Nervous",
+                  "SoSo",
+                  "Shy",
+                  "Tired",
+                  "Sad",
+                  "Angry",
+                ].map((value) => (
                   <Sheet
                     key={value}
                     variant="outlined"
                     sx={{
-                      borderRadius: 'md',
-                      bgcolor: 'white',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
+                      borderRadius: "md",
+                      bgcolor: "white",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                       gap: 0,
                       p: 2,
-                      width: '2vw'
+                      width: "2vw",
                     }}
-                    onChange={handleSelect} value={emotion}
+                    onChange={handleSelect}
+                    value={emotion}
                   >
-                    <Radio id={value} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
-                    <img src={`image/${value}.png`} alt=""/>
-                    <FormLabel sx={{ fontSize:'1vw' }} htmlFor={value}>{value}</FormLabel>
+                    <Radio
+                      id={value}
+                      value={value}
+                      checkedIcon={<CheckCircleRoundedIcon />}
+                    />
+                    <img src={`image/${value}.png`} alt="" />
+                    <FormLabel sx={{ fontSize: "1vw" }} htmlFor={value}>
+                      {value}
+                    </FormLabel>
                   </Sheet>
                 ))}
               </RadioGroup>
@@ -175,13 +192,13 @@ const DiaryWriting = () => {
           </div>
 
           {/* 일기 작성 */}
-          <div className="diary-header">오늘의 일기</div> 
+          <div className="diary-header">오늘의 일기</div>
 
           <div className="diary-body">
             <div className="text">
               {/* 사진 */}
-              <img src={preview_URL} alt=""/>   
-              
+              <img src={preview_URL} alt="" />
+
               {/* 일기 */}
               <textarea
                 onChange={(e) => {
@@ -193,40 +210,45 @@ const DiaryWriting = () => {
               />
             </div>
           </div>
-          
+
           {/* 단어 */}
           <div className="words">
             <div className="word">
               {checkedList.map((item, index) => (
                 <div className="word-list" key={index}>
                   {content.includes(item) ? (
-                    <TaskAltIcon/>
+                    <TaskAltIcon />
                   ) : (
-                    <RadioButtonUncheckedIcon/>
+                    <RadioButtonUncheckedIcon />
                   )}
                   <span>{item}</span>
                   <BasicModal title={title} description={description} />
                 </div>
-              ))} 
+              ))}
             </div>
           </div>
 
           <div>
             {emotion === "" || content === "" ? (
-              <Button
-                variant="outlined"
-                color="primary"
-              >
+              <Button variant="outlined" color="primary">
                 아직 입력하지 않은 내용이 있어요
               </Button>
-              ) : (
+            ) : (
               <Button
                 variant="outlined"
                 color="primary"
                 onClick={() => {
-                  wordCheck(); 
-                  navigate("/diarycheck", {state : { preview_URL : preview_URL, checkedList : CheckedWord, emotion : emotion, diary : content }})}}
-                >
+                  wordCheck();
+                  navigate("/diarycheck", {
+                    state: {
+                      preview_URL: preview_URL,
+                      checkedList: CheckedWord,
+                      emotion: emotion,
+                      diary: content,
+                    },
+                  });
+                }}
+              >
                 문법 체크
               </Button>
             )}
@@ -235,6 +257,6 @@ const DiaryWriting = () => {
       </div>
     </div>
   );
-}
+};
 
 export default DiaryWriting;
