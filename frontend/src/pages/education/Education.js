@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getdata, quizSubmit } from "../../redux/EduSlice";
 import FinalPage from "./components/FinalPage";
 import Loading from "../../util/Loading";
+import NotFound from "../error/NotFound";
 
 const Container = styled.div`
   display: flex;
@@ -55,39 +56,43 @@ const Education = () => {
 
   return (
     <>
-      <Container
-        back={
-          success
-            ? "#A5D6A7"
-            : fail
-            ? "#FFA270"
-            : category === "word"
-            ? "#fef3ed"
-            : "#FFFAC6"
-        }
-        justify={final ? "start" : "space-between"}
-      >
-        <NavBar />
-        {loading ? (
-          <Loading />
-        ) : final ? (
-          <>
-            <FinalPage handleSubmit={handleSubmit} />
-          </>
-        ) : (
-          <EduContent
-            category={category}
-            originData={originData}
-            setSuccess={setSuccess}
-            setFail={setFail}
-            success={success}
-            fail={fail}
-            setFinal={setFinal}
-            data={data}
-            setData={setData}
-          />
-        )}
-      </Container>
+      {["word", "sentence"].includes(category) ? (
+        <Container
+          back={
+            success
+              ? "#A5D6A7"
+              : fail
+              ? "#FFA270"
+              : category === "word"
+              ? "#fef3ed"
+              : "#FFFAC6"
+          }
+          justify={final ? "start" : "space-between"}
+        >
+          <NavBar />
+          {loading ? (
+            <Loading />
+          ) : final ? (
+            <>
+              <FinalPage handleSubmit={handleSubmit} />
+            </>
+          ) : (
+            <EduContent
+              category={category}
+              originData={originData}
+              setSuccess={setSuccess}
+              setFail={setFail}
+              success={success}
+              fail={fail}
+              setFinal={setFinal}
+              data={data}
+              setData={setData}
+            />
+          )}
+        </Container>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 };

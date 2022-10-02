@@ -23,33 +23,32 @@ const DiaryKeyword = () => {
   const [checkedList, setCheckedLists] = useState([]);
 
   // 단어 추천 함수
-  const wordRecommend = async() => {
-    const formData = new FormData()
-    formData.append('image', image.image_file)
+  const wordRecommend = async () => {
+    const formData = new FormData();
+    formData.append("image", image.image_file);
 
     const res = await axios({
-      method: 'post',
-      url: 'https://j7d209.p.ssafy.io/ai-api/diaries/keywords/',
+      method: "post",
+      url: "https://j7d209.p.ssafy.io/ai-api/diaries/keywords/",
       data: formData,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
 
     setWordList(res.data.data);
     setLoading(false);
-  }
+  };
 
   useEffect(() => {
     wordRecommend();
-  })
+  });
 
   // 선택에 따라 리스트 값 변경
   const onCheckedElement = useCallback(
     (checked, item) => {
       if (checked) {
         setCheckedLists([...checkedList, item]);
-
       } else {
         setCheckedLists(checkedList.filter((el) => el !== item));
       }
@@ -60,7 +59,7 @@ const DiaryKeyword = () => {
   return (
     <div className="background">
       <NavBar />
-      
+
       {loading ? (
         <Loading />
       ) : (
@@ -69,13 +68,13 @@ const DiaryKeyword = () => {
             {/* 머리글 */}
             <div className="diary-header">
               {username} 님이 고르신 사진이네요
-              <br/>
+              <br />
               일기장에 쓸 단어를 골라볼까요?
             </div>
 
             {/* 사진 */}
             <div className="img-body">
-              <img src={image.preview_URL} alt="이미지 없음"/>
+              <img src={image.preview_URL} alt="이미지 없음" />
             </div>
 
             {/* 단어 선택 */}
@@ -91,24 +90,25 @@ const DiaryKeyword = () => {
                     />
                     <span>{item}</span>
                   </div>
-                ))} 
+                ))}
               </div>
             </div>
-            
+
             <div>
               {checkedList[0] ? (
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() => navigate("/diarywriting", {state : { image : image, checkedList : checkedList }})}
-                  >
+                  onClick={() =>
+                    navigate("/diarywriting", {
+                      state: { image: image, checkedList: checkedList },
+                    })
+                  }
+                >
                   일기 쓰러가기
                 </Button>
               ) : (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  >
+                <Button variant="outlined" color="primary">
                   일기에 쓸 단어를 골라 주세요
                 </Button>
               )}
@@ -118,6 +118,6 @@ const DiaryKeyword = () => {
       )}
     </div>
   );
-}
+};
 
 export default DiaryKeyword;

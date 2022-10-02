@@ -63,7 +63,7 @@ const DiaryStart = () => {
   return (
     <div className="background">
       <NavBar />
-      
+
       {loading ? (
         <Loading />
       ) : (
