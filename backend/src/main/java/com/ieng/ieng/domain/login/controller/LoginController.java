@@ -29,23 +29,21 @@ public class LoginController {
     final static Logger logger = LogManager.getLogger(LoginController.class);
     @PostMapping
     public ResponseEntity<?> getLocalLogin(@RequestBody LoginRequestDto loginRequestDto){
-        try {
-            String email = loginRequestDto.getEmail();
-            logger.debug("email : " + email);
 
-            String accessToken = jwtService.createAccessToken(email);
-            String refreshToken = jwtService.createRefreshToken();
+        String email = loginRequestDto.getEmail();
+        logger.debug("email : " + email);
 
-            HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
-            memberService.updateRefreshToken(email, refreshToken);
-            MemberInfoResponseDto memberInfoResponseDto = loginService.loginIeng(loginRequestDto);
+        String accessToken = jwtService.createAccessToken(email);
+        String refreshToken = jwtService.createRefreshToken();
 
-            String picturePath = "user/"+email+"/profile/profile.jpg";
-            memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
+        HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
+        memberService.updateRefreshToken(email, refreshToken);
+        MemberInfoResponseDto memberInfoResponseDto = loginService.loginIeng(loginRequestDto);
 
-            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", memberInfoResponseDto));
-        }catch(NoExistMemberException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createSuccess("로그인 실패",null));
-        }
+        String picturePath = "user/"+email+"/profile/profile.jpg";
+        memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", memberInfoResponseDto));
+
     }
 }

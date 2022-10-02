@@ -37,8 +37,6 @@ public class GoogleLoginController {
     @PostMapping
     public ResponseEntity<?> getGoogleLogin(@RequestBody GoogleLoginRequestDto googleLoginRequestDto){
         logger.debug("google controller: " + googleLoginRequestDto.getIdToken());
-        try {
-
             MemberInfoResponseDto memberInfoResponseDto = googleLoginService.loginOAuthGoogle(googleLoginRequestDto);
             String email = memberInfoResponseDto.getEmail();
             logger.debug("google email : " + email);
@@ -53,10 +51,5 @@ public class GoogleLoginController {
             memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
 
             return ResponseEntity.status(HttpStatus.OK).headers(headers).body(CommonResponse.createSuccess("로그인 성공적으로 완료 되었습니다.", memberInfoResponseDto));
-        }catch(NoExistMemberException e){
-            return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("첫 로그인 구글 인증 완료",null));
-        }catch(NoGoogleAuthorizeException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createSuccess("구글 로그인 실패", null));
-        }
     }
 }

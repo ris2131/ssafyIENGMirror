@@ -39,7 +39,6 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> createMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data") MemberRequestDto memberRequestDto){
-        try {
             logger.debug("api/sign-up");
             String email = memberRequestDto.getEmail();
 
@@ -51,30 +50,23 @@ public class MemberController {
             MemberResponseDto memberResponseDto = memberService.createMember(memberRequestDto, refreshToken);
             logger.debug("done : createMember");
             memberService.uploadProfile(multipartFile , email);
-            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("회원가입이 완료되었습니다.", memberResponseDto));
-        } catch (DuplicateNicknameException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError("닉네임 중복 회원 가입 불가."));
-        }
-
+            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
     }
     @PostMapping("google-sign-up")
     public ResponseEntity<?> createGoogleMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data")  MemberGoogleRequestDto memberGoogleRequestDto){
-        try {
-            logger.debug("api/google-sign-up");
 
-            String refreshToken = jwtService.createRefreshToken();
-            MemberResponseDto memberResponseDto = memberGoogleService.signUpOauthGoogle(memberGoogleRequestDto, refreshToken);
-            String email = memberResponseDto.getEmail();
+        logger.debug("api/google-sign-up");
 
-            memberService.uploadProfile(multipartFile , email);
+        String refreshToken = jwtService.createRefreshToken();
+        MemberResponseDto memberResponseDto = memberGoogleService.signUpOauthGoogle(memberGoogleRequestDto, refreshToken);
+        String email = memberResponseDto.getEmail();
 
-            String accessToken = jwtService.createAccessToken(email);
-            HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
+        memberService.uploadProfile(multipartFile , email);
 
-            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
-        }catch (DuplicateNicknameException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError("닉네임 중복 회원 가입 불가."));
-        }
+        String accessToken = jwtService.createAccessToken(email);
+        HttpHeaders headers = loginService.createTokenHeader(accessToken, refreshToken);
+
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
     }
     @PutMapping("/info")
     public ResponseEntity<?> updateMemberInfo(HttpServletRequest request, @RequestPart(value = "profile_image", required = false) MultipartFile multipartFile ,@RequestPart(value = "data") MemberUpdateInfoRequestDto memberUpdateRequestDto){
