@@ -20,13 +20,16 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final AmazonS3Client amazonS3Client;
     private final S3UploaderServiceImpl s3UploaderService;
-
+    @Value("${cloud.aws.s3.domain}")
+    String s3Domain ;
     final static Logger logger = LogManager.getLogger(MemberServiceImpl.class);
     // 회원정보 확인
     @Override
     public MemberInfoResponseDto getMemberInfo(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto(member);
+        String picturePath = "user/"+email+"/profile/profile.jpg";
+        memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
 
         return memberInfoResponseDto;
     }
