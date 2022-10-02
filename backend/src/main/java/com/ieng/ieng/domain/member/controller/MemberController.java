@@ -50,7 +50,7 @@ public class MemberController {
             MemberResponseDto memberResponseDto = memberService.createMember(memberRequestDto, refreshToken);
             logger.debug("done : createMember");
             memberService.uploadProfile(multipartFile , email);
-            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
+            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("회원가입이 완료되었습니다.", memberResponseDto));
     }
     @PostMapping("google-sign-up")
     public ResponseEntity<?> createGoogleMember(@RequestPart("profile_image")MultipartFile multipartFile, @RequestPart("data")  MemberGoogleRequestDto memberGoogleRequestDto){
