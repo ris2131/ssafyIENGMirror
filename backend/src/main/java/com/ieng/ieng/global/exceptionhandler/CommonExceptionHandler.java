@@ -13,15 +13,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class CommonExceptionHandler {
+    @ExceptionHandler(DuplicateDiaryException.class)
+    public ResponseEntity<CommonResponse> handleDuplicateDiaryException(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.createError(e.getMessage()));
+    }
 
     @ExceptionHandler(DuplicateNicknameException.class)
     public ResponseEntity<CommonResponse> handleDuplicateNicknameException(RuntimeException e){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError(e.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.createError(e.getMessage()));
     }
 
     @ExceptionHandler(EmptyFileException.class)
     public ResponseEntity<CommonResponse> handleEmptyFileException(RuntimeException e){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError(e.getMessage()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
     }
 
     @ExceptionHandler(ExistNicknameException.class)
@@ -40,10 +44,13 @@ public class CommonExceptionHandler {
     public ResponseEntity<CommonResponse> handleInvalidateRefreshTokenException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError(e.getMessage()));
     }
-
+    @ExceptionHandler(NoDiaryException.class)
+    public ResponseEntity<CommonResponse> handleNoDiaryException(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
+    }
     @ExceptionHandler(NoExistMemberException.class)
     public ResponseEntity<CommonResponse> handleNoExistMemberException(RuntimeException e){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError(e.getMessage()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
     }
     @ExceptionHandler(NoGoogleAuthorizeException.class)
     public ResponseEntity<CommonResponse> handleNoGoogleAuthorizeException(RuntimeException e){
