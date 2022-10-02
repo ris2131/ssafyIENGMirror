@@ -10,7 +10,7 @@ import com.ieng.ieng.domain.member.dto.MemberInfoResponseDto;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.domain.member.service.MemberService;
-import com.ieng.ieng.global.exception.NoExistMemberException;
+import com.ieng.ieng.global.exception.FirstGoogleLoginException;
 import com.ieng.ieng.global.exception.NoGoogleAuthorizeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,12 +42,12 @@ public class GoogleLoginServiceImpl implements GoogleLoginService{
     public MemberInfoResponseDto loginOAuthGoogle(GoogleLoginRequestDto googleLoginRequestDto) {
         try{
             GoogleIdToken googleIdToken = verifier.verify(googleLoginRequestDto.getIdToken());
-            if(googleIdToken==null) throw new NoGoogleAuthorizeException("구글 회원 정보 오류.");
+            if(googleIdToken==null) throw new NoGoogleAuthorizeException("구글 로그인 실패.");
                 //return null;
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
             String email = payload.getEmail();
 
-            Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+            Member member = memberRepository.findByEmail(email).orElseThrow(() -> new FirstGoogleLoginException("첫 로그인 구글 인증 완료."));
 
             MemberInfoResponseDto memberInfoResponseDto = memberService.getMemberInfo(email);
 
