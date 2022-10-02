@@ -49,8 +49,8 @@ const RightBar = styled.div`
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userImg = useSelector((state) => state.auth.userImg);
-  const username = useSelector((state) => state.auth.username);
+  const userImg = useSelector((state) => state.auth.user.userImg);
+  const username = useSelector((state) => state.auth.user.nickname);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

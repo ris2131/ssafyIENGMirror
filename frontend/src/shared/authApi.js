@@ -14,6 +14,8 @@ export const authApi = {
   putuser: (data) => axios.put("api/members/info", data),
   putpassword: (pwd) => axios.put("api/members/password", pwd),
   deleteuser: () => axios.delete("api/members"),
+
+  getMyhistory: (date) => axios.get("api/histories", { params: { date } }),
 };
 
 const baseURL = "http://localhost:3000/api";

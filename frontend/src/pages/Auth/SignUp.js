@@ -22,7 +22,7 @@ import { GrLinkPrevious } from "react-icons/gr";
 import { TbCameraPlus } from "react-icons/tb";
 import { mobileback } from "../../assets/BackgroundImg";
 import Swal from "sweetalert2";
-import Timer from "./Timer";
+import Timer from "./components/Timer";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 

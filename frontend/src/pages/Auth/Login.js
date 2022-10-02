@@ -29,6 +29,7 @@ const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 `;
 
 const LogoImg = styled.img`
@@ -79,12 +80,15 @@ const IconDiv2 = styled.div`
   justify-content: center;
   align-items: center;
   width: 300px;
-  border-top: 1px solid #ececec;
 `;
 
 const StyledP = styled.p`
-  font-size: 12px;
+  @media screen and (max-width: 640px) {
+    font-size: 14px;
+  }
+  font-size: 18px;
   cursor: pointer;
+  font-family: IM_Hyemin-Bold;
 `;
 
 const FooterDiv = styled.div`
