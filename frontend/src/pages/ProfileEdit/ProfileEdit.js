@@ -9,7 +9,7 @@ import { authApi } from "../../shared/authApi";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  background-image: url(${backgroundImg});
+  // background-image: url(${backgroundImg});
   background-size: 100vw 100vh;
   font-family: KOTRAHOPE;
 `;

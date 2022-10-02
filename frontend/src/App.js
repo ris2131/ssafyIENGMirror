@@ -26,6 +26,7 @@ import Education from "./pages/education/Education";
 
 // NotFound
 import NotFound from "./pages/error/NotFound";
+import MyInfo from "./pages/MyInfo/MyInfo";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/test" element={<MyInfo />} />
         </Routes>
       </div>
     </>

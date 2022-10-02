@@ -4,8 +4,12 @@ import { setRefreshToken } from "../shared/Cookie";
 
 const initialState = {
   isLoggedIn: false,
-  username: "",
-  userImg: "",
+  user: {
+    nickname: "",
+    email: "",
+    userImg: "",
+    birth: "",
+  },
 };
 
 export const signup = createAsyncThunk(
@@ -134,8 +138,10 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       const { data } = action.payload;
       state.isLoggedIn = true;
-      state.username = data.nickname;
-      state.userImg = data.picturePath;
+      state.user.nickname = data.nickname;
+      state.user.email = data.email;
+      state.user.userImg = data.picturePath;
+      state.user.birth = data.birth_YMD;
     },
     [googleLogin.fulfilled]: (state, action) => {
       if (action.payload.data) {
