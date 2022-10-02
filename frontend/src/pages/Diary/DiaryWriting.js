@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import { authApi } from "../../shared/authApi";
+import { useSelector } from "react-redux";
 
 // css
 import "./Diary.scss";
@@ -15,6 +15,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 const DiaryWriting = () => {
+  const username = useSelector((state) => state.auth.username);
   const navigate = useNavigate();
   const location = useLocation();
   const { preview_URL, checkedList } = location.state;
@@ -40,15 +41,6 @@ const DiaryWriting = () => {
     }
   };
 
-  const [nickname, setNickname] = useState("");
-  const getUser = useCallback(() => {
-    authApi.getuser().then((res) => setNickname(() => res.data.data.nickname));
-  }, []);
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
-
   return (
     <div className="background">
       <NavBar />
@@ -57,7 +49,7 @@ const DiaryWriting = () => {
         <div className="diary-wrapper">
           {/* 머리글 */}
           <div className="diary-header">
-            {nickname} 님의 특별한 일기를 작성 해 주세요!
+            {username} 님의 특별한 일기를 작성 해 주세요!
             {/* 감정 선택 */}
             <div className="emotion">
               <div className="diary-header">오늘의 감정</div>

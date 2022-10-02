@@ -21,11 +21,7 @@ const ImageUploader = ({ image, setImage }) => {
       setImage({
         image_file: e.target.files[0],
         preview_URL: fileReader.result,
-      });
-
-      console.log(e.target.files[0])
-      console.log(image)
-      
+      }); 
     };
   };
 
@@ -70,7 +66,7 @@ const ImageUploader = ({ image, setImage }) => {
             <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate("/DiaryKeyword", {state : {preview_URL : image.preview_URL}})}
+            onClick={() => navigate("/DiaryKeyword", {state : {image : image}})}
             >
             일기 쓰러가기
             </Button>
