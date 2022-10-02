@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService{
             MemberResponseDto memberResponseDto = new MemberResponseDto(member);
             return memberResponseDto;
         }catch(DataIntegrityViolationException e){
-            throw new DuplicateNicknameException("닉네임 중복 입니다.");
+            throw new DuplicateNicknameException("닉네임 중복");
         }
     }
 

@@ -29,10 +29,8 @@ public class DiaryController {
     @GetMapping()
     public ResponseEntity<?> diaryDetail(HttpServletRequest request, @RequestParam("date") String date){
         String email = (String)request.getAttribute("email");
-        diaryService.diaryDetail(email, date);
         DiaryGetResponseDto diaryGetResponseDto = diaryService.diaryDetail(email, date);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 조회 성공", diaryGetResponseDto));
-
     }
 
     @PostMapping

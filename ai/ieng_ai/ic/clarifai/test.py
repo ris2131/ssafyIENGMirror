@@ -3,9 +3,8 @@
 # of the image we want as an input. Change these strings to run your own example.
 #######################################################################################
 
-USER_ID = 'sw133v'
-# Your PAT (Personal Access Token) can be found in the portal under Authentification
-PAT = 'bc82887e95dc4b4bb2ad205febd2362d'
+USER_ID = 'sw123v'
+PAT = '43f23be5445a418b997a13a9fba4fc17'
 APP_ID = 'image_recog'
 # Change these to whatever model and image URL you want to use
 MODEL_ID = 'general-image-recognition'
