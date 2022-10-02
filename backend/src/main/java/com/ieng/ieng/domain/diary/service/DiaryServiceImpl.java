@@ -11,11 +11,16 @@ import com.ieng.ieng.domain.diary.repository.DiaryKeywordRepository;
 import com.ieng.ieng.domain.diary.repository.DiaryRepository;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
+import com.ieng.ieng.global.exception.DuplicateDiaryException;
 import com.ieng.ieng.global.exception.EmptyFileException;
+import com.ieng.ieng.global.exception.NoDiaryException;
 import com.ieng.ieng.global.exception.NoExistMemberException;
 import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,15 +38,25 @@ public class DiaryServiceImpl implements DiaryService{
     private final DiaryRepository diaryRepository;
 
     private final DiaryKeywordRepository diaryKeywordRepository;
-    private final AmazonS3Client amazonS3Client;
     private final S3UploaderServiceImpl s3UploaderService;
     @Value("${cloud.aws.s3.domain}")
     String s3Domain ;
 
+    final static Logger logger = LogManager.getLogger(DiaryServiceImpl.class);
     @Override
     public DiaryGetResponseDto diaryDetail(String email, String date){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
-        Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
+         if(!diaryRepository.existsByMemberAndDiaryDTTM(member, date)) {
+
+            throw new NoDiaryException("해당 날짜 다이어리 내용이 없습니다.");
+        }
+        Diary diary;
+        try {
+            diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
+        }catch (IncorrectResultSizeDataAccessException e){
+            throw new DuplicateDiaryException("해당 날짜에 일기가 두개인 오류 발생.");
+        }
+
         List<DiaryKeyword> diaryKeywordList = diaryKeywordRepository.findByDiary_DiarySequence(diary.getDiarySequence());
         List<String> diaryKeywords = new ArrayList<>();
         for(DiaryKeyword diaryKeyword :diaryKeywordList){
@@ -61,7 +76,9 @@ public class DiaryServiceImpl implements DiaryService{
                 .diaryDTTM(diary.getDiaryDTTM())
                 .diaryKeywordList(diaryKeywords)
                 .build();
+
         return diaryGetResponseDto;
+
     }
 
 

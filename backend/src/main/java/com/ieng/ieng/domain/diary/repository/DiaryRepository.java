@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Diary findDiaryByMemberAndDiaryDTTM(Member member, String diaryDTTM);
-
+    boolean existsByMemberAndDiaryDTTM(Member member, String diaryDTTM);
     List<Diary> findDiaryByMemberAndDiaryDTTMStartsWith(Member member, String date);
+
+
 
 }
