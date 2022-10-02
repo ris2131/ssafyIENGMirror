@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // 메인
 import Home from "./pages/Main/Home";
@@ -27,8 +27,33 @@ import Education from "./pages/education/Education";
 // NotFound
 import NotFound from "./pages/error/NotFound";
 import MyInfo from "./pages/MyInfo/MyInfo";
+import { useEffect } from "react";
+import { getuser } from "./redux/AuthSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      const getUser = () => {
+        dispatch(getuser())
+          .unwrap()
+          .then()
+          .catch((err) => {
+            if (err.status === 401) {
+              localStorage.setItem("token", "");
+              navigate("/login");
+            }
+          });
+      };
+      getUser();
+    } else {
+      navigate("/login");
+    }
+  }, [dispatch, navigate, token]);
   return (
     <>
       <div className="App">

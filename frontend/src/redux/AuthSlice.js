@@ -118,7 +118,17 @@ export const emailAuth = createAsyncThunk(
   }
 );
 
-export const getMember = createAsyncThunk();
+export const getuser = createAsyncThunk(
+  "AuthSlice/getuser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await authApi.getuser();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -150,6 +160,14 @@ const authSlice = createSlice({
     },
     [googleNickname.fulfilled]: (state) => {
       state.isLoggedIn = true;
+    },
+    [getuser.fulfilled]: (state, action) => {
+      const { data } = action.payload;
+      state.isLoggedIn = true;
+      state.user.nickname = data.nickname;
+      state.user.email = data.email;
+      state.user.userImg = data.picturePath;
+      state.user.birth = data.birth_YMD;
     },
   },
 });

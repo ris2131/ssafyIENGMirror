@@ -18,6 +18,8 @@ const Container = styled.div`
   width: 50%;
   background-color: white;
   margin-top: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 5px 0px;
+  border-radius: 10px;
 `;
 
 const Description = styled.div`
