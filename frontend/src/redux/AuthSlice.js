@@ -17,7 +17,7 @@ export const signup = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await imgApi.signup(data);
-      localStorage.setItem("token", res.headers.Authorization);
+      localStorage.setItem("token", res.headers.authorization);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);
@@ -123,6 +123,18 @@ export const getuser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await authApi.getuser();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
+export const putuser = createAsyncThunk(
+  "AuthSlice/getuser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await imgApi.putuser(data);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);

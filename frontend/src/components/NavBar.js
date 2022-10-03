@@ -94,7 +94,7 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => navigate("/mypage")}>내 정보</MenuItem>
+        <MenuItem onClick={() => navigate("/myinfo")}>내 정보</MenuItem>
         <MenuItem onClick={() => navigate("/profileedit")}>
           회원정보 수정
         </MenuItem>

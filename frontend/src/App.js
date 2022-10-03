@@ -1,4 +1,7 @@
 import "./App.css";
+import { useEffect } from "react";
+import { getuser } from "./redux/AuthSlice";
+import { useDispatch } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 // 메인
@@ -27,9 +30,6 @@ import Education from "./pages/education/Education";
 // NotFound
 import NotFound from "./pages/error/NotFound";
 import MyInfo from "./pages/MyInfo/MyInfo";
-import { useEffect } from "react";
-import { getuser } from "./redux/AuthSlice";
-import { useDispatch } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,10 +80,10 @@ function App() {
           {/* 회원 정보 */}
           <Route path="/mypage" element={<MypageMain />} />
           <Route path="/profileedit" element={<ProfileEdit />} />
+          <Route path="/myinfo" element={<MyInfo />} />
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/test" element={<MyInfo />} />
         </Routes>
       </div>
     </>

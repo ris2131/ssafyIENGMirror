@@ -53,7 +53,7 @@ const ProfileEdit = () => {
   };
 
   const getUser = useCallback(() => {
-    authApi.getuser().then((res) => setOriginData(() => res.data.data));
+    authApi.getuser().then((res) => setOriginData(res.data.data));
   }, []);
 
   useEffect(() => {
