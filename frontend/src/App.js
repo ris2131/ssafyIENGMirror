@@ -51,7 +51,7 @@ function App() {
       };
       getUser();
     } else {
-      navigate("/login");
+      return;
     }
   }, [dispatch, navigate, token]);
   return (
