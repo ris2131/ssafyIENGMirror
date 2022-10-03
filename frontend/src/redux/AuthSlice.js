@@ -58,7 +58,7 @@ export const googleNickname = createAsyncThunk(
   "AuthSlice/googleNickname",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await authApi.googlesignup(data);
+      const res = await imgApi.googlesignup(data);
       localStorage.setItem("token", res.headers.authorization);
       return res.data;
     } catch (err) {
