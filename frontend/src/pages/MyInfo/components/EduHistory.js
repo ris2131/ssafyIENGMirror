@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { studyApi } from "../../../shared/studyApi";
 import EduHeader from "./EduHeader";
 import { useNavigate } from "react-router-dom";
+import Loading from "./../../../util/Loading";
 
 const Container = styled.div`
   @media screen and (max-width: 1000px) {
@@ -27,10 +28,17 @@ const HeaderBox = styled.div`
   background-color: white;
 `;
 
+const ContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const DiaryImg = styled.img`
-  width: 100%;
-  height: 100%;
-  over-fit: cover;
+  width: 98%;
+  height: 98%;
+  margin-bottom
 `;
 
 const DiaryMsg = styled.div`
@@ -51,6 +59,9 @@ const DiaryButton = styled.button`
   border-radius: 10px;
   margin-top: 10px;
   cursor: pointer;
+  &:hover {
+    background-color: #6ec6ff;
+  }
 `;
 
 const WordDiv = styled.div`
@@ -82,16 +93,50 @@ const RowBox = styled.div`
   font-size: 16px;
 `;
 
-const ImojiBox = styled.div`
+const EmojiWrapper = styled.div`
+  width: 70px;
+  height: 70px;
+  margin-top: 10px;
+`;
+
+const EmojiImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const EmojiBox = styled.div`
   margin: 2px;
   font-size: 18px;
 `;
 
-const testImg = process.env.PUBLIC_URL + `/assets/testimage.jpg`;
+const SText = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0px;
+`;
+
+const ContentText = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px 0px;
+`;
+
+const KeywordBox = styled.div`
+  display: flex;
+  width: 93%;
+`;
+
+const KeywordP = styled.div`
+  margin-right: 4px;
+  font-size: 14px;
+`;
+
+const baseUrl = process.env.PUBLIC_URL + `/assets/emoji/`;
 
 const EduHistory = ({ date }) => {
   const [category, setCategory] = useState("diary");
   const [initData, setInitData] = useState("");
+  const [loading, setLoading] = useState(true);
   const today = format(new Date(), "yyyy-MM-dd");
   const same = date === today ? true : false;
   const navigate = useNavigate();
@@ -101,7 +146,6 @@ const EduHistory = ({ date }) => {
       const getData = async () => {
         const res = await diaryApi.getdiary(date);
         setInitData(res.data.data);
-        console.log(res.data.data.diaryPicturePath);
       };
       getData();
     } else {
@@ -111,78 +155,95 @@ const EduHistory = ({ date }) => {
       };
       getData();
     }
+    setLoading(false);
   }, [date, category]);
 
   return (
     <Container>
-      <EduHeader category={category} setCategory={setCategory} />
-      {category === "diary" ? (
-        <HeaderBox>
-          {initData?.diaryPicturePath !== null ? (
-            <div>
-              <div>
-                <DiaryImg src={testImg} alt="#"></DiaryImg>
-              </div>
-              <div>{initData?.diaryContent}</div>
-              <div>{initData?.diaryEmotion}</div>
-              <div>
-                {initData?.diaryKeywordList?.map((v, i) => (
-                  <div key={i}>{v}</div>
-                ))}
-              </div>
-            </div>
-          ) : same ? (
-            <div>
-              <DiaryMsg>오늘 일기를 적으러 가볼까요?</DiaryMsg>
-              <DiaryButton onClick={() => navigate("/diarystart")}>
-                Go !
-              </DiaryButton>
-            </div>
-          ) : (
-            <DiaryMsg>이 날은 일기를 안 적었네요</DiaryMsg>
-          )}
-        </HeaderBox>
+      {loading ? (
+        <Loading />
       ) : (
-        <HeaderBox>
-          <WordDiv>
-            <Boxtitle back="#ffcc80">🧡단어</Boxtitle>
-            <ImojiBox>😀</ImojiBox>
-            {initData?.correctWordList?.length === 0 ? (
-              <RowBox>맞춘 단어가 없어요</RowBox>
-            ) : (
-              initData?.correctWordList?.map((v, i) => (
-                <RowBox key={i}>:{v.word}</RowBox>
-              ))
-            )}
-            <ImojiBox>😢</ImojiBox>
-            {initData?.incorrectWordList?.length === 0 ? (
-              <RowBox>틀린 단어가 없어요</RowBox>
-            ) : (
-              initData?.incorrectWordList?.map((v, i) => (
-                <RowBox key={i}>{v.word}</RowBox>
-              ))
-            )}
-          </WordDiv>
-          <SentenceDiv>
-            <Boxtitle back="#81d4fa">💙문장</Boxtitle>
-            <ImojiBox>😀</ImojiBox>
-            {initData?.correctSentenceList?.length === 0 ? (
-              <RowBox>맞춘 문장이 없어요</RowBox>
-            ) : (
-              initData?.correctSentenceList?.map((v, i) => (
-                <RowBox key={i}>{v.sentence}</RowBox>
-              ))
-            )}
-            <ImojiBox>😢</ImojiBox>
-            {initData?.incorrectSentenceList?.length === 0 ? (
-              <RowBox>틀린 문장이 없어요</RowBox>
-            ) : (
-              initData?.incorrectSentenceList?.map((v, i) => (
-                <RowBox key={i}>{v.sentence}</RowBox>
-              ))
-            )}
-          </SentenceDiv>
-        </HeaderBox>
+        <>
+          <EduHeader category={category} setCategory={setCategory} />
+          {category === "diary" ? (
+            <HeaderBox>
+              {initData?.diaryPicturePath !== null ? (
+                <ContentBox>
+                  <EmojiWrapper>
+                    <EmojiImg
+                      src={baseUrl + `${initData?.diaryEmotion}.png`}
+                      alt="#"
+                    />
+                  </EmojiWrapper>
+                  <SText>{initData?.diaryEmotion}</SText>
+
+                  <div>
+                    <DiaryImg
+                      src={initData.diaryPicturePath}
+                      alt="#"
+                    ></DiaryImg>
+                  </div>
+                  <KeywordBox>
+                    {initData?.diaryKeywordList?.map((v, i) => (
+                      <KeywordP key={i}>#{v}</KeywordP>
+                    ))}
+                  </KeywordBox>
+                  <ContentText>{initData?.diaryContent}</ContentText>
+                </ContentBox>
+              ) : same ? (
+                <div>
+                  <DiaryMsg>오늘 일기를 적으러 가볼까요?</DiaryMsg>
+                  <DiaryButton onClick={() => navigate("/diarystart")}>
+                    Go !
+                  </DiaryButton>
+                </div>
+              ) : (
+                <DiaryMsg>이 날은 일기를 안 적었네요</DiaryMsg>
+              )}
+            </HeaderBox>
+          ) : (
+            <HeaderBox>
+              <WordDiv>
+                <Boxtitle back="#ffcc80">🧡단어</Boxtitle>
+                <EmojiBox>😀</EmojiBox>
+                {initData?.correctWordList?.length === 0 ? (
+                  <RowBox>맞춘 단어가 없어요</RowBox>
+                ) : (
+                  initData?.correctWordList?.map((v, i) => (
+                    <RowBox key={i}>:{v.word}</RowBox>
+                  ))
+                )}
+                <EmojiBox>😢</EmojiBox>
+                {initData?.incorrectWordList?.length === 0 ? (
+                  <RowBox>틀린 단어가 없어요</RowBox>
+                ) : (
+                  initData?.incorrectWordList?.map((v, i) => (
+                    <RowBox key={i}>{v.word}</RowBox>
+                  ))
+                )}
+              </WordDiv>
+              <SentenceDiv>
+                <Boxtitle back="#81d4fa">💙문장</Boxtitle>
+                <EmojiBox>😀</EmojiBox>
+                {initData?.correctSentenceList?.length === 0 ? (
+                  <RowBox>맞춘 문장이 없어요</RowBox>
+                ) : (
+                  initData?.correctSentenceList?.map((v, i) => (
+                    <RowBox key={i}>{v.sentence}</RowBox>
+                  ))
+                )}
+                <EmojiBox>😢</EmojiBox>
+                {initData?.incorrectSentenceList?.length === 0 ? (
+                  <RowBox>틀린 문장이 없어요</RowBox>
+                ) : (
+                  initData?.incorrectSentenceList?.map((v, i) => (
+                    <RowBox key={i}>{v.sentence}</RowBox>
+                  ))
+                )}
+              </SentenceDiv>
+            </HeaderBox>
+          )}
+        </>
       )}
     </Container>
   );

@@ -73,12 +73,14 @@ const Profile = () => {
   const email = useSelector((state) => state.auth.user.email);
   const birth = useSelector((state) => state.auth.user.birth);
   const navigate = useNavigate();
+  console.log(profileImg);
   return (
     <Container>
       <HeaderBox>
         <ImgBox>
           <SImg src={profileImg || basicImg} alt="#"></SImg>
         </ImgBox>
+
         <NameBox>
           <Wrapper>
             <div>닉네임</div>

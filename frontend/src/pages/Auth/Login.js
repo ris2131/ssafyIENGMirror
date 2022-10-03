@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/AuthSlice";
 import GoogleComponent from "../OauthLogin/GoogleComponent";
+import Swal from "sweetalert2";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
@@ -88,7 +89,7 @@ const SButton = styled.button`
 
 const IconDiv2 = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 9vw;
+    margin-left: 7vw;
   }
   margin: 30px;
   display: flex;
@@ -107,7 +108,7 @@ const StyledP = styled.p`
 
 const FooterDiv = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
+    margin-left: 6vw;
   }
   width: 400px;
   display: flex;
@@ -137,7 +138,11 @@ const Login = () => {
     dispatch(login(data))
       .unwrap()
       .then(() => navigate("/"))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        if (err.status === 401) {
+          Swal.fire({ icon: "error", title: "사용자 정보를 확인해주세요" });
+        }
+      });
   };
 
   return (
@@ -176,9 +181,6 @@ const Login = () => {
           </IconDiv2>
         </LoginButtonBox>
         <FooterDiv>
-          <StyledP onClick={() => navigate("/forgotpassword")}>
-            비밀번호 찾기
-          </StyledP>
           <StyledP onClick={() => navigate("/signup")}>회원가입</StyledP>
         </FooterDiv>
       </LoginContainer>

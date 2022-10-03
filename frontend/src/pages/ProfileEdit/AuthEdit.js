@@ -2,9 +2,11 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-import { imgApi } from "../../shared/authApi";
 import ButtonFooter from "./ButtonFooter";
 import Swal from "sweetalert2";
+import { putuser } from "../../redux/AuthSlice";
+import { useDispatch } from "react-redux";
+import { authApi } from "../../shared/authApi";
 
 const ImgWrapper = styled.div`
   display: flex;
@@ -56,6 +58,7 @@ const AuthEdit = ({ originData }) => {
   const [birth, setBirth] = useState("");
   const [profile, setProfile] = useState("");
   const inputRef = useRef();
+  const dispatch = useDispatch();
 
   const fetchState = useCallback(() => {
     setEmail(originData.email);
@@ -92,18 +95,34 @@ const AuthEdit = ({ originData }) => {
       birth_YMD: birth,
     };
 
-    const formData = new FormData();
+    if (profile === "") {
+      authApi
+        .putuser(data)
+        .then(() =>
+          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
+        )
+        .catch((err) => console.error(err));
+    } else {
+      const formData = new FormData();
 
-    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+      const blob = new Blob([JSON.stringify(data)], {
+        type: "application/json",
+      });
 
-    formData.append("data", blob);
-    formData.append("profile_image", profile);
+      formData.append("data", blob);
+      formData.append("profile_image", profile);
 
-    imgApi
-      .putuser(formData)
-      .then(() =>
-        Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
-      );
+      dispatch(putuser(formData))
+        .unwrap()
+        .then(() =>
+          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
+        )
+        .catch((err) => {
+          if (err.status === 409) {
+            Swal.fire({ icon: "error", title: "닉네임 중복입니다!" });
+          }
+        });
+    }
   };
 
   useEffect(() => {
@@ -118,6 +137,7 @@ const AuthEdit = ({ originData }) => {
           <Pimg src={preview} alt="#"></Pimg>
         </PimgBox>
         <input
+          id="file"
           type="file"
           name="file"
           style={{ display: "none" }}

@@ -304,6 +304,7 @@ const SignUp = () => {
       .then(() => {
         Swal.fire({ icon: "success", title: "회원가입 완료!" });
         navigate("/");
+        console.log("hi");
       })
       .catch((err) => console.error(err));
   };
