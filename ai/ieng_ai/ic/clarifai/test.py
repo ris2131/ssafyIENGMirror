@@ -3,8 +3,8 @@
 # of the image we want as an input. Change these strings to run your own example.
 #######################################################################################
 
-USER_ID = 'sw123v'
-PAT = '43f23be5445a418b997a13a9fba4fc17'
+USER_ID = 'sw113'
+PAT = '6990a576be2e49439946b7e3b7b50a7f'
 APP_ID = 'image_recog'
 # Change these to whatever model and image URL you want to use
 MODEL_ID = 'general-image-recognition'
