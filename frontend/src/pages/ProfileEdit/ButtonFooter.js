@@ -15,6 +15,7 @@ const SButton = styled.button`
   padding: 10px;
   cursor: pointer;
   margin: 5px;
+  font-size: 16px;
 `;
 
 const ButtonFooter = ({ handleSubmit }) => {

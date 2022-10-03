@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-import { authApi } from "../../shared/authApi";
+import { imgApi } from "../../shared/authApi";
 import ButtonFooter from "./ButtonFooter";
 import Swal from "sweetalert2";
 
@@ -26,7 +26,6 @@ const Pimg = styled.img`
 
 const ImgTextBox = styled.div`
   display: flex;
-  justify-content: space-around;
   align-items: end;
 `;
 
@@ -38,7 +37,7 @@ const ImgText = styled.p`
 `;
 
 const MenuText = styled.p`
-  font-size: 20px;
+  font-size: 22px;
   width: 200px;
 `;
 
@@ -51,18 +50,18 @@ const MenuBox = styled.div`
 `;
 
 const AuthEdit = ({ originData }) => {
-  const [preview, setPreview] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-
+  const [preview, setPreview] = useState("");
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [birth, setBirth] = useState("");
+  const [profile, setProfile] = useState("");
+  const inputRef = useRef();
 
   const fetchState = useCallback(() => {
     setEmail(originData.email);
     setNickname(originData.nickname);
     setBirth(originData.birth_YMD);
+    setPreview(originData.picturePath);
   }, [originData]);
 
   const handleNickname = (e) => {
@@ -72,14 +71,36 @@ const AuthEdit = ({ originData }) => {
     setBirth(e.target.value);
   };
 
+  const changeImg = (e) => {
+    setProfile(e.target.files[0]);
+  };
+
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setPreview(reader.result);
+        resolve();
+      };
+    });
+  };
+
   const handleSubmit = () => {
     const data = {
       nickname,
       birth_YMD: birth,
     };
 
-    authApi
-      .putuser(data)
+    const formData = new FormData();
+
+    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+
+    formData.append("data", blob);
+    formData.append("profile_image", profile);
+
+    imgApi
+      .putuser(formData)
       .then(() =>
         Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
       );
@@ -96,8 +117,18 @@ const AuthEdit = ({ originData }) => {
         <PimgBox>
           <Pimg src={preview} alt="#"></Pimg>
         </PimgBox>
+        <input
+          type="file"
+          name="file"
+          style={{ display: "none" }}
+          ref={inputRef}
+          onChange={(e) => {
+            changeImg(e);
+            encodeFileToBase64(e.target.files[0]);
+          }}
+        />
         <ImgTextBox>
-          <ImgText color="#42a5f5" onClick={() => setPreview(preview)}>
+          <ImgText color="#42a5f5" onClick={() => inputRef.current.click()}>
             변경
           </ImgText>
           <ImgText>삭제</ImgText>
@@ -108,7 +139,7 @@ const AuthEdit = ({ originData }) => {
         <TextField
           disabled
           variant="standard"
-          style={{ width: "30%" }}
+          style={{ width: "40%" }}
           value={email || ""}
         />
       </MenuBox>
@@ -116,7 +147,7 @@ const AuthEdit = ({ originData }) => {
         <MenuText>닉네임</MenuText>
         <TextField
           variant="standard"
-          style={{ width: "30%" }}
+          style={{ width: "40%" }}
           value={nickname || ""}
           onChange={handleNickname}
         />
@@ -125,7 +156,7 @@ const AuthEdit = ({ originData }) => {
         <MenuText>생년월일</MenuText>
         <TextField
           variant="standard"
-          style={{ width: "30%" }}
+          style={{ width: "40%" }}
           value={birth || ""}
           onChange={handleBirth}
         />

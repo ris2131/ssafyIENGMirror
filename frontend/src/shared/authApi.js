@@ -27,5 +27,5 @@ const imageApi = axios.create({
 export const imgApi = {
   signup: (formData) => imageApi.post("members/sign-up", formData),
   googlesignup: (formData) => imageApi.post("members/google-sign-up", formData),
-  putuser: (formData) => imageApi.put("api/members/info", formData),
+  putuser: (formData) => imageApi.put("members/info", formData),
 };
