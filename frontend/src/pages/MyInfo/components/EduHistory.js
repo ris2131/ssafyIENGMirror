@@ -6,21 +6,14 @@ import { format } from "date-fns";
 import { studyApi } from "../../../shared/studyApi";
 import EduHeader from "./EduHeader";
 import { useNavigate } from "react-router-dom";
-// const MyButton = styled.button`
-//   border: 1px solid black;
-//   border-radius: 10px;
-//   padding: 8px;
-//   background-color:
-//   font-weight: bold;
-//   margin-right: 10px;
-// `;
 
 const Container = styled.div`
   @media screen and (max-width: 1000px) {
     width: 80%;
   }
   width: 50%;
-  margin: 20px 0px;
+  margin-top: 20px;
+  margin-bottom: 30px;
   border-radius: 10px;
 `;
 
@@ -108,6 +101,7 @@ const EduHistory = ({ date }) => {
       const getData = async () => {
         const res = await diaryApi.getdiary(date);
         setInitData(res.data.data);
+        console.log(res.data.data.diaryPicturePath);
       };
       getData();
     } else {
@@ -124,8 +118,19 @@ const EduHistory = ({ date }) => {
       <EduHeader category={category} setCategory={setCategory} />
       {category === "diary" ? (
         <HeaderBox>
-          {!testImg ? (
-            <DiaryImg src={testImg} alt="#"></DiaryImg>
+          {initData?.diaryPicturePath !== null ? (
+            <div>
+              <div>
+                <DiaryImg src={testImg} alt="#"></DiaryImg>
+              </div>
+              <div>{initData?.diaryContent}</div>
+              <div>{initData?.diaryEmotion}</div>
+              <div>
+                {initData?.diaryKeywordList?.map((v, i) => (
+                  <div key={i}>{v}</div>
+                ))}
+              </div>
+            </div>
           ) : same ? (
             <div>
               <DiaryMsg>오늘 일기를 적으러 가볼까요?</DiaryMsg>
