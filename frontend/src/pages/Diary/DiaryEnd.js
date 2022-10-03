@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 const DiaryEnd = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { preview_URL, checkedList, emotion, diary } = location.state;
+  const { image, checkedList, emotion, diary } = location.state;
   const today = new Date();
 
   return (
@@ -35,7 +35,7 @@ const DiaryEnd = () => {
           <div className="diary-body">
             <div className="text">
               {/* 사진 */}
-              <img src={preview_URL} alt=""/>
+              <img src={image.preview_URL} alt=""/>
             
               {/* 일기 */}
               <div className="content">
