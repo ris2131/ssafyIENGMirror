@@ -61,6 +61,9 @@ public class Member {
         //this.password = memberUpdatePasswordRequestDto.getCurPassword();
         this.password= memberUpdatePasswordRequestDto.getNewPassword();
     }
+    public void updatePicturePath(String picturePath){
+        this.picturePath=picturePath;
+    }
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }
