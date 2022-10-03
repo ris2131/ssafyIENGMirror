@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.core.files.storage import default_storage
-from . import test
+from . import tests
 
 
 
@@ -17,7 +17,8 @@ def stt(request):
     else:
         default_storage.save("voices"+'/'+voice.name,voice)
     print("!!!!!!!!!!")
-    ans = test(path)
+    ans = tests.ai(path)
+    # ans = test(path)
     print("???????????????")
     if ans:
         msg = "SUCCESS"
