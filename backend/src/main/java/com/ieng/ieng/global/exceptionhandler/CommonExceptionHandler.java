@@ -27,7 +27,10 @@ public class CommonExceptionHandler {
     public ResponseEntity<CommonResponse> handleEmptyFileException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
     }
-
+    @ExceptionHandler(ExistDiaryException.class)
+    public ResponseEntity<CommonResponse> handleExistDiaryException(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.createError(e.getMessage()));
+    }
     @ExceptionHandler(ExistNicknameException.class)
     public ResponseEntity<CommonResponse> handleExistNicknameException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.createError(e.getMessage()));
