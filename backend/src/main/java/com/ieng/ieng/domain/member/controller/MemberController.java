@@ -69,6 +69,14 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(CommonResponse.createSuccess("구글 회원가입이 완료되었습니다.", memberResponseDto));
     }
     @PutMapping("/info")
+    public ResponseEntity<?> updateMemberInfo(HttpServletRequest request, @RequestPart(value = "data") MemberUpdateInfoRequestDto memberUpdateRequestDto){
+        String email = (String) request.getAttribute("email");
+        logger.debug("email:{}" , email);
+        MemberResponseDto memberResponseDto = memberService.updateMemberInfo(email, memberUpdateRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("회원정보 수정이 완료되었습니다.",memberResponseDto));
+    }
+    @PutMapping("/info-image")
     public ResponseEntity<?> updateMemberInfo(HttpServletRequest request, @RequestPart(value = "profile_image", required = false) MultipartFile multipartFile ,@RequestPart(value = "data") MemberUpdateInfoRequestDto memberUpdateRequestDto){
         String email = (String) request.getAttribute("email");
         logger.debug("email:{}" , email);
