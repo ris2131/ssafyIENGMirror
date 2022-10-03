@@ -141,7 +141,7 @@ const DiaryCheck = () => {
 
     return (
       <div>
-        <div onClick={handleOpen}>제출하기</div>
+        <Button onClick={handleOpen}>제출하기</Button>
 
         <Modal
           open={open}
@@ -231,17 +231,13 @@ const DiaryCheck = () => {
             </div>
 
             <div className="button">
-              <Button
-                variant="outlined"
-                color="primary"
+              <Button               
                 onClick={() => {spellCheck(content)}}
               >
                 검사 하기
               </Button>
 
-              <Button variant="outlined" color="primary">
-                <BasicModal title={title} description={description} />
-              </Button>
+              <BasicModal title={title} description={description} />
             </div>
           </div>
         </div>

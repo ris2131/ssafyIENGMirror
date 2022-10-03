@@ -7,8 +7,8 @@
 
   .img-wrapper {
     img {
-      height: 40vh;
       width: 40vw;
+      max-width: 500px;
       border-radius: 20px;
       object-fit: fill;
     }
@@ -16,7 +16,9 @@
   
   .upload-button {
     button {
-      background-color: white;
+      background-color:#42a5f5;
+      border: none;
+      color: white;
     
       margin: 10px 5px;
       font-size: 1.5vw;
@@ -24,6 +26,10 @@
 
       min-height: 5vh;
       min-width: 10vw;
+    }
+
+    button:hover {
+      box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
     }
   }
 }

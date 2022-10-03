@@ -45,8 +45,6 @@ const ImageUploader = ({ image, setImage }) => {
       <div className="upload-button">
         {image.preview_URL === "image/default_image.png" ? (
           <Button
-            variant="outlined"
-            color="primary"
             onClick={() => inputRef.click()}
           >
             오늘의 일기 사진 업로드
@@ -56,17 +54,13 @@ const ImageUploader = ({ image, setImage }) => {
 
           <div>
             <Button
-              variant="outlined"
-              color="primary"
               onClick={() => inputRef.click()}
             >
               사진 다시 고르기
             </Button>
 
             <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate("/DiaryKeyword", {state : {image : image}})}
+              onClick={() => navigate("/DiaryKeyword", {state : {image : image}})}
             >
             일기 쓰러가기
             </Button>
