@@ -44,10 +44,6 @@ public class CommonExceptionHandler {
     public ResponseEntity<CommonResponse> handleInvalidateRefreshTokenException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.createError(e.getMessage()));
     }
-    @ExceptionHandler(NoDiaryException.class)
-    public ResponseEntity<CommonResponse> handleNoDiaryException(RuntimeException e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
-    }
     @ExceptionHandler(NoExistMemberException.class)
     public ResponseEntity<CommonResponse> handleNoExistMemberException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));
