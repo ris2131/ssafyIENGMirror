@@ -10,7 +10,7 @@ import {
 } from "../../redux/AuthSlice";
 import { Toast } from "../../assets/Toast";
 
-import GoogleTest from "../OauthLogin/GoogleTest";
+import GoogleComponent from "../OauthLogin/GoogleComponent";
 
 // style
 import styled from "styled-components";
@@ -27,7 +27,7 @@ import Timer from "./components/Timer";
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const SingUpBox = styled.div`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 1000px) {
     background-image: url(${mobileback});
   }
 
@@ -69,8 +69,9 @@ const LogoText = styled.h1`
 `;
 
 const FlexInputDiv = styled.div`
-  @media screen and (max-width: 821px) {
-    width: 50vw;
+  @media screen and (max-width: 1000px) {
+    width: 45vw;
+    margin-left: 8vw;
   }
   display: flex;
   justify-content: space-between;
@@ -82,6 +83,7 @@ const FlexInputDiv = styled.div`
 
 const CheckButton = styled.button`
   margin-top: 20px;
+  margin-left: 20px;
   border: none;
   border-radius: 10px;
   background-color: ${(props) => props.back};
@@ -92,15 +94,19 @@ const CheckButton = styled.button`
 `;
 
 const InputDiv = styled.div`
-  @media screen and (max-width: 821px) {
-    width: 50vw;
+  @media screen and (max-width: 1000px) {
+    width: 45vw;
+    margin-left: 8vw;
   }
   width: 20vw;
-  width: ${(props) => props.width};
   margin-bottom: 10px;
 `;
 
 const IconDiv = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 7vw;
+  }
+
   margin: 30px;
   display: flex;
   justify-content: center;
@@ -109,8 +115,9 @@ const IconDiv = styled.div`
 `;
 
 const SButton = styled.button`
-  @media screen and (max-width: 821px) {
-    width: 50vw;
+  @media screen and (max-width: 1000px) {
+    width: 45vw;
+    margin-left: ${(props) => props.margin};
   }
 
   border-radius: 20px;
@@ -130,6 +137,9 @@ const ProfileContainer = styled.div`
 `;
 
 const ProfileSection = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-right: 7vw;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -150,13 +160,23 @@ const Profileimg = styled.img`
 `;
 
 const DateWrapper = styled.div`
-  @media screen and (max-width: 821px) {
-    width: 50vw;
+  @media screen and (max-width: 1000px) {
+    width: 45vw;
+    margin-left: 8vw;
   }
-
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   width: 20vw;
+`;
+
+const MarginBox = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 7vw;
+  }
+`;
+
+const SelectBox = styled.div`
+  margin: 0px 10px;
 `;
 
 const SignUp = () => {
@@ -176,13 +196,6 @@ const SignUp = () => {
   const [emailPass, setEmailPass] = useState(false);
   const [timeOn, setTimeOn] = useState(false);
 
-  // 타이머
-  // const [min, setMin] = useState(5);
-  // const [sec, setSec] = useState(0);
-  // const time = useRef(300);
-  // const timerId = useRef(null);
-
-  // 이메일 유효성 확인
   const [emailStatus, setEmailStatus] = useState(false);
 
   const monthList = [...Array(12)].map((v, i) => i + 1);
@@ -423,11 +436,12 @@ const SignUp = () => {
               onKeyPress={(e) => (e.key === "Enter" ? setPage(2) : null)}
             />
           </InputDiv>
-
-          <IconDiv>
-            <GrLinkNext onClick={handlePage} />
-          </IconDiv>
-          <GoogleTest />
+          <MarginBox>
+            <IconDiv>
+              <GrLinkNext onClick={handlePage} />
+            </IconDiv>
+            <GoogleComponent />
+          </MarginBox>
         </>
       ) : (
         <>
@@ -468,43 +482,42 @@ const SignUp = () => {
             />
           </InputDiv>
           <DateWrapper>
-            <InputDiv width="7vw">
-              <TextField
-                fullWidth
-                label="년(4자)"
-                variant="standard"
-                value={year}
-                onChange={handleYear}
-              />
-            </InputDiv>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={month}
-              onChange={handleMonth}
-              label="월"
-            >
-              {date.map((v, i) => (
-                <MenuItem value={v} key={i}>
-                  {v}
-                </MenuItem>
-              ))}
-            </Select>
-
-            <InputDiv width="7vw">
-              <TextField
-                fullWidth
-                label="일"
-                variant="standard"
-                value={day}
-                onChange={handleDay}
-              />
-            </InputDiv>
+            <TextField
+              fullWidth
+              label="년(4자)"
+              variant="standard"
+              value={year}
+              onChange={handleYear}
+            />
+            <SelectBox>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={month}
+                onChange={handleMonth}
+                label="월"
+              >
+                {date.map((v, i) => (
+                  <MenuItem value={v} key={i}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+            </SelectBox>
+            <TextField
+              fullWidth
+              label="일"
+              variant="standard"
+              value={day}
+              onChange={handleDay}
+            />
           </DateWrapper>
           <IconDiv>
             <GrLinkPrevious onClick={handlePage} />
           </IconDiv>
-          <SButton onClick={handleSubmit}>회원가입</SButton>
+          <SButton margin="7vw" onClick={handleSubmit}>
+            회원가입
+          </SButton>
         </>
       )}
     </SingUpBox>

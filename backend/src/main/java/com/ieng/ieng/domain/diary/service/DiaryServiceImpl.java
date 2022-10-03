@@ -1,6 +1,5 @@
 package com.ieng.ieng.domain.diary.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.ieng.ieng.domain.diary.dto.DiaryDeleteDto;
 import com.ieng.ieng.domain.diary.dto.DiaryGetResponseDto;
 import com.ieng.ieng.domain.diary.dto.DiaryKeywordDto;
@@ -13,7 +12,6 @@ import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.global.exception.DuplicateDiaryException;
 import com.ieng.ieng.global.exception.EmptyFileException;
-import com.ieng.ieng.global.exception.NoDiaryException;
 import com.ieng.ieng.global.exception.NoExistMemberException;
 import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +44,19 @@ public class DiaryServiceImpl implements DiaryService{
     @Override
     public DiaryGetResponseDto diaryDetail(String email, String date){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
-         if(!diaryRepository.existsByMemberAndDiaryDTTM(member, date)) {
-
-            throw new NoDiaryException("해당 날짜 다이어리 내용이 없습니다.");
+        DiaryGetResponseDto diaryGetResponseDto;
+        Diary diary = null;
+        //없으면
+        if(!diaryRepository.existsByMemberAndDiaryDTTM(member, date)){
+            diaryGetResponseDto  = DiaryGetResponseDto.builder()
+                    .build();
+            return diaryGetResponseDto;
         }
-        Diary diary;
+        //있으면
         try {
-            diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
+            if(diaryRepository.existsByMemberAndDiaryDTTM(member, date)) {
+                diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, date);
+            }
         }catch (IncorrectResultSizeDataAccessException e){
             throw new DuplicateDiaryException("해당 날짜에 일기가 두개인 오류 발생.");
         }
@@ -65,11 +69,9 @@ public class DiaryServiceImpl implements DiaryService{
 
         String picturePath = "user/"+email+"/diary"+"/"+date+"/photo.jpg";
 
-
-        DiaryGetResponseDto diaryGetResponseDto  = DiaryGetResponseDto.builder()
+        diaryGetResponseDto  = DiaryGetResponseDto.builder()
                 .diarySequence(diary.getDiarySequence())
                 .memberSequence(member.getMemberSequence())
-                //.diaryPicturePath(diary.getDiaryPicturePath())
                 .diaryPicturePath(s3Domain+picturePath)
                 .diaryContent(diary.getDiaryContent())
                 .diaryEmotion(diary.getDiaryEmotion())
@@ -78,7 +80,6 @@ public class DiaryServiceImpl implements DiaryService{
                 .build();
 
         return diaryGetResponseDto;
-
     }
 
 

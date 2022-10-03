@@ -7,12 +7,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/AuthSlice";
-import GoogleTest from "../OauthLogin/GoogleTest";
+import GoogleComponent from "../OauthLogin/GoogleComponent";
 
 const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const LoginContainer = styled.div`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 1000px) {
     background-image: url(${mobileback});
   }
 
@@ -26,6 +26,12 @@ const LoginContainer = styled.div`
 `;
 
 const LogoDiv = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 7vw;
+  }
+  @media screen and (min-width: 1000px) {
+    margin-right: 50px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +39,7 @@ const LogoDiv = styled.div`
 `;
 
 const LogoImg = styled.img`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 640px) {
     width: 70px;
     height: 70px;
   }
@@ -44,7 +50,7 @@ const LogoImg = styled.img`
 `;
 
 const LogoText = styled.h1`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 640px) {
     font-size: 50px;
   }
 
@@ -55,8 +61,9 @@ const LogoText = styled.h1`
 `;
 
 const InputDiv = styled.div`
-  @media screen and (max-width: 821px) {
+  @media screen and (max-width: 1000px) {
     width: 50vw;
+    margin-left: 8vw;
   }
 
   width: 20vw;
@@ -64,17 +71,25 @@ const InputDiv = styled.div`
 `;
 
 const SButton = styled.button`
+  @media screen and (max-width: 1000px) {
+    width: 50vw;
+  }
   border-radius: 20px;
   color: white;
   border: none;
   background-color: #42a5f5;
-  padding: 10px;
+  padding: 5px;
   margin-top: 40px;
   width: 20vw;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
 `;
 
 const IconDiv2 = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 9vw;
+  }
   margin: 30px;
   display: flex;
   justify-content: center;
@@ -83,19 +98,27 @@ const IconDiv2 = styled.div`
 `;
 
 const StyledP = styled.p`
-  @media screen and (max-width: 640px) {
-    font-size: 14px;
+  @media screen and (max-width: 1000px) {
+    font-size: 16px;
   }
   font-size: 18px;
   cursor: pointer;
-  font-family: IM_Hyemin-Bold;
 `;
 
 const FooterDiv = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 7vw;
+  }
   width: 400px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+`;
+
+const LoginButtonBox = styled.div`
+  @media screen and (max-width: 1000px) {
+    margin-left: 7vw;
+  }
 `;
 
 const Login = () => {
@@ -146,10 +169,12 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </InputDiv>
-        <SButton onClick={handleSubmit}>로그인</SButton>
-        <IconDiv2>
-          <GoogleTest text="로그인" />
-        </IconDiv2>
+        <LoginButtonBox>
+          <SButton onClick={handleSubmit}>로그인</SButton>
+          <IconDiv2>
+            <GoogleComponent text="로그인" />
+          </IconDiv2>
+        </LoginButtonBox>
         <FooterDiv>
           <StyledP onClick={() => navigate("/forgotpassword")}>
             비밀번호 찾기
