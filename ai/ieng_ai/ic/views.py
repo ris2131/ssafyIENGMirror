@@ -1,7 +1,5 @@
 from email.policy import default
 from django.shortcuts import render
-
-
 from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from django.views.decorators.http import require_http_methods,require_POST,require_safe
 from rest_framework.response import Response
@@ -10,6 +8,7 @@ from rest_framework import status
 from django.core.files.storage import default_storage
 import io
 from .models import Image
+from .clarifai.test import test
 
 @api_view(['POST'])
 def imagecaption(request):
@@ -27,8 +26,8 @@ def imagecaption(request):
         default_storage.save("images"+'/'+img.name,img)
     else:
         default_storage.save("images"+'/'+img.name,img)
-    from .clarifai.test import test
     
+
     ans = test(path)
     
     if ans:
@@ -40,4 +39,4 @@ def imagecaption(request):
         "data" : ans        
     }
     return Response(res,status=status.HTTP_200_OK)
-    
+
