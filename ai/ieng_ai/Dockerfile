@@ -1,7 +1,9 @@
 # ./Dockerfile for Django
 FROM python:3.9
 
-RUN apt-get update
+RUN apt-get update \
+	&& apt-get install ffmpeg -y
+	
 
 #    && apt-get install -y --no-install-recommends \
 #       postgresql-client \
