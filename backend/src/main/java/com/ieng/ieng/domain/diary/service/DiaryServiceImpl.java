@@ -12,6 +12,7 @@ import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
 import com.ieng.ieng.global.exception.DuplicateDiaryException;
 import com.ieng.ieng.global.exception.EmptyFileException;
+import com.ieng.ieng.global.exception.ExistDiaryException;
 import com.ieng.ieng.global.exception.NoExistMemberException;
 import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -88,8 +89,12 @@ public class DiaryServiceImpl implements DiaryService{
     public void createDiary(String email, DiaryRequestDto diaryRequestDto){
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if(diaryRepository.existsByMemberAndDiaryDTTM(member,date.format(formatter))){
+            throw new ExistDiaryException("오늘 이미 일기 작성 완료.");
+        }
         Diary diary = Diary.builder()
                 .member(member)
                 .diaryPicturePath(diaryRequestDto.getPicturePath())
