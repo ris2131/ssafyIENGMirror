@@ -15,10 +15,10 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 const DiaryWriting = () => {
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector((state) => state.auth.user.nickname);
   const navigate = useNavigate();
   const location = useLocation();
-  const { preview_URL, checkedList } = location.state;
+  const { image, checkedList } = location.state;
 
   // 오늘의 기분
   const [emotion, setEmotion] = useState("");
@@ -133,7 +133,7 @@ const DiaryWriting = () => {
           <div className="diary-body">
             <div className="text">
               {/* 사진 */}
-              <img src={preview_URL} alt="" />
+              <img src={image.preview_URL} alt="" />
 
               {/* 일기 */}
               <textarea
@@ -176,7 +176,7 @@ const DiaryWriting = () => {
                   wordCheck();
                   navigate("/diarycheck", {
                     state: {
-                      preview_URL: preview_URL,
+                      image: image,
                       checkedList: CheckedWord,
                       emotion: emotion,
                       diary: content,
