@@ -7,8 +7,6 @@ import java.util.List;
 
 @Getter
 public class DiaryRequestDto {
-    @JsonProperty("picture_path")
-    private String picturePath;
 
     @JsonProperty("content")
     private String content;
