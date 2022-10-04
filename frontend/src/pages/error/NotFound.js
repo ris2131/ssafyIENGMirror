@@ -1,11 +1,10 @@
 import NavBar from "./../../components/NavBar";
 
 import styled from "styled-components";
-import { backgroundImg } from "../../assets/BackgroundImg";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  background-image: url(${backgroundImg});
+  background-color: #f5f5f5;
   height: 100vh;
 `;
 

@@ -12,11 +12,10 @@ export const authApi = {
   getuser: () => axios.get("api/members"),
   putpassword: (pwd) => axios.put("api/members/password", pwd),
   deleteuser: () => axios.delete("api/members"),
-  putuser: (data) => axios.put("api/members/info", data),
   getMyhistory: (date) => axios.get("api/histories", { params: { date } }),
 };
 
-const baseURL = "http://localhost:3000/api";
+const baseURL = "https://j7d209.p.ssafy.io/api/";
 const imageApi = axios.create({
   baseURL,
   headers: {
@@ -38,5 +37,6 @@ imageApi.interceptors.request.use((config) => {
 export const imgApi = {
   signup: (formData) => imageApi.post("members/sign-up", formData),
   googlesignup: (formData) => imageApi.post("members/google-sign-up", formData),
-  putuser: (formData) => imageApi.put("members/info-image", formData),
+  putuserimage: (formData) => imageApi.put("members/info-image", formData),
+  putuser: (data) => imageApi.put("members/info", data),
 };

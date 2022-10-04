@@ -5,7 +5,6 @@ import NavBar from "../../components/NavBar";
 //import { diaryPostApi } from "../../shared/diaryApi";
 import { useSelector } from "react-redux";
 
-
 // css
 import "./Diary.scss";
 import { Button } from "@mui/material";
@@ -35,11 +34,11 @@ const style = {
 // headers 설정
 const sp_api = axios.create({
   baseURL: "https://api.bing.microsoft.com/v7.0/spellcheck",
-  headers:{
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Ocp-Apim-Subscription-Key': 'ce11f020da1241f182ed7ee34ec9fcc1',
-  }
-})
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Ocp-Apim-Subscription-Key": "ce11f020da1241f182ed7ee34ec9fcc1",
+  },
+});
 
 const DiaryCheck = () => {
   const username = useSelector((state) => state.auth.user.nickname);
@@ -58,11 +57,11 @@ const DiaryCheck = () => {
   const [checked, setChecked] = useState({});
 
   // 맞춤법 검사 함수
-  const spellCheck = async(text) => {
-    const mkt = "en-US"
-    const mode = "proof"
+  const spellCheck = async (text) => {
+    const mkt = "en-US";
+    const mode = "proof";
 
-    const {data} = await sp_api.post(`?mkt=${mkt}&mode=${mode}&text=${text}`);
+    const { data } = await sp_api.post(`?mkt=${mkt}&mode=${mode}&text=${text}`);
 
     let wrongWordList = {};
 
@@ -79,41 +78,44 @@ const DiaryCheck = () => {
       }
     }
     setLoading(false);
-    setChecked(wrongWordList)
-  }
+    setChecked(wrongWordList);
+  };
 
   useEffect(() => {
     spellCheck(diary);
-  },[diary])
+  }, [diary]);
 
   // 일기 제출하기
   const handleSubmit = useCallback(async () => {
-    const keywords = []
+    const keywords = [];
     for (let i = 0; i < checkedList.length; i++) {
-      keywords.push({"keyword" : checkedList[i]})
+      keywords.push({ keyword: checkedList[i] });
     }
 
     const temp = {
-      content : content,
-      emotion : emotion,
-      keywords : keywords
-    }
+      content: content,
+      emotion: emotion,
+      keywords: keywords,
+    };
 
-    const formData = new FormData()
-    formData.append('diary_image', image.image_file)
-    formData.append("data", new Blob([JSON.stringify(temp)], {type: "application/json"}))
+    const formData = new FormData();
+    formData.append("diary_image", image.image_file);
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(temp)], { type: "application/json" })
+    );
 
-    const baseURL = "http://localhost:3000/";
+    const baseURL = "https://j7d209.p.ssafy.io/";
     const token = localStorage.getItem("token");
     const postApi = axios.create({
       baseURL,
       headers: {
         "Content-type": "multipart/form-data",
-        "Authorization": token,
+        Authorization: token,
       },
     });
 
-    try{  
+    try {
       const res = await postApi.post("api/diaries", formData);
 
       if (res.data.status === "SUCCESS") {
@@ -125,11 +127,11 @@ const DiaryCheck = () => {
             emotion: emotion,
             diary: content,
           },
-        })
+        });
       }
     } catch (e) {
       // 서버에서 받은 에러 메시지 출력
-      console.log(e)
+      console.log(e);
     }
   }, [navigate, content, emotion, checkedList, image]);
 
@@ -141,7 +143,7 @@ const DiaryCheck = () => {
 
     return (
       <div>
-        <Button onClick={handleOpen}>제출하기</Button>
+        <div onClick={handleOpen}>제출하기</div>
 
         <Modal
           open={open}
@@ -218,11 +220,11 @@ const DiaryCheck = () => {
                       <span>완벽하네요!</span>
                     ) : (
                       <div>
-                      {Object.entries(checked).map((item, index) => (
-                        <div key={index}>
-                          {item[0]} -&gt; {item[1]}
-                        </div>
-                      ))}
+                        {Object.entries(checked).map((item, index) => (
+                          <div key={index}>
+                            {item[0]} -&gt; {item[1]}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -231,13 +233,19 @@ const DiaryCheck = () => {
             </div>
 
             <div className="button">
-              <Button               
-                onClick={() => {spellCheck(content)}}
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  spellCheck(content);
+                }}
               >
                 검사 하기
               </Button>
 
-              <BasicModal title={title} description={description} />
+              <Button variant="outlined" color="primary">
+                <BasicModal title={title} description={description} />
+              </Button>
             </div>
           </div>
         </div>
