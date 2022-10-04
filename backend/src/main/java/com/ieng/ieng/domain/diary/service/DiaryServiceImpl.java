@@ -40,6 +40,9 @@ public class DiaryServiceImpl implements DiaryService{
     private final DiaryKeywordRepository diaryKeywordRepository;
     private final S3UploaderServiceImpl s3UploaderService;
 
+    @Value("${cloud.aws.s3.domain}")
+    String s3Domain ;
+
     final static Logger logger = LogManager.getLogger(DiaryServiceImpl.class);
     @Override
     public DiaryGetResponseDto diaryDetail(String email, String date){
