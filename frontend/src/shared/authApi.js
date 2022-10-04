@@ -15,7 +15,8 @@ export const authApi = {
   getMyhistory: (date) => axios.get("api/histories", { params: { date } }),
 };
 
-const baseURL = "api/";
+const baseURL = "https://j7d209.p.ssafy.io/api/";
+// const baseURL = "api/";
 const imageApi = axios.create({
   baseURL,
   headers: {

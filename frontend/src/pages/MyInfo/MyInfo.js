@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Wrap = styled.div`
   background-color: #f5f5f5;
+  font-family: EarlyFontDiary;
 `;
 
 const Container = styled.div`
@@ -15,7 +16,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // width: 100vw;
 `;
 
 const MyInfo = () => {

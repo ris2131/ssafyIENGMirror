@@ -10,7 +10,6 @@ import Home from "./pages/Main/Home";
 // 로그인
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import ForgotPassword from "./pages/Auth/ForgotPassword";
 import GoogleIntro from "./pages/OauthLogin/GoogleIntro";
 
 // 일기 작성
@@ -21,7 +20,6 @@ import DiaryCheck from "./pages/Diary/DiaryCheck";
 import DiaryEnd from "./pages/Diary/DiaryEnd";
 
 // 회원 정보
-import MypageMain from "./pages/Mypage/Mypage.Main";
 import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 
 // 학습
@@ -67,7 +65,6 @@ function App() {
           {/* 로그인 */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/googleintro" element={<GoogleIntro />} />
 
           {/* 문장, 단어 */}
@@ -81,7 +78,6 @@ function App() {
           <Route path="/diaryend" element={<DiaryEnd />} />
 
           {/* 회원 정보 */}
-          <Route path="/mypage" element={<MypageMain />} />
           <Route path="/profileedit" element={<ProfileEdit />} />
           <Route path="/myinfo" element={<MyInfo />} />
 

@@ -18,7 +18,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2.5vw;
+    font-size: 40px;
     font-weight: bold;
     margin: 15px 0;
 
@@ -34,7 +34,7 @@
       flex-direction: column;
     }
 
-    // 감정 선택 box 
+    // 감정 선택 box
     .emo {
       display: flex;
       flex-direction: row;
@@ -45,9 +45,8 @@
       border: 1px solid black;
       border-radius: 20px;
       padding: 5px;
-      background-color: greenyellow;
     }
-    
+
     // 감정 선택
     .emotion {
       display: flex;
@@ -98,9 +97,8 @@
 
     border: 1px solid black;
     border-radius: 20px;
-    background-color: greenyellow;
     padding-top: 10px;
-  
+
     // 글상자
     .text {
       display: flex;
@@ -113,7 +111,7 @@
         max-width: 800px;
         height: 43vh;
         max-height: 600px;
-      
+
         border: 1px solid black;
         border-radius: 20px;
 
@@ -190,9 +188,7 @@
 
     border: 1px solid black;
     border-radius: 20px;
-    background-color: greenyellow;
     padding: 10px;
-   
 
     img {
       width: 43.5vw;
@@ -252,13 +248,13 @@
       .btn {
         display: none;
       }
-      
+
       // 호버 효과
       .check-button:hover {
         box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
         cursor: pointer;
       }
-      
+
       // 체크시 css 변경
       input:checked + label {
         border: 1px solid black;
@@ -338,8 +334,6 @@
 // PC 기준
 @media all and (min-width: 821px) {
   .background {
-    background-image: url("../../../public/assets/mainback2.PNG");
-
     min-height: 100vh;
     height: auto;
   }
@@ -348,8 +342,6 @@
 // 모바일 기준
 @media all and (max-width: 821px) {
   .background {
-    background-image: url("../../../public/assets/mainback2.PNG");
-
     min-height: 100vh;
     height: auto;
   }
