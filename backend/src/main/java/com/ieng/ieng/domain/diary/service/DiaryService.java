@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface DiaryService {
 
-    void createDiary(String email, DiaryRequestDto diaryRequestDto);
+    void createDiary(String email, DiaryRequestDto diaryRequestDto, MultipartFile multipartFile);
 
     void deleteDiary(String email, DiaryDeleteDto diaryDeleteDto);
 
