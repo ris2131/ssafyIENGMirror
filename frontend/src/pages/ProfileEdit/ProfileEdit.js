@@ -5,6 +5,7 @@ import NavBar from "../../components/NavBar";
 import AuthEdit from "./AuthEdit";
 import PasswordEdit from "./PasswordEdit";
 import { authApi } from "../../shared/authApi";
+import { useSelector } from "react-redux";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -47,6 +48,7 @@ const TitleText = styled.h1`
 const ProfileEdit = () => {
   const [status, setStatus] = useState(1);
   const [originData, setOriginData] = useState("");
+  const provider = useSelector((state) => state.auth.user.provider);
 
   const colorSelect = (v) => {
     return status === v ? "black" : "#bdbdbd";
@@ -69,9 +71,11 @@ const ProfileEdit = () => {
             <TitleText color={colorSelect(1)} onClick={() => setStatus(1)}>
               회원정보 수정
             </TitleText>
-            <TitleText color={colorSelect(2)} onClick={() => setStatus(2)}>
-              비밀번호 변경
-            </TitleText>
+            {provider === "ieng" ? (
+              <TitleText color={colorSelect(2)} onClick={() => setStatus(2)}>
+                비밀번호 변경
+              </TitleText>
+            ) : null}
           </TitleDiv>
           {status === 1 ? (
             <AuthEdit originData={originData} />

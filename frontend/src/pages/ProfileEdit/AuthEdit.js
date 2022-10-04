@@ -103,7 +103,6 @@ const AuthEdit = ({ originData }) => {
       imgApi
         .putuser(formData)
         .then(() => {
-          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" });
           window.location.reload();
         })
         .catch((err) => console.error(err));
@@ -112,7 +111,6 @@ const AuthEdit = ({ originData }) => {
       imgApi
         .putuserimage(formData)
         .then(() => {
-          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" });
           window.location.reload();
         })
         .catch((err) => {
@@ -149,7 +147,6 @@ const AuthEdit = ({ originData }) => {
           <ImgText color="#42a5f5" onClick={() => inputRef.current.click()}>
             변경
           </ImgText>
-          <ImgText>삭제</ImgText>
         </ImgTextBox>
       </ImgWrapper>
       <MenuBox>

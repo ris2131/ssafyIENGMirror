@@ -20,7 +20,6 @@ import Select from "@mui/material/Select";
 import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 import { TbCameraPlus } from "react-icons/tb";
-import { mobileback } from "../../assets/BackgroundImg";
 import Swal from "sweetalert2";
 import Timer from "./components/Timer";
 
@@ -28,7 +27,8 @@ const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const SingUpBox = styled.div`
   @media screen and (max-width: 1000px) {
-    background-image: url(${mobileback});
+    background-image: none;
+    background-color: #f5f5f5;
   }
 
   display: flex;
@@ -44,6 +44,7 @@ const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 const LogoImg = styled.img`
@@ -54,7 +55,6 @@ const LogoImg = styled.img`
 
   width: 100px;
   height: 100px;
-  margin: 10px;
 `;
 
 const LogoText = styled.h1`
@@ -71,7 +71,6 @@ const LogoText = styled.h1`
 const FlexInputDiv = styled.div`
   @media screen and (max-width: 1000px) {
     width: 45vw;
-    margin-left: 8vw;
   }
   display: flex;
   justify-content: space-between;
@@ -96,7 +95,6 @@ const CheckButton = styled.button`
 const InputDiv = styled.div`
   @media screen and (max-width: 1000px) {
     width: 45vw;
-    margin-left: 8vw;
   }
   width: 20vw;
   margin-bottom: 10px;
@@ -104,7 +102,6 @@ const InputDiv = styled.div`
 
 const IconDiv = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
   }
 
   margin: 30px;
@@ -117,7 +114,6 @@ const IconDiv = styled.div`
 const SButton = styled.button`
   @media screen and (max-width: 1000px) {
     width: 45vw;
-    margin-left: ${(props) => props.margin};
   }
 
   border-radius: 20px;
@@ -137,9 +133,6 @@ const ProfileContainer = styled.div`
 `;
 
 const ProfileSection = styled.div`
-  @media screen and (max-width: 1000px) {
-    margin-right: 7vw;
-  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -162,7 +155,6 @@ const Profileimg = styled.img`
 const DateWrapper = styled.div`
   @media screen and (max-width: 1000px) {
     width: 45vw;
-    margin-left: 8vw;
   }
   display: flex;
   align-items: center;
@@ -171,7 +163,6 @@ const DateWrapper = styled.div`
 
 const MarginBox = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
   }
 `;
 
@@ -304,7 +295,6 @@ const SignUp = () => {
       .then(() => {
         Swal.fire({ icon: "success", title: "회원가입 완료!" });
         navigate("/");
-        console.log("hi");
       })
       .catch((err) => console.error(err));
   };
@@ -323,10 +313,7 @@ const SignUp = () => {
     const data = {
       email,
     };
-    dispatch(sendEmail(data))
-      .unwrap()
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+    dispatch(sendEmail(data));
   };
 
   const getCode = () => {
