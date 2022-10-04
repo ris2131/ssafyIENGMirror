@@ -23,6 +23,11 @@ public class CommonExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.createError(e.getMessage()));
     }
 
+    @ExceptionHandler(EmptyDiaryException.class)
+    public ResponseEntity<CommonResponse> handleEmptyDiaryException(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError((e.getMessage())));
+    }
+
     @ExceptionHandler(EmptyFileException.class)
     public ResponseEntity<CommonResponse> handleEmptyFileException(RuntimeException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.createError(e.getMessage()));

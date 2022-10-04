@@ -36,7 +36,7 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<?> createDiary(HttpServletRequest request, @RequestPart("diary_image")MultipartFile multipartFile, @RequestPart("data") DiaryRequestDto diaryRequestDto){
         String email = (String)request.getAttribute("email");
-        diaryService.createDiary(email, diaryRequestDto);
+        diaryService.createDiary(email, diaryRequestDto, multipartFile);
         diaryService.uploadDiaryImage(multipartFile , email);
         return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.createSuccess("그림일기 작성 성공",null));
     }
