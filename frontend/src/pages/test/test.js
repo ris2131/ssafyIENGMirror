@@ -1,41 +1,23 @@
-import { useState, useCallback,} from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
+import useRecorder from "./useRecoder"
 
 // css
 import { Button } from "@mui/material";
 
 const ApiTest = () => {
-  const [file, setFile] = useState({
-    file: {},
-    preview: "not",
-  });
-  let inputRef;
-
-  // 파일 저장
-  const saveFile = (e) => {
-    e.preventDefault();
-    const fileReader = new FileReader();
-
-    if (e.target.files[0]) {
-      fileReader.readAsDataURL(e.target.files[0]);
-    }
-
-    fileReader.onload = () => {
-      setFile({
-        file: e.target.files[0],
-        preview: fileReader.result,
-      }); 
-    };
-  };
+  let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
+  const [res, setRes] = useState("");
 
   // 제출 
   const handleSubmit = useCallback(async () => {
-    console.log("제출")
-
     const formData = new FormData()
-    formData.append('voice', file.file)
 
-    const baseURL = "http://localhost:3000/";
+    let blob = await fetch(audioURL).then(r => r.blob());
+
+    formData.append('voice', blob)
+
+    const baseURL = "https://j7d209.p.ssafy.io/";
     const postApi = axios.create({
       baseURL,
       headers: {
@@ -45,53 +27,47 @@ const ApiTest = () => {
 
     try{
       const res = await postApi.post("ai-api/studies/stt/", formData);
-      console.log(res)
 
-      if (res.data.status === "SUCCESS") {
-        window.alert("등록이 완료되었습니다.");
+      if (res.data.message === "SUCCESS") {
+        window.alert("분석 완료!");
+        setRes(res.data.data)
       }
     } catch (e) {
       // 서버에서 받은 에러 메시지 출력
       console.log(e)
     }
-  }, [file]);
+  }, [audioURL]);
 
   return (
     <div>
       <div>
-        {file.preview}
+        <audio src={audioURL} controls />
+        <button onClick={startRecording} disabled={isRecording}>
+          start
+        </button>
+        <button onClick={stopRecording} disabled={!isRecording}>
+          stop
+        </button>
       </div>
 
-      <input
-        type="file"
-        accept="wav/*"
-        onChange={saveFile}
-        ref={(refParam) => (inputRef = refParam)}
-        style={{ display: "none" }}
-      />
-
-      {file.preview === "not" ? (
+      {audioURL === "" ? (
         <div>
-          <Button
-            onClick={() => inputRef.click()}
-          >
-            파일 선택
-          </Button>
+          녹음 하세요!
         </div>
       ) : (
         <div>
-          <Button
-            onClick={() => inputRef.click()}
-          >
-            파일 재선택
-          </Button>
-
           <Button
             onClick={handleSubmit}
           >
             제출
           </Button>
         </div>
+      )}
+
+      {res === "" ? (
+        <div></div>
+      ) : (
+        <div>{res}</div>
       )}
     </div>
   );
