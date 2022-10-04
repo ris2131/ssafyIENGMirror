@@ -10,10 +10,7 @@ import com.ieng.ieng.domain.diary.repository.DiaryKeywordRepository;
 import com.ieng.ieng.domain.diary.repository.DiaryRepository;
 import com.ieng.ieng.domain.member.entity.Member;
 import com.ieng.ieng.domain.member.repository.MemberRepository;
-import com.ieng.ieng.global.exception.DuplicateDiaryException;
-import com.ieng.ieng.global.exception.EmptyFileException;
-import com.ieng.ieng.global.exception.ExistDiaryException;
-import com.ieng.ieng.global.exception.NoExistMemberException;
+import com.ieng.ieng.global.exception.*;
 import com.ieng.ieng.global.s3.S3UploaderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +90,12 @@ public class DiaryServiceImpl implements DiaryService{
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
 
         LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        if(diaryRepository.existsByMemberAndDiaryDTTM(member,date.format(formatter))){
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd/HH:mm:ss");
+
+        logger.debug("date!!!!!!!!!!!!!!"+dateTime);
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if(diaryRepository.existsByMemberAndDiaryDTTM(member,dateTime.format(formatter))){
             throw new ExistDiaryException("오늘 이미 일기 작성 완료.");
         }
         Diary diary = Diary.builder()
@@ -101,7 +103,7 @@ public class DiaryServiceImpl implements DiaryService{
                 .diaryPicturePath(diaryRequestDto.getPicturePath())
                 .diaryContent(diaryRequestDto.getContent())
                 .diaryEmotion(diaryRequestDto.getEmotion())
-                .diaryDTTM(date.format(formatter))
+                .diaryDTTM(dateTime.format(formatter))
                 .build();
         diaryRepository.save(diary);
         List<DiaryKeywordDto> diaryKeywordList = diaryRequestDto.getDiaryKeywordList();
@@ -139,8 +141,15 @@ public class DiaryServiceImpl implements DiaryService{
     @Override
     public void deleteDiary(String email, DiaryDeleteDto diaryDeleteDto){
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
-        Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, diaryDeleteDto.getDate());
-        diaryRepository.delete((diary));
+
+        if (diaryRepository.existsByMemberAndDiaryDTTM(member, diaryDeleteDto.getDate())){
+            Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member, diaryDeleteDto.getDate());
+            diaryRepository.delete((diary));
+        }
+        else{
+            throw new EmptyDiaryException("해당날짜에 조회되는 일기가 없습니다.");
+        }
+
     }
 
 }
