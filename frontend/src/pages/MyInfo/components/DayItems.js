@@ -34,9 +34,6 @@ const DayBox = styled.div`
   font-weight: bold;
   color: ${(props) => props.color};
   background-color: ${(props) => props.back};
-  &:hover {
-    background-color: #f1f8e9;
-  }
   cursor: pointer;
 `;
 

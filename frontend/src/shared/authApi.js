@@ -14,30 +14,3 @@ export const authApi = {
   deleteuser: () => axios.delete("api/members"),
   getMyhistory: (date) => axios.get("api/histories", { params: { date } }),
 };
-
-// const baseURL = "https://j7d209.p.ssafy.io/api/";
-// // const baseURL = "api/";
-// const imageApi = axios.create({
-//   baseURL,
-//   headers: {
-//     "Content-type": "multipart/form-data",
-//   },
-// });
-
-// imageApi.interceptors.request.use((config) => {
-//   if (!config.headers.authorization) {
-//     const token = localStorage.getItem("token");
-
-//     if (token) {
-//       config.headers.Authorization = token;
-//     }
-//   }
-//   return config;
-// });
-
-// export const imgApi = {
-//   signup: (formData) => imageApi.post("members/sign-up", formData),
-//   googlesignup: (formData) => imageApi.post("members/google-sign-up", formData),
-//   putuserimage: (formData) => imageApi.put("members/info-image", formData),
-//   putuser: (data) => imageApi.put("members/info", data),
-// };

@@ -31,7 +31,6 @@ export const quizSubmit = createAsyncThunk(
     const submitData = {
       data,
     };
-    console.log(submitData);
     try {
       const res = await eduApi.quizsubmit(category, submitData);
       return res.data;

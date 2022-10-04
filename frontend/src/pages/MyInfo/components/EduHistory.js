@@ -38,7 +38,7 @@ const ContentBox = styled.div`
 const DiaryImg = styled.img`
   width: 98%;
   height: 98%;
-  margin-bottom
+  border-radius: 15px;
 `;
 
 const DiaryMsg = styled.div`

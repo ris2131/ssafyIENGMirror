@@ -11,7 +11,7 @@ import DiaryButton from "./Components/DiaryButton";
 const WordList = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   width: 100%;
 `;
 
