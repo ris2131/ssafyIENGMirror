@@ -31,6 +31,9 @@ import Education from "./pages/education/Education";
 import NotFound from "./pages/error/NotFound";
 import MyInfo from "./pages/MyInfo/MyInfo";
 
+// test
+import Test from "./pages/test/test";
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,6 +87,9 @@ function App() {
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
+
+          {/* test */}
+          <Route path="/test" element={<Test />} />
         </Routes>
       </div>
     </>

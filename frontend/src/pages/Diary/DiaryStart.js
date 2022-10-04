@@ -82,8 +82,8 @@ const DiaryStart = () => {
                   오늘은 이미 일기를 작성했어요!
                   {/* 기분 */}
                   <div className="emotion">
-                    <span>오늘의 기분 : {diaryEmotion}</span>
                     <img src={`image/${diaryEmotion}.png`} alt=""/>
+                    <span>{diaryEmotion}</span>
                   </div>  
                 </div>
 
