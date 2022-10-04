@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
-import { removeRefreshToken } from "../shared/Cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/AuthSlice";
 
@@ -62,7 +61,6 @@ const NavBar = () => {
 
   const handleLogout = () => {
     localStorage.setItem("token", "");
-    removeRefreshToken();
     dispatch(authActions.logout());
     navigate("/login");
   };

@@ -115,13 +115,11 @@ const DiaryStart = () => {
               <div>
                 {/* 머리글 */}
                 <div className="diary-header">
-                  일기에 사용할 사진을 추가해주세요!
+                  📷일기에 사용할 사진을 추가해주세요!
                 </div>
 
                 {/* 사진 업로드 */}
-                <div className="diary-body">
-                  <ImageUploader image={image} setImage={setImage} />
-                </div>
+                <ImageUploader image={image} setImage={setImage} />
               </div>
             )}
           </div>

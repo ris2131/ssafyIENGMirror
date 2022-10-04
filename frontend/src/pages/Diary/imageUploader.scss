@@ -3,45 +3,25 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 15px;
 
-  .img-wrapper {
-    img {
-      width: 40vw;
-      max-width: 500px;
-      border-radius: 20px;
-      object-fit: fill;
-    }
-  }
-  
-  .upload-button {
-    button {
-      background-color:#42a5f5;
-      border: none;
-      color: white;
-    
-      margin: 10px 5px;
-      font-size: 1.5vw;
-      border-radius: 20px;
-
-      min-height: 5vh;
-      min-width: 10vw;
-    }
-
-    button:hover {
-      box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-    }
-  }
+  // .img-wrapper {
+  //   img {
+  //     width: 40vw;
+  //     max-width: 500px;
+  //     border-radius: 20px;
+  //     object-fit: fill;
+  //   }
+  // }
 }
 
-// 모바일 기준
-@media all and (max-width: 821px) {
-  .uploader-wrapper{
-    .img-wrapper {
-      img {
-        width: 80vw;
-        height: auto;
-      }
-    }
-  }
-}
+// // 모바일 기준
+// @media all and (max-width: 821px) {
+//   .uploader-wrapper {
+//     .img-wrapper {
+//       img {
+//         width: 80vw;
+//         height: auto;
+//       }
+//     }
+//   }
+// }

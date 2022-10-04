@@ -2,7 +2,21 @@ import { useNavigate } from "react-router-dom";
 
 // css
 import "./imageUploader.scss";
-import { Button } from "@mui/material";
+import styled from "styled-components";
+import DiaryButton from "./Components/DiaryButton";
+
+const ImgWrapper = styled.div`
+  @media screen and (max-width: 1000px) {
+    width: 80vw;
+  }
+  width: 40vw;
+`;
+
+const Simg = styled.img`
+  width: 85%;
+  height: 85%;
+  border-radius: 20px;
+`;
 
 const ImageUploader = ({ image, setImage }) => {
   const navigate = useNavigate();
@@ -21,7 +35,7 @@ const ImageUploader = ({ image, setImage }) => {
       setImage({
         image_file: e.target.files[0],
         preview_URL: fileReader.result,
-      }); 
+      });
     };
   };
 
@@ -37,34 +51,37 @@ const ImageUploader = ({ image, setImage }) => {
       />
 
       {/* 미리보기 */}
-      <div className="img-wrapper">
-        <img src={image.preview_URL} alt="이미지 없음"/>
-      </div>
-      
+      <ImgWrapper>
+        <Simg
+          src={image.preview_URL}
+          alt="이미지 없음"
+          onClick={() => inputRef.click()}
+        />
+      </ImgWrapper>
+
       {/* 업로드 버튼 */}
-      <div className="upload-button">
+      <div>
         {image.preview_URL === "image/default_image.png" ? (
-          <Button
+          <DiaryButton
+            back="#63b4f4"
             onClick={() => inputRef.click()}
-          >
-            오늘의 일기 사진 업로드
-          </Button>
-
-          ) : (
-
+            text="업로드"
+          />
+        ) : (
           <div>
-            <Button
+            <DiaryButton
+              back="#bdbdbd"
               onClick={() => inputRef.click()}
-            >
-              사진 다시 고르기
-            </Button>
-
-            <Button
-              onClick={() => navigate("/DiaryKeyword", {state : {image : image}})}
-            >
-            일기 쓰러가기
-            </Button>
-          </div>    
+              text="사진 바꾸기"
+            />
+            <DiaryButton
+              back="#63b4f4"
+              onClick={() =>
+                navigate("/DiaryKeyword", { state: { image: image } })
+              }
+              text="일기 쓰러가기"
+            />
+          </div>
         )}
       </div>
     </div>

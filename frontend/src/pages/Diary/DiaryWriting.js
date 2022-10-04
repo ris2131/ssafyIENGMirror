@@ -1,18 +1,43 @@
 import { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import { useSelector } from "react-redux";
+
+import styled from "styled-components";
 
 // css
 import "./Diary.scss";
-import { Button } from "@mui/material";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import DiaryButton from "./Components/DiaryButton";
 
-const emo = ["Happy", "Fun", "Envy", "Curious", "Nervous", "SoSo", "Shy", "Tired", "Sad", "Angry"]
+const WordList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
+const WordBox = styled.div`
+  background-color: ${(props) => props.back};
+  color: ${(props) => props.color};
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 5px 0px;
+  margin: 10px;
+  padding: 8px;
+  border-radius: 15px;
+`;
+
+const emo = [
+  "Happy",
+  "Fun",
+  "Envy",
+  "Curious",
+  "Nervous",
+  "SoSo",
+  "Shy",
+  "Tired",
+  "Sad",
+  "Angry",
+];
 
 const DiaryWriting = () => {
-  const username = useSelector((state) => state.auth.user.nickname);
   const navigate = useNavigate();
   const location = useLocation();
   const { image, checkedList } = location.state;
@@ -22,7 +47,7 @@ const DiaryWriting = () => {
 
   const handleSelect = useCallback((e) => {
     setEmotion(e.target.value);
-  },[]);
+  }, []);
 
   // 일기 내용
   const [content, setContent] = useState("");
@@ -46,11 +71,10 @@ const DiaryWriting = () => {
         <div className="diary-wrapper">
           {/* 머리글 */}
           <div className="diary-header">
-            {username} 님의 특별한 일기를 작성 해 주세요!
             {/* 감정 선택 */}
             <div className="headbox">
-              <div className="diary-header">오늘의 감정</div>
-              
+              <div className="diary-header">😁오늘의 감정</div>
+
               <div className="emo">
                 {emo.map((value, index) => (
                   <div key={index}>
@@ -61,9 +85,9 @@ const DiaryWriting = () => {
                       id={value}
                       value={value}
                       onChange={handleSelect}
-                      />
-                    <label for={value} className="emotion">
-                      <img src={`image/${value}.png`} alt=""/>
+                    />
+                    <label htmlFor={value} className="emotion">
+                      <img src={`image/${value}.png`} alt="#" />
                       <span>{value}</span>
                     </label>
                   </div>
@@ -73,49 +97,49 @@ const DiaryWriting = () => {
           </div>
 
           {/* 일기 작성 */}
-          <div className="diary-header">오늘의 일기</div>
+          <div className="diary-header">📗오늘의 일기</div>
 
           <div className="diary-body">
             <div className="text">
               {/* 사진 */}
-              <img src={image.preview_URL} alt="" />
+              <div>
+                <img src={image.preview_URL} alt="" />
+              </div>
 
-              {/* 일기 */}
-              <textarea
-                onChange={(e) => {
-                  setContent(e.target.value);
-                }}
-                className="text"
-                placeholder="오늘 하루는 어떤 일이 있었나요?"
-                value={content}
-              />
-            </div>
-          </div>
+              {/* 단어 */}
+              <WordList>
+                {checkedList.map((item, idx) => (
+                  <WordBox
+                    key={idx}
+                    back={content.includes(item) ? "#bdbdbd" : "white"}
+                    color={content.includes(item) ? "white" : "black"}
+                  >
+                    #{item}
+                  </WordBox>
+                ))}
+              </WordList>
 
-          {/* 단어 */}
-          <div className="words">
-            <div className="diary-header">사용한 단어</div>
-            <div className="word">
-              {checkedList.map((item, index) => (
-                <div className="word-list" key={index}>
-                  {content.includes(item) ? (
-                    <TaskAltIcon />
-                  ) : (
-                    <RadioButtonUncheckedIcon />
-                  )}
-                  <span>{item}</span>
-                </div>
-              ))}
+              <div>
+                <textarea
+                  style={{ fontFamily: "IM_Hyemin-Bold", fontSize: "24px" }}
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                  }}
+                  className="text"
+                  placeholder="오늘 하루는 어떤 일이 있었나요?"
+                  value={content}
+                />
+              </div>
             </div>
           </div>
 
           <div>
             {emotion === "" || content === "" ? (
-              <Button>
-                아직 입력하지 않은 내용이 있어요
-              </Button>
+              <DiaryButton text="감정과 내용을 입력해주세요" back="#bdbdbd" />
             ) : (
-              <Button
+              <DiaryButton
+                back="#63b4f4"
+                text="문법 체크"
                 onClick={() => {
                   wordCheck();
                   navigate("/diarycheck", {
@@ -127,9 +151,7 @@ const DiaryWriting = () => {
                     },
                   });
                 }}
-              >
-                문법 체크
-              </Button>
+              />
             )}
           </div>
         </div>
