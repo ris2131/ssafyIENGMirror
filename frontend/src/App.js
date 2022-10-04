@@ -42,7 +42,6 @@ function App() {
       const getUser = () => {
         dispatch(getuser())
           .unwrap()
-          .then()
           .catch((err) => {
             if (err.status === 401) {
               localStorage.setItem("token", "");
@@ -51,8 +50,6 @@ function App() {
           });
       };
       getUser();
-    } else {
-      return;
     }
   }, [dispatch, navigate, token]);
   return (

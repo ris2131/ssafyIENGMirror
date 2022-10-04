@@ -144,7 +144,11 @@ const EduHistory = ({ date }) => {
   useEffect(() => {
     if (category === "diary") {
       const getData = async () => {
-        const res = await diaryApi.getdiary(date);
+        const res = await diaryApi.getdiary(date).catch((err) => {
+          if (err.response.status === 401) {
+            navigate("/login");
+          }
+        });
         setInitData(res.data.data);
       };
       getData();
@@ -155,8 +159,9 @@ const EduHistory = ({ date }) => {
       };
       getData();
     }
+
     setLoading(false);
-  }, [date, category]);
+  }, [date, category, navigate]);
 
   return (
     <Container>
@@ -171,7 +176,7 @@ const EduHistory = ({ date }) => {
                 <ContentBox>
                   <EmojiWrapper>
                     <EmojiImg
-                      src={baseUrl + `${initData?.diaryEmotion}.png`}
+                      src={initData && baseUrl + `${initData.diaryEmotion}.png`}
                       alt="#"
                     />
                   </EmojiWrapper>
