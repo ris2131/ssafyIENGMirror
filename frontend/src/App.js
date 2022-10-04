@@ -42,11 +42,9 @@ function App() {
       const getUser = () => {
         dispatch(getuser())
           .unwrap()
-          .catch((err) => {
-            if (err.status === 401) {
-              localStorage.setItem("token", "");
-              navigate("/login");
-            }
+          .catch(() => {
+            localStorage.setItem("token", "");
+            navigate("/login");
           });
       };
       getUser();
