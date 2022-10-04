@@ -90,14 +90,18 @@ const DiaryKeyword = () => {
             <div className="words">
               <div className="keyword-check">
                 {wordList.map((item, index) => (
-                  <div className="check-button" key={index}>
+                  <div key={index}>
                     <input
-                      key={item}
+                      className="btn"
+                      id={item}
+                      value={item}
                       type="checkbox"
                       onChange={(e) => onCheckedElement(e.target.checked, item)}
                       checked={checkedList.includes(item) ? true : false}
                     />
-                    <span>{item}</span>
+                    <label for={item} className="check-button">
+                      <span>{item}</span>
+                    </label>
                   </div>
                 ))} 
               </div>
@@ -106,16 +110,12 @@ const DiaryKeyword = () => {
             <div>
               {checkedList[0] ? (
                 <Button
-                  variant="outlined"
-                  color="primary"
                   onClick={() => navigate("/diarywriting", {state : { image : image, checkedList : checkedList }})}
                   >
                   일기 쓰러가기
                 </Button>
               ) : (
                 <Button
-                  variant="outlined"
-                  color="primary"
                   >
                   일기에 쓸 단어를 골라 주세요
                 </Button>

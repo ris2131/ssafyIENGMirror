@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -38,6 +39,7 @@ public class DiaryServiceImpl implements DiaryService{
 
     private final DiaryKeywordRepository diaryKeywordRepository;
     private final S3UploaderServiceImpl s3UploaderService;
+
     @Value("${cloud.aws.s3.domain}")
     String s3Domain ;
 
@@ -68,12 +70,10 @@ public class DiaryServiceImpl implements DiaryService{
             diaryKeywords.add(diaryKeyword.getDiaryKeyword());
         }
 
-        String picturePath = "user/"+email+"/diary"+"/"+date+"/photo.jpg";
-
         diaryGetResponseDto  = DiaryGetResponseDto.builder()
                 .diarySequence(diary.getDiarySequence())
                 .memberSequence(member.getMemberSequence())
-                .diaryPicturePath(s3Domain+picturePath)
+                .diaryPicturePath(diary.getDiaryPicturePath())
                 .diaryContent(diary.getDiaryContent())
                 .diaryEmotion(diary.getDiaryEmotion())
                 .diaryDTTM(diary.getDiaryDTTM())
@@ -118,14 +118,21 @@ public class DiaryServiceImpl implements DiaryService{
         if(multipartFile.isEmpty()){
             throw new EmptyFileException("파일이 없습니다.");
         }
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = date.format(formatter);
+
         int index = multipartFile.getOriginalFilename().indexOf(".");
         String fileNameExtension = multipartFile.getOriginalFilename().substring(index);
-        String fileName= "user/"+email+"/diary"+"/"+today+"/photo"+fileNameExtension;
-        s3UploaderService.uploadPicture(multipartFile, fileName);
+        UUID uuid = UUID.randomUUID();
+        String fileName= "user/"+email+"/diary"+"/"+today+"/"+uuid+fileNameExtension;
 
+        Diary diary = diaryRepository.findDiaryByMemberAndDiaryDTTM(member,today);
+        diary.updateDiaryPicturePath(s3Domain+fileName);
+        diaryRepository.save(diary);
+        s3UploaderService.uploadPicture(multipartFile, fileName);
 
     }
     @Override

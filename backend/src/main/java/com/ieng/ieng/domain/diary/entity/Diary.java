@@ -43,4 +43,7 @@ public class Diary {
         this.diaryEmotion = diaryEmotion;
         this.diaryDTTM = diaryDTTM;
     }
+    public void updateDiaryPicturePath(String diaryPicturePath){
+        this.diaryPicturePath = diaryPicturePath;
+    }
 }
