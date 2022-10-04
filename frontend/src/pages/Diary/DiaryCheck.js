@@ -2,34 +2,13 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
-//import { diaryPostApi } from "../../shared/diaryApi";
-import { useSelector } from "react-redux";
+import { imgApi } from "../../shared/imgApi";
 
 // css
 import "./Diary.scss";
-import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import MyButton from "../../components/MyButton";
 import Loading from "../../util/Loading";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80vw",
-  maxWidth: 600,
-  bgcolor: "background.paper",
-  border: "2px solid #ececec",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
+import DiaryButton from "./Components/DiaryButton";
+import Swal from "sweetalert2";
 
 // headers 설정
 const sp_api = axios.create({
@@ -41,14 +20,10 @@ const sp_api = axios.create({
 });
 
 const DiaryCheck = () => {
-  const username = useSelector((state) => state.auth.user.nickname);
   const location = useLocation();
   const { image, checkedList, emotion, diary } = location.state;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
-  const title = "제출 확인";
-  const description = "일기를 제출하면 수정할 수 없어요. 이대로 제출할까요?";
 
   // 입력한 일기 내용
   const [content, setContent] = useState(diary);
@@ -105,21 +80,10 @@ const DiaryCheck = () => {
       new Blob([JSON.stringify(temp)], { type: "application/json" })
     );
 
-    const baseURL = "https://j7d209.p.ssafy.io/";
-    const token = localStorage.getItem("token");
-    const postApi = axios.create({
-      baseURL,
-      headers: {
-        "Content-type": "multipart/form-data",
-        Authorization: token,
-      },
-    });
-
     try {
-      const res = await postApi.post("api/diaries", formData);
+      const res = await imgApi.postdiary(formData);
 
       if (res.data.status === "SUCCESS") {
-        window.alert("등록이 완료되었습니다.");
         navigate("/diaryend", {
           state: {
             image: image,
@@ -135,51 +99,21 @@ const DiaryCheck = () => {
     }
   }, [navigate, content, emotion, checkedList, image]);
 
-  // 제출 모달창
-  const BasicModal = ({ title, description }) => {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const SubmitAlert = () => {
+    Swal.fire({
+      title: "일기를 제출할까요?",
+      icon: "success",
 
-    return (
-      <div>
-        <div onClick={handleOpen}>제출하기</div>
-
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {title}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              {description}
-            </Typography>
-
-            <div>
-              <MyButton
-                onClick={handleSubmit}
-                width={"180px"}
-                padding={"5px"}
-                margin={"30px 10px"}
-                text={"네 제출할게요!"}
-              />
-
-              <MyButton
-                onClick={handleClose}
-                width={"180px"}
-                padding={"5px"}
-                margin={"30px 10px"}
-                text={"좀 더 생각 해 볼게요!"}
-              />
-            </div>
-          </Box>
-        </Modal>
-      </div>
-    );
+      showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+      confirmButtonColor: "#3085d6", // confrim 버튼 색깔 지정
+      cancelButtonColor: "#d33", // cancel 버튼 색깔 지정
+      confirmButtonText: "네", // confirm 버튼 텍스트 지정
+      cancelButtonText: "아니요", // cancel 버튼 텍스트 지정
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleSubmit();
+      } else return;
+    });
   };
 
   return (
@@ -193,7 +127,7 @@ const DiaryCheck = () => {
           <div className="diary-wrapper">
             {/* 머리글 */}
             <div className="diary-header">
-              {username}님의 일기에 어색한 부분을 같이 수정 해 볼까요?
+              🤔어색한 부분을 같이 수정 해 볼까요?
             </div>
 
             {/* 일기 작성 */}
@@ -201,8 +135,9 @@ const DiaryCheck = () => {
               {/* 내용 */}
               <div className="text">
                 <div>
-                  <div className="diary-header">작성한 내용</div>
+                  <div className="diary-header">작성한 일기</div>
                   <textarea
+                    style={{ fontFamily: "IM_Hyemin-Bold", fontSize: "24px" }}
                     onChange={(e) => {
                       setContent(e.target.value);
                     }}
@@ -214,38 +149,41 @@ const DiaryCheck = () => {
 
                 {/* 문법 체크 결과 */}
                 <div>
-                  <div className="diary-header">수정할 내용</div>
-                  <div className="checked">
-                    {Object.keys(checked).length === 0 ? (
-                      <span>완벽하네요!</span>
-                    ) : (
-                      <div>
-                        {Object.entries(checked).map((item, index) => (
-                          <div key={index}>
-                            {item[0]} -&gt; {item[1]}
-                          </div>
-                        ))}
+                  {Object.keys(checked).length === 0 ? (
+                    <div className="diary-header">👏수정할 곳이 없어요!</div>
+                  ) : (
+                    <>
+                      <div className="diary-header">수정이 필요해요!</div>
+
+                      <div className="checked">
+                        <div>
+                          {Object.entries(checked).map((item, index) => (
+                            <div key={index}>
+                              {item[0]} -&gt; {item[1]}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
 
             <div className="button">
-              <Button
-                variant="outlined"
-                color="primary"
+              <DiaryButton
+                back="#bdbdbd"
+                text="검사하기"
                 onClick={() => {
                   spellCheck(content);
                 }}
-              >
-                검사 하기
-              </Button>
+              />
 
-              <Button variant="outlined" color="primary">
-                <BasicModal title={title} description={description} />
-              </Button>
+              <DiaryButton
+                back="#63b4f4"
+                text="제출하기"
+                onClick={SubmitAlert}
+              />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authApi, imgApi } from "../shared/authApi";
-import { setRefreshToken } from "../shared/Cookie";
+import { authApi } from "../shared/authApi";
+import { imgApi } from "../shared/imgApi";
 
 const initialState = {
   isLoggedIn: false,
@@ -32,7 +32,6 @@ export const login = createAsyncThunk(
     try {
       const res = await authApi.login(data);
       localStorage.setItem("token", res.headers.authorization);
-      setRefreshToken(res.headers.refreshtoken);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);

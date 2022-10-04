@@ -4,7 +4,7 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import ButtonFooter from "./ButtonFooter";
 import Swal from "sweetalert2";
-import { imgApi } from "../../shared/authApi";
+import { imgApi } from "../../shared/imgApi";
 
 const ImgWrapper = styled.div`
   display: flex;

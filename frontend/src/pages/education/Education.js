@@ -64,8 +64,8 @@ const Education = () => {
               : fail
               ? "#FFA270"
               : category === "word"
-              ? "#fef3ed"
-              : "#FFFAC6"
+              ? "#fff9c4"
+              : "#e1f5fe"
           }
           justify={final ? "start" : "space-between"}
         >
