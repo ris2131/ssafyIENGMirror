@@ -8,13 +8,14 @@ export const diaryApi = {
   deletediary: (data) => axios.delete("api/diaries", data),
 };
 
-const baseURL = "http://localhost:3000/";
+const baseURL = "https://j7d209.p.ssafy.io/";
+// const baseURL = "";
 const token = localStorage.getItem("token");
 const postApi = axios.create({
   baseURL,
   headers: {
     "Content-type": "multipart/form-data",
-    "Authorization": token,
+    Authorization: token,
   },
 });
 

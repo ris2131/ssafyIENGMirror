@@ -6,8 +6,13 @@ import { googleNickname } from "../../redux/AuthSlice";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TbCameraPlus } from "react-icons/tb";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
+  @media screen and (max-width: 1000px) {
+    background-color: #f5f5f5;
+    background-image: none;
+  }
   background-image: url(${googleback});
   background-size: 100vw 100vh;
   font-family: KOTRAHOPE;
@@ -31,7 +36,7 @@ const Wrapper = styled.div`
 
 const Post = styled.div`
   position: absolute;
-  background-color: #ececec;
+  background-color: #ffca28;
   width: 80px;
   height: 30px;
   z-index: 1;
@@ -110,6 +115,17 @@ const GoogleIntro = () => {
   };
 
   const handleSubmit = () => {
+    if (profile === "") {
+      Swal.fire({ icon: "error", title: "프로필 사진을 추가해주세요!" });
+      return;
+    }
+
+    const datetimeRegexp = /^([0-9]{4}-[0-9]{2}-[0-9]{2})/;
+    if (!datetimeRegexp.test(birth)) {
+      Swal.fire({ icon: "error", title: "생년월일을 올바르게 입력해주세요!" });
+      return;
+    }
+
     const { id_token } = location.state;
 
     const data = {
@@ -128,7 +144,10 @@ const GoogleIntro = () => {
 
     dispatch(googleNickname(formData))
       .unwrap()
-      .then(() => navigate("/"))
+      .then(() => {
+        Swal.fire({ icon: "success", title: "회원가입이 완료되었습니다!" });
+        navigate("/");
+      })
       .catch((err) => console.error(err));
   };
 

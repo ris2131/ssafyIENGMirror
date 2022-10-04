@@ -9,6 +9,7 @@ const initialState = {
     email: "",
     userImg: "",
     birth: "",
+    provider: "",
   },
 };
 
@@ -130,18 +131,6 @@ export const getuser = createAsyncThunk(
   }
 );
 
-export const putuser = createAsyncThunk(
-  "AuthSlice/getuser",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await imgApi.putuser(data);
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response);
-    }
-  }
-);
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -157,13 +146,8 @@ const authSlice = createSlice({
     [signup.fulfilled]: (state) => {
       state.isLoggedIn = true;
     },
-    [login.fulfilled]: (state, action) => {
-      const { data } = action.payload;
+    [login.fulfilled]: (state) => {
       state.isLoggedIn = true;
-      state.user.nickname = data.nickname;
-      state.user.email = data.email;
-      state.user.userImg = data.picturePath;
-      state.user.birth = data.birth_YMD;
     },
     [googleLogin.fulfilled]: (state, action) => {
       if (action.payload.data) {
@@ -180,6 +164,7 @@ const authSlice = createSlice({
       state.user.email = data.email;
       state.user.userImg = data.picturePath;
       state.user.birth = data.birth_YMD;
+      state.user.provider = data.provider;
     },
   },
 });

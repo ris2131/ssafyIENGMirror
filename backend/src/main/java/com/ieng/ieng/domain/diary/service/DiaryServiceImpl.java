@@ -39,6 +39,7 @@ public class DiaryServiceImpl implements DiaryService{
 
     private final DiaryKeywordRepository diaryKeywordRepository;
     private final S3UploaderServiceImpl s3UploaderService;
+
     @Value("${cloud.aws.s3.domain}")
     String s3Domain ;
 
@@ -69,12 +70,10 @@ public class DiaryServiceImpl implements DiaryService{
             diaryKeywords.add(diaryKeyword.getDiaryKeyword());
         }
 
-        String picturePath = "user/"+email+"/diary"+"/"+date+"/photo.jpg";
-
         diaryGetResponseDto  = DiaryGetResponseDto.builder()
                 .diarySequence(diary.getDiarySequence())
                 .memberSequence(member.getMemberSequence())
-                .diaryPicturePath(s3Domain+picturePath)
+                .diaryPicturePath(diary.getDiaryPicturePath())
                 .diaryContent(diary.getDiaryContent())
                 .diaryEmotion(diary.getDiaryEmotion())
                 .diaryDTTM(diary.getDiaryDTTM())

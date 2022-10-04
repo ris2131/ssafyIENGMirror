@@ -4,9 +4,7 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import ButtonFooter from "./ButtonFooter";
 import Swal from "sweetalert2";
-import { putuser } from "../../redux/AuthSlice";
-import { useDispatch } from "react-redux";
-import { authApi } from "../../shared/authApi";
+import { imgApi } from "../../shared/authApi";
 
 const ImgWrapper = styled.div`
   display: flex;
@@ -58,7 +56,6 @@ const AuthEdit = ({ originData }) => {
   const [birth, setBirth] = useState("");
   const [profile, setProfile] = useState("");
   const inputRef = useRef();
-  const dispatch = useDispatch();
 
   const fetchState = useCallback(() => {
     setEmail(originData.email);
@@ -95,28 +92,27 @@ const AuthEdit = ({ originData }) => {
       birth_YMD: birth,
     };
 
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
+
+    formData.append("data", blob);
+
     if (profile === "") {
-      authApi
-        .putuser(data)
-        .then(() =>
-          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
-        )
+      imgApi
+        .putuser(formData)
+        .then(() => {
+          window.location.reload();
+        })
         .catch((err) => console.error(err));
     } else {
-      const formData = new FormData();
-
-      const blob = new Blob([JSON.stringify(data)], {
-        type: "application/json",
-      });
-
-      formData.append("data", blob);
       formData.append("profile_image", profile);
-
-      dispatch(putuser(formData))
-        .unwrap()
-        .then(() =>
-          Swal.fire({ icon: "success", title: "수정이 완료되었습니다!" })
-        )
+      imgApi
+        .putuserimage(formData)
+        .then(() => {
+          window.location.reload();
+        })
         .catch((err) => {
           if (err.status === 409) {
             Swal.fire({ icon: "error", title: "닉네임 중복입니다!" });
@@ -151,7 +147,6 @@ const AuthEdit = ({ originData }) => {
           <ImgText color="#42a5f5" onClick={() => inputRef.current.click()}>
             변경
           </ImgText>
-          <ImgText>삭제</ImgText>
         </ImgTextBox>
       </ImgWrapper>
       <MenuBox>

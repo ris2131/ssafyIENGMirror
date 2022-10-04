@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-
-import { mobileback } from "../../assets/BackgroundImg";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -14,7 +11,8 @@ const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
 
 const LoginContainer = styled.div`
   @media screen and (max-width: 1000px) {
-    background-image: url(${mobileback});
+    background-image: none;
+    background-color: #f5f5f5;
   }
 
   display: flex;
@@ -27,9 +25,6 @@ const LoginContainer = styled.div`
 `;
 
 const LogoDiv = styled.div`
-  @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
-  }
   @media screen and (min-width: 1000px) {
     margin-right: 50px;
   }
@@ -64,7 +59,7 @@ const LogoText = styled.h1`
 const InputDiv = styled.div`
   @media screen and (max-width: 1000px) {
     width: 50vw;
-    margin-left: 8vw;
+    // margin-left: 6vw;
   }
 
   width: 20vw;
@@ -89,7 +84,7 @@ const SButton = styled.button`
 
 const IconDiv2 = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
+    // margin-left: 6vw;
   }
   margin: 30px;
   display: flex;
@@ -108,7 +103,7 @@ const StyledP = styled.p`
 
 const FooterDiv = styled.div`
   @media screen and (max-width: 1000px) {
-    margin-left: 6vw;
+    // margin-left: 6vw;
   }
   width: 400px;
   display: flex;
@@ -117,9 +112,10 @@ const FooterDiv = styled.div`
 `;
 
 const LoginButtonBox = styled.div`
-  @media screen and (max-width: 1000px) {
-    margin-left: 7vw;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Login = () => {

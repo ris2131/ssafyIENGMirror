@@ -30,8 +30,8 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoResponseDto getMemberInfo(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
         MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto(member);
-        String picturePath = "user/"+email+"/profile/profile.jpg";
-        memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
+        //String picturePath = "user/"+email+"/profile/profile.jpg";
+        //memberInfoResponseDto.updatePicturePath(s3Domain + picturePath);
 
         return memberInfoResponseDto;
     }
