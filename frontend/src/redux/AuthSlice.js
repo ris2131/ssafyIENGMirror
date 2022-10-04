@@ -17,7 +17,7 @@ export const signup = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await imgApi.signup(data);
-      localStorage.setItem("token", res.headers.Authorization);
+      localStorage.setItem("token", res.headers.authorization);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response);
@@ -58,7 +58,7 @@ export const googleNickname = createAsyncThunk(
   "AuthSlice/googleNickname",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await authApi.googlesignup(data);
+      const res = await imgApi.googlesignup(data);
       localStorage.setItem("token", res.headers.authorization);
       return res.data;
     } catch (err) {
@@ -118,7 +118,29 @@ export const emailAuth = createAsyncThunk(
   }
 );
 
-export const getMember = createAsyncThunk();
+export const getuser = createAsyncThunk(
+  "AuthSlice/getuser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await authApi.getuser();
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
+
+export const putuser = createAsyncThunk(
+  "AuthSlice/getuser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await imgApi.putuser(data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -150,6 +172,14 @@ const authSlice = createSlice({
     },
     [googleNickname.fulfilled]: (state) => {
       state.isLoggedIn = true;
+    },
+    [getuser.fulfilled]: (state, action) => {
+      const { data } = action.payload;
+      state.isLoggedIn = true;
+      state.user.nickname = data.nickname;
+      state.user.email = data.email;
+      state.user.userImg = data.picturePath;
+      state.user.birth = data.birth_YMD;
     },
   },
 });

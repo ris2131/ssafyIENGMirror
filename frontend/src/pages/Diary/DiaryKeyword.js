@@ -11,7 +11,7 @@ import Loading from "../../util/Loading";
 
 const DiaryKeyword = () => {
   const [loading, setLoading] = useState(true);
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector((state) => state.auth.user.nickname);
   const navigate = useNavigate();
   const location = useLocation();
   const { image } = location.state;
@@ -24,20 +24,28 @@ const DiaryKeyword = () => {
 
   // 단어 추천 함수
   const wordRecommend = async() => {
-    const formData = new FormData()
-    formData.append('image', image.image_file)
+    if (loading) {
+      const formData = new FormData()
+      formData.append('image', image.image_file)
 
-    const res = await axios({
-      method: 'post',
-      url: 'https://j7d209.p.ssafy.io/ai-api/diaries/keywords/',
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+      try {
+        const res = await axios({
+          method: 'post',
+          url: 'https://j7d209.p.ssafy.io/ai-api/diaries/keywords/',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setWordList(res.data.data);
 
-    setWordList(res.data.data);
-    setLoading(false);
+      }catch(e) {
+        console.log(e)
+        // 에러 발생시 테스트용 임시 단어 제공
+        setWordList(["test"])
+      }
+      setLoading(false);
+    } 
   }
 
   useEffect(() => {
@@ -82,14 +90,18 @@ const DiaryKeyword = () => {
             <div className="words">
               <div className="keyword-check">
                 {wordList.map((item, index) => (
-                  <div className="check-button" key={index}>
+                  <div key={index}>
                     <input
-                      key={item}
+                      className="btn"
+                      id={item}
+                      value={item}
                       type="checkbox"
                       onChange={(e) => onCheckedElement(e.target.checked, item)}
                       checked={checkedList.includes(item) ? true : false}
                     />
-                    <span>{item}</span>
+                    <label for={item} className="check-button">
+                      <span>{item}</span>
+                    </label>
                   </div>
                 ))} 
               </div>
@@ -98,16 +110,12 @@ const DiaryKeyword = () => {
             <div>
               {checkedList[0] ? (
                 <Button
-                  variant="outlined"
-                  color="primary"
                   onClick={() => navigate("/diarywriting", {state : { image : image, checkedList : checkedList }})}
                   >
                   일기 쓰러가기
                 </Button>
               ) : (
                 <Button
-                  variant="outlined"
-                  color="primary"
                   >
                   일기에 쓸 단어를 골라 주세요
                 </Button>

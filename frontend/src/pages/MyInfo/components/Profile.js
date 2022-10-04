@@ -69,30 +69,32 @@ const basicImg =
 
 const Profile = () => {
   const profileImg = useSelector((state) => state.auth.user.userImg);
-  // const nickName = useSelector((state) => state.auth.user.nickName);
-  // const email = useSelector((state) => state.auth.user.email);
-  // const birth = useSelector((state) => state.auth.user.birth);
+  const nickName = useSelector((state) => state.auth.user.nickname);
+  const email = useSelector((state) => state.auth.user.email);
+  const birth = useSelector((state) => state.auth.user.birth);
   const navigate = useNavigate();
+  console.log(profileImg);
   return (
     <Container>
       <HeaderBox>
         <ImgBox>
           <SImg src={profileImg || basicImg} alt="#"></SImg>
         </ImgBox>
+
         <NameBox>
           <Wrapper>
             <div>닉네임</div>
-            <BigText>nogusdn</BigText>
+            <BigText>{nickName || "guest"}</BigText>
           </Wrapper>
           <div>
             <HeaderBox>
               <Wrapper>
                 <div>📧이메일</div>
-                <SmallText>hwoo225o@gmail.com</SmallText>
+                <SmallText>{email}</SmallText>
               </Wrapper>
               <Wrapper>
                 <div>🎁생일</div>
-                <SmallText>2022.10.02</SmallText>
+                <SmallText>{birth}</SmallText>
               </Wrapper>
             </HeaderBox>
             <MyButton onClick={() => navigate("/profileedit")}>

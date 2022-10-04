@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/NavBar";
-import { diaryApi } from "../../shared/diaryApi";
+//import { diaryPostApi } from "../../shared/diaryApi";
 import { useSelector } from "react-redux";
 
 
@@ -42,9 +42,9 @@ const sp_api = axios.create({
 })
 
 const DiaryCheck = () => {
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector((state) => state.auth.user.nickname);
   const location = useLocation();
-  const { preview_URL, checkedList, emotion, diary } = location.state;
+  const { image, checkedList, emotion, diary } = location.state;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -93,23 +93,34 @@ const DiaryCheck = () => {
       keywords.push({"keyword" : checkedList[i]})
     }
 
-    const picture_path = ""
-
-    const data = {
-      picture_path,
-      content, 
-      emotion,
-      keywords,
+    const temp = {
+      content : content,
+      emotion : emotion,
+      keywords : keywords
     }
-    
+
+    const formData = new FormData()
+    formData.append('diary_image', image.image_file)
+    formData.append("data", new Blob([JSON.stringify(temp)], {type: "application/json"}))
+
+    const baseURL = "http://localhost:3000/";
+    const token = localStorage.getItem("token");
+    const postApi = axios.create({
+      baseURL,
+      headers: {
+        "Content-type": "multipart/form-data",
+        "Authorization": token,
+      },
+    });
+
     try{  
-      const res = await diaryApi.postdiary(data);
+      const res = await postApi.post("api/diaries", formData);
 
       if (res.data.status === "SUCCESS") {
         window.alert("등록이 완료되었습니다.");
         navigate("/diaryend", {
           state: {
-            preview_URL: preview_URL,
+            image: image,
             checkedList: checkedList,
             emotion: emotion,
             diary: content,
@@ -120,7 +131,7 @@ const DiaryCheck = () => {
       // 서버에서 받은 에러 메시지 출력
       console.log(e)
     }
-  }, [navigate, content, emotion, checkedList, preview_URL]);
+  }, [navigate, content, emotion, checkedList, image]);
 
   // 제출 모달창
   const BasicModal = ({ title, description }) => {
@@ -130,7 +141,7 @@ const DiaryCheck = () => {
 
     return (
       <div>
-        <div onClick={handleOpen}>제출하기</div>
+        <Button onClick={handleOpen}>제출하기</Button>
 
         <Modal
           open={open}
@@ -220,17 +231,13 @@ const DiaryCheck = () => {
             </div>
 
             <div className="button">
-              <Button
-                variant="outlined"
-                color="primary"
+              <Button               
                 onClick={() => {spellCheck(content)}}
               >
                 검사 하기
               </Button>
 
-              <Button variant="outlined" color="primary">
-                <BasicModal title={title} description={description} />
-              </Button>
+              <BasicModal title={title} description={description} />
             </div>
           </div>
         </div>

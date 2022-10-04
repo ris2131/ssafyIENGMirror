@@ -4,10 +4,13 @@
   justify-content: center;
 }
 
+// 전체 크기
 .diary-wrapper {
-  font-family: "KOTRAHOPE";
-
   width: 95vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   // 머리말
   .diary-header {
@@ -25,30 +28,79 @@
       margin-top: 10px;
     }
 
+    // 감정선택 + 머리글 들어있는 박스
+    .headbox {
+      display: flex;
+      flex-direction: column;
+    }
+
+    // 감정 선택 box 
+    .emo {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 450px;
+
+      border: 1px solid black;
+      border-radius: 20px;
+      padding: 5px;
+      background-color: greenyellow;
+    }
+    
     // 감정 선택
     .emotion {
       display: flex;
       flex-direction: column;
-      max-width: 400px;
+      justify-content: center;
       align-items: center;
-      margin: 10px;
-      font-size: 2vw;
+      margin: 5px;
+      font-size: 1rem;
+      border-radius: 20px;
+      background-color: white;
+
+      height: 90px;
+      width: 75px;
+
+      border: 1px solid black;
+
+      // 감정 이미지
       img {
         width: 50px;
       }
+    }
+
+    // 라디오 버튼 없앰
+    .btn {
+      display: none;
+    }
+
+    // 마우스 올리면 대면 효과
+    .emotion:hover {
+      box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+      cursor: pointer;
+    }
+
+    // 체크시 css 변경
+    input:checked + label {
+      border: 1px solid black;
+      background-color: rgb(186, 206, 224);
+      color: white;
     }
   }
 
   // 기본 몸통
   .diary-body {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-
-    height: 55vh;
-
     flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
 
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: greenyellow;
+    padding-top: 10px;
+  
     // 글상자
     .text {
       display: flex;
@@ -58,8 +110,10 @@
       // 사진
       img {
         width: 43vw;
+        max-width: 800px;
         height: 43vh;
-
+        max-height: 600px;
+      
         border: 1px solid black;
         border-radius: 20px;
 
@@ -70,8 +124,10 @@
       // 글상자
       textarea {
         padding: 15px;
-        height: 40vh;
         width: 40vw;
+        max-width: 770px;
+        height: 40vh;
+        max-height: 570px;
 
         resize: none;
         font-size: 1.8vw;
@@ -80,7 +136,7 @@
         margin: 10px;
       }
 
-      // 문법 수정
+      // 문법 수정 글상자
       .checked {
         display: flex;
         flex-wrap: wrap;
@@ -101,10 +157,12 @@
         margin: 10px;
       }
 
+      // 스크롤바 없앰
       .checked::-webkit-scrollbar {
         display: none;
       }
 
+      // 일기 결과 글상자
       .content {
         display: flex;
         background-color: white;
@@ -125,8 +183,20 @@
 
   // img 만 있는 body
   .img-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: greenyellow;
+    padding: 10px;
+   
+
     img {
       width: 43.5vw;
+      max-width: 500px;
 
       border: 1px solid black;
       border-radius: 20px;
@@ -142,28 +212,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 10px;
 
     .keyword-check {
       background-color: white;
 
       display: flex;
       flex-wrap: wrap;
-
-      margin: 10px 0;
       border: 1px solid black;
       border-radius: 20px;
 
       height: auto;
       min-height: 50px;
-      width: 85vw;
+      width: 80vw;
 
       // 체크 박스
       .check-button {
         display: flex;
         align-items: center;
 
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
+        padding: 5px;
 
         border: 1px solid black;
         border-radius: 20px;
@@ -177,6 +246,25 @@
           padding-left: 2vw;
           padding-right: 2vw;
         }
+      }
+
+      // 체크박스 없앰
+      .btn {
+        display: none;
+      }
+      
+      // 호버 효과
+      .check-button:hover {
+        box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+        cursor: pointer;
+      }
+      
+      // 체크시 css 변경
+      input:checked + label {
+        border: 1px solid black;
+        background-color: rgb(186, 206, 224);
+        color: white;
+        font-weight: bold;
       }
     }
 
@@ -193,7 +281,7 @@
 
       height: auto;
       min-height: 50px;
-      width: 85vw;
+      width: 80vw;
 
       // 각각의 단어
       .word-list {
@@ -208,8 +296,6 @@
         border-radius: 20px;
 
         height: 2vh;
-        min-width: 8vw;
-
         font-size: 1.5vw;
 
         // 좌우 여백
@@ -229,7 +315,9 @@
 
   // 버튼 공통 설정
   Button {
-    background-color: white;
+    background-color: #42a5f5;
+    border: none;
+    color: white;
 
     margin: 10px 5px;
     font-size: 1.5vw;
@@ -237,6 +325,11 @@
 
     min-height: 5vh;
     min-width: 20vw;
+  }
+
+  Button:hover {
+    background-color: rgb(186, 206, 224);
+    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
   }
 }
 

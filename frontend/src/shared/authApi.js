@@ -9,12 +9,10 @@ export const authApi = {
 
   login: (data) => axios.post("api/login", data),
   googlelogin: (data) => axios.post("api/google-login", data),
-  googlesignup: (data) => axios.post("api/members/google-sign-up", data),
   getuser: () => axios.get("api/members"),
-  putuser: (data) => axios.put("api/members/info", data),
   putpassword: (pwd) => axios.put("api/members/password", pwd),
   deleteuser: () => axios.delete("api/members"),
-
+  putuser: (data) => axios.put("api/members/info", data),
   getMyhistory: (date) => axios.get("api/histories", { params: { date } }),
 };
 
@@ -26,6 +24,19 @@ const imageApi = axios.create({
   },
 });
 
+imageApi.interceptors.request.use((config) => {
+  if (!config.headers.authorization) {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers.Authorization = token;
+    }
+  }
+  return config;
+});
+
 export const imgApi = {
   signup: (formData) => imageApi.post("members/sign-up", formData),
+  googlesignup: (formData) => imageApi.post("members/google-sign-up", formData),
+  putuser: (formData) => imageApi.put("members/info-image", formData),
 };

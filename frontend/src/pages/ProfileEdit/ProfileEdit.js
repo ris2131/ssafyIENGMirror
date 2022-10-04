@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { backgroundImg } from "../../assets/BackgroundImg";
 import styled from "styled-components";
 import NavBar from "../../components/NavBar";
 import AuthEdit from "./AuthEdit";
@@ -9,7 +8,7 @@ import { authApi } from "../../shared/authApi";
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  // background-image: url(${backgroundImg});
+  background-color: #f5f5f5;
   background-size: 100vw 100vh;
   font-family: KOTRAHOPE;
 `;
@@ -17,9 +16,13 @@ const Container = styled.div`
 const Box = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 50px;
 `;
 
 const EditWrapper = styled.div`
+  @media screen and (max-width: 1000px) {
+    width: 70vw;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,7 +53,7 @@ const ProfileEdit = () => {
   };
 
   const getUser = useCallback(() => {
-    authApi.getuser().then((res) => setOriginData(() => res.data.data));
+    authApi.getuser().then((res) => setOriginData(res.data.data));
   }, []);
 
   useEffect(() => {

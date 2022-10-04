@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 const DiaryEnd = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { preview_URL, checkedList, emotion, diary } = location.state;
+  const { image, checkedList, emotion, diary } = location.state;
   const today = new Date();
 
   return (
@@ -22,12 +22,12 @@ const DiaryEnd = () => {
             오늘의 일기 작성이 끝났어요!
 
             {/* 날짜 */}
-            <div className="date">오늘 : {today.getFullYear()}년 {today.getMonth()+1}월 {today.getDate()}일</div>
+            <div className="date">{today.getFullYear()}년 {today.getMonth()+1}월 {today.getDate()}일</div>
 
             {/* 기분 */}
             <div className="emotion">
-              <span>오늘의 기분 : {emotion}</span>
               <img src={`image/${emotion}.png`} alt=""/>
+              <span>{emotion}</span>
             </div>
           </div>
 
@@ -35,7 +35,7 @@ const DiaryEnd = () => {
           <div className="diary-body">
             <div className="text">
               {/* 사진 */}
-              <img src={preview_URL} alt=""/>
+              <img src={image.preview_URL} alt=""/>
             
               {/* 일기 */}
               <div className="content">
@@ -61,8 +61,6 @@ const DiaryEnd = () => {
 
           <div>
             <Button
-              variant="outlined"
-              color="primary"
               onClick={() => navigate("/")}
               >
               메인화면으로 가기

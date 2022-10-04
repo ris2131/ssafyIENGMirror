@@ -14,6 +14,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
@@ -93,12 +95,17 @@ public class MemberServiceImpl implements MemberService{
         if(multipartFile.isEmpty()){
             throw new EmptyFileException("파일이 없습니다.");
         }
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoExistMemberException("존재하는 회원정보가 없습니다."));
+
+
 
         int index = multipartFile.getOriginalFilename().indexOf(".");
         String fileNameExtension = multipartFile.getOriginalFilename().substring(index);
+        UUID uuid = UUID.randomUUID();
+        String fileName= "user/"+email+"/profile"+"/"+uuid+fileNameExtension;
 
-        String fileName= "user/"+email+"/profile"+"/profile"+fileNameExtension;
-
+        member.updatePicturePath(s3Domain+fileName);
+        memberRepository.save(member);
         s3UploaderService.uploadPicture(multipartFile, fileName);
 
         return;
