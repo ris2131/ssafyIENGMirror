@@ -87,13 +87,10 @@ const EduFooter = ({ quiz, word, setSuccess, setFail, open, setOpen }) => {
   };
 
   const handleCheck = () => {
-    console.log(word.sentence);
-    console.log("내가 말함" + transcript);
     transcript === word.sentence ? setSuccess(true) : setFail(true);
   };
 
   useEffect(() => {
-    console.log(word);
     SpeechRecognition.stopListening();
     return () => {
       SpeechRecognition.stopListening();

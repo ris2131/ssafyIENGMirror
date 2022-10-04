@@ -122,7 +122,7 @@ const DiaryKeyword = () => {
             <WordCount> 사용할 단어: {checkedList.length}</WordCount>
 
             <div>
-              {checkedList[0] ? (
+              {checkedList.length !== 0 ? (
                 <DiaryButton
                   back="#63b4f4"
                   onClick={() =>
@@ -133,7 +133,7 @@ const DiaryKeyword = () => {
                   text="일기 쓰러가기"
                 />
               ) : (
-                <DiaryButton back="#ff9100">선택된 단어가 없어요!</DiaryButton>
+                <DiaryButton back="#ff9100" text="단어를 선택해주세요!" />
               )}
             </div>
           </div>

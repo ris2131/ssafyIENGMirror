@@ -6,6 +6,43 @@ import { diaryApi } from "../../shared/diaryApi";
 // css
 import "./Diary.scss";
 import Loading from "../../util/Loading";
+import styled from "styled-components";
+
+const baseURL = process.env.PUBLIC_URL + `/assets/emoji/`;
+
+const EmojiBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  font-size: 1rem;
+  border-radius: 20px;
+  background-color: white;
+  height: 90px;
+  width: 75px;
+  border: 1px solid black;
+`;
+
+const EmojiImg = styled.img`
+  width: 50px;
+`;
+
+const WordList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+`;
+
+const WordBox = styled.div`
+  background-color: white;
+  color: ${(props) => props.color};
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 5px 0px;
+  margin: 10px;
+  padding: 8px;
+  border-radius: 15px;
+`;
 
 const DiaryStart = () => {
   const [image, setImage] = useState({
@@ -78,13 +115,20 @@ const DiaryStart = () => {
           <div className="diary-wrapper">
             {check ? (
               <div>
+                <div className="date" style={{ fontSize: "18px" }}>
+                  {new Date().getFullYear()}년 {new Date().getMonth() + 1}월{" "}
+                  {new Date().getDate()}일
+                </div>
                 <div className="diary-header">
-                  오늘은 이미 일기를 작성했어요!
+                  🎉오늘의 일기
                   {/* 기분 */}
-                  <div className="emotion">
-                    <img src={`image/${diaryEmotion}.png`} alt="" />
+                  <EmojiBox>
+                    <EmojiImg
+                      src={diaryEmotion && baseURL + `${diaryEmotion}.png`}
+                      alt="#"
+                    />
                     <span>{diaryEmotion}</span>
-                  </div>
+                  </EmojiBox>
                 </div>
 
                 {/* 일기 메인 */}
@@ -92,22 +136,17 @@ const DiaryStart = () => {
                   <div className="text">
                     {/* 사진 */}
                     <img src={diaryPicturePath} alt="" />
+                    {/* 단어 */}
+                    <WordList>
+                      {diaryKeywordList.map((item, index) => (
+                        <WordBox className="word-list" key={index}>
+                          <span>#{item}</span>
+                        </WordBox>
+                      ))}
+                    </WordList>
 
                     {/* 일기 */}
                     <div className="content">{diaryContent}</div>
-                  </div>
-                </div>
-
-                {/* 단어 */}
-                <div className="words">
-                  <div className="diary-header">사용한 단어</div>
-
-                  <div className="word">
-                    {diaryKeywordList.map((item, index) => (
-                      <div className="word-list" key={index}>
-                        <span>{item}</span>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>

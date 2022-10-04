@@ -105,7 +105,11 @@ const AuthEdit = ({ originData }) => {
         .then(() => {
           window.location.reload();
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          if (err.response.status === 409) {
+            Swal.fire({ icon: "error", title: "닉네임 중복입니다!" });
+          }
+        });
     } else {
       formData.append("profile_image", profile);
       imgApi
@@ -114,7 +118,7 @@ const AuthEdit = ({ originData }) => {
           window.location.reload();
         })
         .catch((err) => {
-          if (err.status === 409) {
+          if (err.response.status === 409) {
             Swal.fire({ icon: "error", title: "닉네임 중복입니다!" });
           }
         });
