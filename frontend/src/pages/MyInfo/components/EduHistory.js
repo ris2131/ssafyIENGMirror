@@ -131,7 +131,7 @@ const KeywordP = styled.div`
   font-size: 14px;
 `;
 
-const baseUrl = process.env.PUBLIC_URL + `/assets/emoji/`;
+const baseUrl = process.env.PUBLIC_URL + `image/`;
 
 const EduHistory = ({ date }) => {
   const [category, setCategory] = useState("diary");
