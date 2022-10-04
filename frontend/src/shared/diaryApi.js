@@ -9,6 +9,7 @@ export const diaryApi = {
 };
 
 const baseURL = "https://j7d209.p.ssafy.io/";
+// const baseURL = "";
 const token = localStorage.getItem("token");
 const postApi = axios.create({
   baseURL,
