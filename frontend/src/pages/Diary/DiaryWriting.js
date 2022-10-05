@@ -57,7 +57,7 @@ const DiaryWriting = () => {
 
   const wordCheck = () => {
     for (let i in checkedList) {
-      if (content.includes(checkedList[i])) {
+      if (content.toLowerCase().includes(checkedList[i].toLowerCase())) {
         CheckedWord.push(checkedList[i]);
       }
     }
@@ -111,8 +111,8 @@ const DiaryWriting = () => {
                 {checkedList.map((item, idx) => (
                   <WordBox
                     key={idx}
-                    back={content.includes(item) ? "#bdbdbd" : "white"}
-                    color={content.includes(item) ? "white" : "black"}
+                    back={content.toLowerCase().includes(item.toLowerCase()) ? "#bdbdbd" : "white"}
+                    color={content.toLowerCase().includes(item.toLowerCase()) ? "white" : "black"}
                   >
                     #{item}
                   </WordBox>

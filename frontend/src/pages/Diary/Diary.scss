@@ -148,16 +148,18 @@
       // 일기 결과 글상자
       .content {
         display: flex;
+        flex-wrap: wrap;
         background-color: white;
         text-align: start;
-        white-space: pre;
+        white-space: pre-line;
 
         padding: 15px;
         height: 20vw;
         width: 28vw;
 
         font-size: 24px;
-
+        word-break:break-all;
+        
         border: 1px solid black;
         border-radius: 20px;
         margin: 10px;
