@@ -33,8 +33,8 @@ const Pdiv = styled.div`
 
 const Cdiv = styled.div`
   position: absolute;
-  top: -80px;
-  left: 50px;
+  top: -50px;
+  left: 100px;
 `;
 
 const TextDiv = styled.div`
@@ -51,9 +51,14 @@ const TextDiv = styled.div`
 const TextP = styled.p`
   font-size: 25px;
 `;
+const MyMessage = styled.p`
+  font-size: 25px;
+  margin: 10px;
+`;
 
 const Icon = styled.div`
   display: flex;
+  margin: 10px;
   font-size: 25px;
   cursor: pointer;
 `;
@@ -125,12 +130,15 @@ const EduFooter = ({
         <Cdiv>
           {open ? (
             <TextDiv>
-              <TextP>
+              <MyMessage>
                 {transcript.length === 0 ? "말해볼까요?" : transcript}
-              </TextP>
+              </MyMessage>
               <Icon>
                 {quiz ? <FaRegPaperPlane onClick={handleCheck} /> : null}
-                <VscRefresh onClick={resetTranscript} />
+                <VscRefresh
+                  onClick={resetTranscript}
+                  style={{ marginLeft: "3px" }}
+                />
               </Icon>
             </TextDiv>
           ) : null}

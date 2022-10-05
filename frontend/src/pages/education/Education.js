@@ -41,8 +41,10 @@ const Education = () => {
   }, [dispatch, category]);
 
   useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `IEng - ${category}`;
     getInit();
-  }, [getInit]);
+  }, [getInit, category]);
 
   const handleSubmit = () => {
     const info = {
