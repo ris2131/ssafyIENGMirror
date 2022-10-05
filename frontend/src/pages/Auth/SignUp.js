@@ -103,6 +103,7 @@ const InputDiv = styled.div`
 const IconDiv = styled.div`
   @media screen and (max-width: 1000px) {
   }
+  font-size: 18px;
 
   margin: 30px;
   display: flex;
@@ -271,6 +272,10 @@ const SignUp = () => {
       return;
     }
 
+    if (profile === "") {
+      Swal.fire({ icon: "error", title: "프로필 사진을 추가해주세요." });
+    }
+
     const mm = month >= 10 ? month : "0" + month;
     const dd = day >= 10 ? day : "0" + day;
     const birth = year + "-" + mm + "-" + dd;
@@ -296,7 +301,11 @@ const SignUp = () => {
         Swal.fire({ icon: "success", title: "회원가입 완료!" });
         navigate("/");
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        if (err.status === 409) {
+          Swal.fire({ icon: "error", title: "중복된 닉네임입니다!" });
+        }
+      });
   };
 
   // 이메일 형식 체크 함수
@@ -430,6 +439,7 @@ const SignUp = () => {
             </IconDiv>
             <GoogleComponent />
           </MarginBox>
+          <IconDiv onClick={() => navigate("/login")}>로그인 페이지로</IconDiv>
         </>
       ) : (
         <>

@@ -8,7 +8,7 @@ import "./Diary.scss";
 import Loading from "../../util/Loading";
 import styled from "styled-components";
 
-const baseURL = process.env.PUBLIC_URL + `/assets/emoji/`;
+const baseURL = process.env.PUBLIC_URL + `/image/`;
 
 const EmojiBox = styled.div`
   display: flex;

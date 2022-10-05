@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import { useState, useEffect } from "react";
 import { diaryApi } from "../../../shared/diaryApi";
 import { format } from "date-fns";
@@ -55,13 +54,10 @@ const DiaryButton = styled.button`
   font-size: 16px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #2196f3;
+  background-color: ${(props) => props.back};
   border-radius: 10px;
   margin-top: 10px;
   cursor: pointer;
-  &:hover {
-    background-color: #6ec6ff;
-  }
 `;
 
 const WordDiv = styled.div`
@@ -141,6 +137,12 @@ const EduHistory = ({ date }) => {
   const same = date === today ? true : false;
   const navigate = useNavigate();
 
+  // const handleDeleteDiary = () => {
+  //   const data = {
+  //     date,
+  //   };
+  // };
+
   useEffect(() => {
     if (category === "diary") {
       const getData = async () => {
@@ -194,11 +196,15 @@ const EduHistory = ({ date }) => {
                     ))}
                   </KeywordBox>
                   <ContentText>{initData?.diaryContent}</ContentText>
+                  <DiaryButton back="#fb8c00">일기 삭제</DiaryButton>
                 </ContentBox>
               ) : same ? (
                 <div>
                   <DiaryMsg>오늘 일기를 적으러 가볼까요?</DiaryMsg>
-                  <DiaryButton onClick={() => navigate("/diarystart")}>
+                  <DiaryButton
+                    back="#2196f3"
+                    onClick={() => navigate("/diarystart")}
+                  >
                     Go !
                   </DiaryButton>
                 </div>

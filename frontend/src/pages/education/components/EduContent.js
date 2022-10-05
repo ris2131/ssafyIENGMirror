@@ -199,7 +199,11 @@ const EduContent = ({
               data={data}
               setOpen={setOpen}
               textToSpeech={textToSpeech}
-              check={word}
+              check={
+                category === "word"
+                  ? originData[currentType - 1].word
+                  : originData[currentType - 1].sentence
+              }
             />
           ) : null}
         </>
