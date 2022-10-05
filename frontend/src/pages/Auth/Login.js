@@ -140,10 +140,8 @@ const Login = () => {
     dispatch(login(data))
       .unwrap()
       .then(() => navigate("/"))
-      .catch((err) => {
-        if (err.status === 401) {
-          Swal.fire({ icon: "error", title: "사용자 정보를 확인해주세요" });
-        }
+      .catch(() => {
+        Swal.fire({ icon: "error", title: "사용자 정보를 확인해주세요" });
       });
   };
 
