@@ -215,7 +215,7 @@ const EduHistory = ({ date }) => {
                   <RowBox>맞춘 단어가 없어요</RowBox>
                 ) : (
                   initData?.correctWordList?.map((v, i) => (
-                    <RowBox key={i}>:{v.word}</RowBox>
+                    <RowBox key={i}>{v.word}</RowBox>
                   ))
                 )}
                 <EmojiBox>😢</EmojiBox>

@@ -58,16 +58,17 @@ const Icon = styled.div`
   cursor: pointer;
 `;
 
-const EduFooter = ({ quiz, word, setSuccess, setFail, open, setOpen }) => {
-  // const [status, setStatus] = useState(false);
-
+const EduFooter = ({
+  quiz,
+  category,
+  word,
+  setSuccess,
+  setFail,
+  open,
+  setOpen,
+}) => {
   // TTS
-  const {
-    transcript,
-    // listening,
-    resetTranscript,
-    // browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  const { transcript, resetTranscript } = useSpeechRecognition();
 
   const textToSpeech = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
@@ -87,15 +88,21 @@ const EduFooter = ({ quiz, word, setSuccess, setFail, open, setOpen }) => {
   };
 
   const handleCheck = () => {
-    transcript === word.sentence ? setSuccess(true) : setFail(true);
+    if (category === "word") {
+      transcript === word.word ? setSuccess(true) : setFail(true);
+    } else {
+      transcript === word.sentence ? setSuccess(true) : setFail(true);
+    }
   };
 
   useEffect(() => {
     SpeechRecognition.stopListening();
     return () => {
       SpeechRecognition.stopListening();
+      setOpen(false);
+      resetTranscript();
     };
-  }, [word]);
+  }, [word, setOpen, resetTranscript]);
 
   return (
     <Container>
@@ -122,7 +129,7 @@ const EduFooter = ({ quiz, word, setSuccess, setFail, open, setOpen }) => {
                 {transcript.length === 0 ? "말해볼까요?" : transcript}
               </TextP>
               <Icon>
-                <FaRegPaperPlane onClick={handleCheck} />
+                {quiz ? <FaRegPaperPlane onClick={handleCheck} /> : null}
                 <VscRefresh onClick={resetTranscript} />
               </Icon>
             </TextDiv>
