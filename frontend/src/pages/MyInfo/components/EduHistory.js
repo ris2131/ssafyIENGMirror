@@ -6,6 +6,8 @@ import { studyApi } from "../../../shared/studyApi";
 import EduHeader from "./EduHeader";
 import { useNavigate } from "react-router-dom";
 import Loading from "./../../../util/Loading";
+import axios from "./../../../shared/api";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   @media screen and (max-width: 1000px) {
@@ -137,11 +139,26 @@ const EduHistory = ({ date }) => {
   const same = date === today ? true : false;
   const navigate = useNavigate();
 
-  // const handleDeleteDiary = () => {
-  //   const data = {
-  //     date,
-  //   };
-  // };
+  const handleDeleteDiary = () => {
+    const data = {
+      date: date,
+    };
+    Swal.fire({
+      title: "일기를 삭제하시겠습니까?",
+      icon: "success",
+
+      showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+      confirmButtonColor: "#3085d6", // confrim 버튼 색깔 지정
+      cancelButtonColor: "#d33", // cancel 버튼 색깔 지정
+      confirmButtonText: "네", // confirm 버튼 텍스트 지정
+      cancelButtonText: "아니요", // cancel 버튼 텍스트 지정
+    }).then((res) => {
+      if (res.isConfirmed) {
+        axios.delete("api/diaries", { data: data });
+        window.location.reload();
+      } else return;
+    });
+  };
 
   useEffect(() => {
     if (category === "diary") {
@@ -196,7 +213,9 @@ const EduHistory = ({ date }) => {
                     ))}
                   </KeywordBox>
                   <ContentText>{initData?.diaryContent}</ContentText>
-                  <DiaryButton back="#fb8c00">일기 삭제</DiaryButton>
+                  <DiaryButton onClick={handleDeleteDiary} back="#fb8c00">
+                    일기 삭제
+                  </DiaryButton>
                 </ContentBox>
               ) : same ? (
                 <div>
