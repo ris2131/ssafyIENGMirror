@@ -80,7 +80,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
 
           {/* test */}
-          <Route path="/test" element={<Test />} />
+          <Route path="/test:category" element={<Test />} />
         </Routes>
       </div>
     </>

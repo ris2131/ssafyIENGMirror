@@ -1,75 +1,97 @@
-import { useCallback, useState } from "react";
-import axios from "axios";
-import useRecorder from "./useRecoder"
+import NavBar from "../../components/NavBar";
+import styled from "styled-components";
+import EduContent from "./components/EduContent";
+import { useEffect, useCallback, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getdata, quizSubmit } from "../../redux/EduSlice";
+import FinalPage from "./components/FinalPage";
+import Loading from "../../util/Loading";
+import NotFound from "../error/NotFound";
 
-// css
-import { Button } from "@mui/material";
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${(props) => props.justify};
+  background-color: ${(props) => props.back};
+  height: 100vh;
+`;
 
 const ApiTest = () => {
-  let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
-  const [res, setRes] = useState("");
+  const dispatch = useDispatch();
+  const { category } = useParams();
+  const [originData, setOriginData] = useState();
+  const [data, setData] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
+  const [final, setFinal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // 제출 
-  const handleSubmit = useCallback(async () => {
-    const formData = new FormData()
+  const getInit = useCallback(() => {
+    dispatch(getdata(category))
+      .unwrap()
+      .then((res) => {
+        category === "word"
+          ? setOriginData(res.data?.wordSet)
+          : setOriginData(res.data?.sentenceSet);
+        setLoading(false);
+      });
+  }, [dispatch, category]);
 
-    let blob = await fetch(audioURL).then(r => r.blob());
+  useEffect(() => {
+    getInit();
+  }, [getInit]);
 
-    formData.append('voice', blob)
-
-    const baseURL = "https://j7d209.p.ssafy.io/";
-    const postApi = axios.create({
-      baseURL,
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-    });
-
-    try{
-      const res = await postApi.post("ai-api/studies/stt/", formData);
-
-      if (res.data.message === "SUCCESS") {
-        window.alert("분석 완료!");
-        setRes(res.data.data)
-      }
-    } catch (e) {
-      // 서버에서 받은 에러 메시지 출력
-      console.log(e)
-    }
-  }, [audioURL]);
+  const handleSubmit = () => {
+    const info = {
+      category,
+      data,
+    };
+    dispatch(quizSubmit(info))
+      .unwrap()
+      .catch((err) => console.error(err));
+  };
 
   return (
-    <div>
-      <div>
-        <audio src={audioURL} controls />
-        <button onClick={startRecording} disabled={isRecording}>
-          start
-        </button>
-        <button onClick={stopRecording} disabled={!isRecording}>
-          stop
-        </button>
-      </div>
-
-      {audioURL === "" ? (
-        <div>
-          녹음 하세요!
-        </div>
+    <>
+      {["word", "sentence"].includes(category) ? (
+        <Container
+          back={
+            success
+              ? "#A5D6A7"
+              : fail
+              ? "#FFA270"
+              : category === "word"
+              ? "#fff9c4"
+              : "#e1f5fe"
+          }
+          justify={final ? "start" : "space-between"}
+        >
+          <NavBar />
+          {loading ? (
+            <Loading />
+          ) : final ? (
+            <>
+              <FinalPage handleSubmit={handleSubmit} />
+            </>
+          ) : (
+            <EduContent
+              category={category}
+              originData={originData}
+              setSuccess={setSuccess}
+              setFail={setFail}
+              success={success}
+              fail={fail}
+              setFinal={setFinal}
+              data={data}
+              setData={setData}
+            />
+          )}
+        </Container>
       ) : (
-        <div>
-          <Button
-            onClick={handleSubmit}
-          >
-            제출
-          </Button>
-        </div>
+        <NotFound />
       )}
-
-      {res === "" ? (
-        <div></div>
-      ) : (
-        <div>{res}</div>
-      )}
-    </div>
+    </>
   );
 };
 
