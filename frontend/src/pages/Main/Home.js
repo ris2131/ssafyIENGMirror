@@ -39,6 +39,8 @@ const Home = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `IEng`;
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
