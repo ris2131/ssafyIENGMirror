@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const TitleDiv = styled.div`
   text-align: center;
-  font-size: 40px;
+  font-size: 50px;
   font-weight: bold;
 `;
 
@@ -29,6 +29,7 @@ const ContentDiv = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 40vh;
+  margin-bottom: 20px;
 `;
 
 const ArrowDiv = styled.div`
@@ -37,10 +38,13 @@ const ArrowDiv = styled.div`
 `;
 
 const StyledImg = styled.img`
+  @media screen and (max-width: 1000px) {
+    width: 60vw;
+  }
+  width: 40vw;
   height: 100%;
+  object-fit: contain;
 `;
-
-const url = process.env.PUBLIC_URL;
 
 const EduContent = ({
   category,
@@ -60,7 +64,9 @@ const EduContent = ({
 
   const [quiz, setQuiz] = useState(false);
   const [word, setWord] = useState("");
+  const [picture, setPicture] = useState("");
   const [open, setOpen] = useState(false);
+  const [quizPic, setQuizPic] = useState("");
 
   const dispatch = useDispatch();
 
@@ -122,21 +128,36 @@ const EduContent = ({
 
   const setInit = useCallback(() => {
     if (originData !== undefined) {
-      category === "word"
-        ? setWord(originData[wordCurrent - 1].word)
-        : setWord(originData[sentenceCurrent - 1].sentence);
+      const data =
+        category === "word"
+          ? originData[wordCurrent - 1].word
+          : originData[sentenceCurrent - 1].sentence;
+      const picturedata =
+        category === "word"
+          ? originData[wordCurrent - 1].wordPicturePath
+          : originData[sentenceCurrent - 1].sentencePicturePath;
+      setWord(data);
+      setPicture(picturedata);
     }
   }, [originData, wordCurrent, sentenceCurrent, category]);
 
   // 퀴즈
   const currentType = category === "word" ? quizWord : quizSentence;
 
+  const getQuizPic = useCallback(() => {
+    const data =
+      category === "word"
+        ? originData[quizWord - 1].wordPicturePath
+        : originData[quizSentence - 1].sentencePicturePath;
+    setQuizPic(data);
+  }, [category, originData, quizSentence, quizWord]);
+
   useEffect(() => {
     setInit();
-    return () => {
-      setQuiz(false);
-    };
-  }, [setInit]);
+    if (quiz) {
+      getQuizPic();
+    }
+  }, [setInit, quiz, getQuizPic]);
 
   return (
     <>
@@ -144,19 +165,12 @@ const EduContent = ({
         <>
           <TitleDiv>맞춰볼까요?</TitleDiv>
           <Container>
-            {" "}
             <ContentDiv>
-              <StyledImg
-                src={
-                  category === "word"
-                    ? url + `/assets/word.jpg`
-                    : url + `/assets/sentence.jpg`
-                }
-                alt="#"
-              ></StyledImg>
+              <StyledImg src={quizPic} alt="#"></StyledImg>
             </ContentDiv>
             <div>{currentType}/3</div>
             <EduFooter
+              category={category}
               open={open}
               setOpen={setOpen}
               quiz={true}
@@ -197,14 +211,7 @@ const EduContent = ({
               <ArrowDiv>
                 <AiOutlineLeft onClick={handlePrev} />
               </ArrowDiv>
-              <StyledImg
-                src={
-                  category === "word"
-                    ? url + `/assets/word.jpg`
-                    : url + `/assets/sentence.jpg`
-                }
-                alt="#"
-              ></StyledImg>
+              <StyledImg src={picture} alt="#"></StyledImg>
               <ArrowDiv>
                 <AiOutlineRight onClick={handleNext} />
               </ArrowDiv>

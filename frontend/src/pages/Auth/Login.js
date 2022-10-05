@@ -125,6 +125,12 @@ const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   const handleSubmit = () => {
     const data = {
       username,
@@ -168,6 +174,7 @@ const Login = () => {
             variant="standard"
             value={password || ""}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
         </InputDiv>
         <LoginButtonBox>
