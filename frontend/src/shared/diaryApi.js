@@ -5,5 +5,5 @@ export const diaryApi = {
   getdiary: (date) => axios.get(`api/diaries?date=${date}`),
 
   // 일기 삭제
-  deletediary: (data) => axios.delete("api/diaries", data),
+  deletediary: (data) => axios.delete("api/diaries", { data: data }),
 };
