@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const baseURL = "https://j7d209.p.ssafy.io/api/";
-// const baseURL = "api/";
+// const baseURL = "https://j7d209.p.ssafy.io/api/";
+const baseURL = "api/";
 const formApi = axios.create({
   baseURL,
   headers: {

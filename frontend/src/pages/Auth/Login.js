@@ -125,6 +125,12 @@ const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   const handleSubmit = () => {
     const data = {
       username,
@@ -134,10 +140,8 @@ const Login = () => {
     dispatch(login(data))
       .unwrap()
       .then(() => navigate("/"))
-      .catch((err) => {
-        if (err.status === 401) {
-          Swal.fire({ icon: "error", title: "사용자 정보를 확인해주세요" });
-        }
+      .catch(() => {
+        Swal.fire({ icon: "error", title: "사용자 정보를 확인해주세요" });
       });
   };
 
@@ -168,6 +172,7 @@ const Login = () => {
             variant="standard"
             value={password || ""}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
         </InputDiv>
         <LoginButtonBox>

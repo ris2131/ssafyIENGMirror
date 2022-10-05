@@ -90,7 +90,7 @@ const DayItems = ({
       const wordCheck =
         word_histories && word_histories.includes(compareDate) ? true : false;
       const sentenceCheck =
-        sentence_histories && word_histories.includes(compareDate)
+        sentence_histories && sentence_histories.includes(compareDate)
           ? true
           : false;
 
