@@ -125,7 +125,12 @@ const EduFooter = ({
           {open ? (
             <BiMicrophone onClick={speechToText} />
           ) : (
-            <BiMicrophoneOff onClick={speechToText} />
+            <BiMicrophoneOff
+              onClick={() => {
+                speechToText();
+                resetTranscript();
+              }}
+            />
           )}
           <TextP>말하기</TextP>
         </IconDiv>
