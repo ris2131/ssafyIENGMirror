@@ -33,7 +33,7 @@ const ModeDiv = styled.div`
 
   position: relative;
   width: 25vw;
-  height: 50vh;
+  height: 25vw;
   border: 1px solid #ececec;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 10px 0px;
   border-radius: 15px;
