@@ -87,6 +87,12 @@ const AuthEdit = ({ originData }) => {
   };
 
   const handleSubmit = () => {
+    const datetimeRegexp = /^([0-9]{4}-[0-9]{2}-[0-9]{2})/;
+    if (!datetimeRegexp.test(birth)) {
+      Swal.fire({ icon: "error", title: "생년월일을 올바르게 입력해주세요!" });
+      return;
+    }
+
     const data = {
       nickname,
       birth_YMD: birth,
