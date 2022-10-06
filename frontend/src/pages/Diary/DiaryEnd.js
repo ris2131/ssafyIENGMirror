@@ -5,6 +5,7 @@ import NavBar from "../../components/NavBar";
 import "./Diary.scss";
 import styled from "styled-components";
 import DiaryButton from "./Components/DiaryButton";
+import { useEffect } from "react";
 
 const WordList = styled.div`
   display: flex;
@@ -46,6 +47,11 @@ const DiaryEnd = () => {
   const location = useLocation();
   const { image, checkedList, emotion, diary } = location.state;
   const today = new Date();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="background">

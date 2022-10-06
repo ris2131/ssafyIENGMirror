@@ -94,9 +94,11 @@ const EduFooter = ({
 
   const handleCheck = () => {
     if (category === "word") {
-      transcript === word.word ? setSuccess(true) : setFail(true);
+      transcript.toLowerCase() === word.word ? setSuccess(true) : setFail(true);
     } else {
-      transcript === word.sentence ? setSuccess(true) : setFail(true);
+      transcript.toLowerCase() === word.sentence
+        ? setSuccess(true)
+        : setFail(true);
     }
   };
 
