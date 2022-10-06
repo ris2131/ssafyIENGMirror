@@ -41,7 +41,8 @@ const ApiTest = () => {
 
     formData.append('voice', blob)
 
-    const baseURL = "";
+    const baseURL = "https://j7d209.p.ssafy.io/";
+    // const baseURL = "";
     const postApi = axios.create({
       baseURL,
       headers: {

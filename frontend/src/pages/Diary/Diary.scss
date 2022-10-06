@@ -100,8 +100,8 @@
           width: 70vw;
           height: 50vw;
         }
-        width: 28vw;
-        height: 20vw;
+        width: 42vw;
+        height: 30vw;
         border-radius: 20px;
       }
 
@@ -112,12 +112,13 @@
           height: 50vw;
         }
         padding: 15px;
-        width: 28vw;
-        height: 20vw;
+        width: 42vw;
+        height: 30vw;
         resize: none;
         border-radius: 20px;
         margin: 10px;
         word-break: keep-all;
+        white-space: pre-line;
       }
 
       // 문법 수정 글상자
@@ -131,8 +132,8 @@
 
         padding: 15px;
 
-        height: 20vw;
-        width: 28vw;
+        height: 30vw;
+        width: 43vw;
 
         border: 1px solid #c4001d;
         border-radius: 20px;
@@ -150,15 +151,15 @@
         display: flex;
         flex-wrap: wrap;
         background-color: white;
-        text-align: start;
-        white-space: pre-line;
-
+        
         padding: 15px;
-        height: 20vw;
-        width: 28vw;
+        height: 30vw;
+        width: 42vw;
 
         font-size: 24px;
-        word-break:break-all;
+        text-align: start;
+        white-space: pre-line;
+        word-break:keep-all;
         
         border: 1px solid black;
         border-radius: 20px;
@@ -205,11 +206,11 @@
       @media screen and (max-width: 1000px) {
         width: 80vw;
       }
-      width: 35vw;
+      width: 42vw;
       background-color: white;
 
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       flex-wrap: wrap;
       border-radius: 20px;

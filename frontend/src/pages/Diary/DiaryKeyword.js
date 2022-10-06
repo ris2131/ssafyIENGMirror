@@ -14,8 +14,8 @@ const ImgWrapper = styled.div`
     width: 70vw;
     height: 50vw;
   }
-  width: 28vw;
-  height: 20vw;
+  width: 42vw;
+  height: 30vw;
   margin-bottom: 40px;
 `;
 

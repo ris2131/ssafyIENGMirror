@@ -114,13 +114,19 @@ const SText = styled.div`
 `;
 
 const ContentText = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  text-align: start;
+  white-space: pre-line;
+  word-break:keep-all;
   font-size: 18px;
   font-weight: bold;
-  margin: 20px 0px;
+  margin: 20px;
 `;
 
 const KeywordBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 93%;
 `;
 

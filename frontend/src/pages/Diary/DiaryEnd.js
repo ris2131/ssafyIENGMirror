@@ -8,9 +8,10 @@ import DiaryButton from "./Components/DiaryButton";
 
 const WordList = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: start;
-  width: 100%;
+  width: 90%;
 `;
 
 const WordBox = styled.div`
