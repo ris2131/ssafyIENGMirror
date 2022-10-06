@@ -6,7 +6,7 @@
 
 
 
-### :green_heart:기술 스택
+### :green_heart: 기술 스택
 
 ![image-20221007014856490](README.assets/image-20221007014856490.png)
 
@@ -14,15 +14,15 @@
 
 
 
-### :heart:프로젝트 아키텍처
+### :heart: 프로젝트 아키텍처
 
 ![image-20221007015251775](README.assets/image-20221007015251775.png)
 
-### :green_heart:ERD
+### :green_heart: ERD
 
 ![img](https://lh6.googleusercontent.com/W6iof-y21u1Xo8j9_cFkkm6pby5we2v58uwSUvdaQWPZJEth4zlmshIq_pp91KZCzBmGmC6YCwf3uY0gG0F371Dasnjgij54om4fNSOf9emSgRpofZeaw1c9t4HRgCJDtkVNIbALAkj0MCKlbRXp6yHzjyavohr60pnIKkhtdQqNb0YFyTS2CA1-lvFH=nw)
 
-### :yellow_heart:Git branch naming
+### :yellow_heart: Git branch naming
 
 - Type
   - Feat - 새로운 기능 추가
@@ -47,12 +47,12 @@ git commit -m “[#이슈번호] Feat: logout”
 
 ## 2️⃣ 프로젝트 소개
 
-### :purple_heart:기획의도
+### :purple_heart: 기획의도
 
 - 기존의 읽기와 쓰기 위주의 학습은 장기적 어휘 기억에 불리
 - 지루하게 느껴지는 딱딱한 공부로 교육의지 저하
 
-### :heart:주요 기능
+### :heart: 주요 기능
 
 - :speaking_head: STT, TTS를 사용한 문장, 단어 학습
 
@@ -60,7 +60,7 @@ git commit -m “[#이슈번호] Feat: logout”
 
   
 
-- **:orange_book:영어 일기**
+- **:orange_book: 영어 일기**
 
   - **:robot: AI 이미지 인식**
 
@@ -68,7 +68,7 @@ git commit -m “[#이슈번호] Feat: logout”
 
   
 
-  - **:robot:문법 체크 기능**
+  - **:robot: 문법 체크 기능**
 
   
 
@@ -84,14 +84,14 @@ git commit -m “[#이슈번호] Feat: logout”
 
   
 
-### :yellow_heart:장점
+### :yellow_heart: 장점
 
 - 말하기 듣기 읽기 쓰기 모든 자극 방법으로 컨텐츠를 구성하여 학습 효율성을 높임
 - 퀴즈와 이미지 업로드, AI 기술을 통해서 사용자 흥미 유발
 
 
 
-### :blue_heart:향후 계획
+### :blue_heart: 향후 계획
 
 - 학습진행도에 따른 난이도 설정개발분야 외 다른 분야 강의 스터디 도입
 - 학습 컨텐츠 추가
