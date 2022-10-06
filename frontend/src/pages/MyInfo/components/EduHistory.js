@@ -118,7 +118,7 @@ const ContentText = styled.div`
   flex-wrap: wrap;
   text-align: start;
   white-space: pre-line;
-  word-break:keep-all;
+  word-break: keep-all;
   font-size: 18px;
   font-weight: bold;
   margin: 20px;
