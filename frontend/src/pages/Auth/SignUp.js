@@ -23,14 +23,9 @@ import { TbCameraPlus } from "react-icons/tb";
 import Swal from "sweetalert2";
 import Timer from "./components/Timer";
 
-const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
+const backgroundImage = process.env.PUBLIC_URL + `/assets/testground.jpg`;
 
 const SingUpBox = styled.div`
-  @media screen and (max-width: 1000px) {
-    background-image: none;
-    background-color: #f5f5f5;
-  }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,12 +54,12 @@ const LogoImg = styled.img`
 
 const LogoText = styled.h1`
   @media screen and (max-width: 821px) {
-    font-size: 50px;
+    font-size: 60px;
   }
 
   font-size: 80px;
   font-family: OKDDUNG;
-  color: #ffca28;
+  color: #ffc107;
   margin: 10px;
 `;
 

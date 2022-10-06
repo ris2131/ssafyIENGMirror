@@ -7,14 +7,9 @@ import { login } from "../../redux/AuthSlice";
 import GoogleComponent from "../OauthLogin/GoogleComponent";
 import Swal from "sweetalert2";
 
-const backgroundImage = process.env.PUBLIC_URL + `/assets/background2.jpg`;
+const backgroundImage = process.env.PUBLIC_URL + `/assets/testground.jpg`;
 
 const LoginContainer = styled.div`
-  @media screen and (max-width: 1000px) {
-    background-image: none;
-    background-color: #f5f5f5;
-  }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
