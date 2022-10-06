@@ -7,7 +7,7 @@ import PasswordEdit from "./PasswordEdit";
 import { authApi } from "../../shared/authApi";
 import { useSelector } from "react-redux";
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   background-color: #f5f5f5;
   background-size: 100vw 100vh;

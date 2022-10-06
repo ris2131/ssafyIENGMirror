@@ -7,6 +7,7 @@ import styled from "styled-components";
 // css
 import "./Diary.scss";
 import DiaryButton from "./Components/DiaryButton";
+import { useEffect } from "react";
 
 const WordList = styled.div`
   display: flex;
@@ -63,6 +64,11 @@ const DiaryWriting = () => {
       }
     }
   };
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="background">
@@ -112,8 +118,16 @@ const DiaryWriting = () => {
                 {checkedList.map((item, idx) => (
                   <WordBox
                     key={idx}
-                    back={content.toLowerCase().includes(item.toLowerCase()) ? "#bdbdbd" : "white"}
-                    color={content.toLowerCase().includes(item.toLowerCase()) ? "white" : "black"}
+                    back={
+                      content.toLowerCase().includes(item.toLowerCase())
+                        ? "#bdbdbd"
+                        : "white"
+                    }
+                    color={
+                      content.toLowerCase().includes(item.toLowerCase())
+                        ? "white"
+                        : "black"
+                    }
                   >
                     #{item}
                   </WordBox>
