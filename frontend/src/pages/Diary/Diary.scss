@@ -12,6 +12,16 @@
   justify-content: center;
   align-items: center;
 
+  .word-head {
+    @media screen and (max-width: 1000px) {
+      width: 80vw;
+    }
+    display: flex;
+    width: 42vw;
+    justify-content: flex-start;
+    font-size: 20px;
+  }
+
   // 머리말
   .diary-header {
     display: flex;

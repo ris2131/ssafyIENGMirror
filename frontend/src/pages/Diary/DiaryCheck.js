@@ -121,7 +121,10 @@ const DiaryCheck = () => {
       <NavBar />
 
       {loading ? (
-        <Loading />
+        <div>
+          <div>AI 문법 검사 중...</div>
+          <Loading />
+        </div>
       ) : (
         <div className="back">
           <div className="diary-wrapper">

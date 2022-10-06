@@ -87,7 +87,10 @@ const DiaryKeyword = () => {
       <NavBar />
 
       {loading ? (
-        <Loading />
+        <div>
+          <div>AI 단어 추천 중...</div>
+          <Loading />
+        </div>
       ) : (
         <div className="back">
           <div className="diary-wrapper">
@@ -99,6 +102,8 @@ const DiaryKeyword = () => {
               <Simg src={image.preview_URL} alt="이미지 없음" />
             </ImgWrapper>
 
+            <div className="word-head">AI 추천 단어</div>
+            
             {/* 단어 선택 */}
             <div className="words">
               <div className="keyword-check">

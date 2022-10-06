@@ -110,7 +110,10 @@ const DiaryStart = () => {
       <NavBar />
 
       {loading ? (
-        <Loading />
+        <div>
+          <div>일기 작성 여부 확인중...</div>
+          <Loading />
+        </div>
       ) : (
         <div className="back">
           <div className="diary-wrapper">

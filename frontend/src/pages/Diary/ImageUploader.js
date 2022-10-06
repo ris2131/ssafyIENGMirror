@@ -59,6 +59,8 @@ const ImageUploader = ({ image, setImage }) => {
         />
       </ImgWrapper>
 
+      <div>사진은 1MB 이하로 제출 해 주세요!</div>
+
       {/* 업로드 버튼 */}
       <div>
         {image.preview_URL === "image/default_image.png" ? (
