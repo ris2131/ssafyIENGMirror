@@ -1,75 +1,107 @@
-# Branch Name Convention
-
-- 참고
-
-  ```
-  master  : 기준이 되는 브랜치로 제품을 배포하는 브랜치 입니다.
-  develop : 개발 브랜치로 개발자들이 이 브랜치를 기준으로 각자 작업한 기능들을 합(Merge)칩니다.
-  feature : 단위 기능을 개발하는 브랜치로 기능 개발이 완료되면 develop 브랜치에 합칩니다.
-  release : 배포를 위해 master 브랜치로 보내기 전에 먼저 QA(품질검사)를 하기위한 브랜치 입니다.
-  hotfix  : master 브랜치로 배포를 했는데 버그가 생겼을 떄 긴급 수정하는 브랜치 입니다.
-  ```
+### :book: IEng( 초등학생을 위한 영어사진일기 서비스) 
 
 
-### master branch
 
-- 기준이 되는 브랜치로 제품을 배포하는 브랜치 입니다
+## 1️⃣ 프로젝트 개요
 
-### develop branch
 
-- 개발 브랜치로 개발자들이 이 브랜치를 기준으로 각자 작업한 기능들을 합(Merge)칩니다
 
-### feature branch
+### :green_heart:기술 스택
 
-- 단위 기능을 개발하는 브랜치로 기능 개발이 완료되면 develop 브랜치에 합칩니다.
-- feature branch naming convention
-  - feature/{position}/{domain}/{verb}
-    - feature/be/member/login
-    - feature/fe/category/create
-    - feature/ai/todo/create
-- position 은 be, fe , ai
+![image-20221007014856490](README.assets/image-20221007014856490.png)
 
-### fix branch
+![image-20221007015004952](README.assets/image-20221007015004952.png)
 
-- 오류, 버그 수정
 
-### refactor branch
 
-- 컨벤션, 로직 수정
+### :heart:프로젝트 아키텍처
 
-# Commit Message Convention
+![image-20221007015251775](README.assets/image-20221007015251775.png)
 
-### **타입(Type)**
+### :green_heart:ERD
 
-- Feat - 새로운 기능 추가
-- Fix - 버그 수정
-- Build - 빌드 관련 파일 수정
-- Ci - CI관련 설정 수정
-- Docs - 문서 (문서 추가, 수정, 삭제)
-- Style - 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없는 경우)
-- Refactor - 코드 리팩토링
-- Test - 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없는 경우)
-- Chore - 기타 변경사항 (빌드 스크립트 수정 등)
+![img](https://lh6.googleusercontent.com/W6iof-y21u1Xo8j9_cFkkm6pby5we2v58uwSUvdaQWPZJEth4zlmshIq_pp91KZCzBmGmC6YCwf3uY0gG0F371Dasnjgij54om4fNSOf9emSgRpofZeaw1c9t4HRgCJDtkVNIbALAkj0MCKlbRXp6yHzjyavohr60pnIKkhtdQqNb0YFyTS2CA1-lvFH=nw)
 
-### 제목**(Subject)**
+### :yellow_heart:Git branch naming
 
-- 제목은 50자를 넘기지 않고, 마침표를 붙이지 않습니다.
-- 제목에는 commit 타입을 함께 작성합니다.
-- 과거 시제를 사용하지 않고 명령조로 작성합니다.
-- 제목의 첫 글자는 반드시 대문자로 씁니다.
-- 이슈 번호가 명확 할 때는 뒤에 작성할 것을 권장합니다.
+- Type
+  - Feat - 새로운 기능 추가
+  - Fix - 버그 수정
+  - Build - 빌드 관련 파일 수정
+  - Ci - CI관련 설정 수정
+  - Docs - 문서 (문서 추가, 수정, 삭제)
+  - Style - 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없는 경우)
+  - Refactor - 코드 리팩토링
+  - Test - 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없는 경우)
+  - Chore - 기타 변경사항 (빌드 스크립트 수정 등)
 
 ex)
 
-```bash
-git commit -m "Feat: 로그인 기능 구현 [#이슈번호]"
+```shell
+git commit -m “[#이슈번호] Feat: login”
 
-git commit -m "Feat: 로그인 기능 구현 [#S07P11D202-21][#17]"
-
-git commit -m "Feat: 로그인 기능 구현" 
+git commit -m “[#이슈번호] Feat: logout”
 ```
 
-## Issue
 
-- 다른 사람들이 문제점 찾았을 때 이슈 발급.
-- 앞에 `[관련 부서 이름] 문제점` 순으로 적기
+
+## 2️⃣ 프로젝트 소개
+
+### :purple_heart:기획의도
+
+- 기존의 읽기와 쓰기 위주의 학습은 장기적 어휘 기억에 불리
+- 지루하게 느껴지는 딱딱한 공부로 교육의지 저하
+
+### :heart:주요 기능
+
+- :speaking_head: STT, TTS를 사용한 문장, 단어 학습
+
+  ![img](https://lh4.googleusercontent.com/e66UhQKc6M5kxtQFRjmpCD6PsQ8JZxALSrS1UDbme6cL3IB4xifDNcjI-a1uxOS7Hq1s01xXzXpkjS14SwvEWAf_JEHN9aTV6f6nIUqmM_TZNJs9yuQS57B77IDAoDK5Y1U7dAsGCZw5bqYgdtMX8tyaqLjaQnIkWt-HALUlATKc1hCV18u87G_zbdDc=nw)
+
+  
+
+- **:orange_book:영어 일기**
+
+  - **:robot: AI 이미지 인식**
+
+  ![img](https://lh5.googleusercontent.com/wL0Bl7suXrpM71ypacXdT2FE7ncPaU6wHgmjqsnlN89bnxJ8cUqlTVOV1egn0glajJuWHPnxANyM5iMRgzIBWBRm7k8NpOH_N_yQmMJ-sfHrnLxp0Xnls--865dIIsfmvnPFADh8aNjds9AZY-aeXj4r0yJkNzT5-ObksM1M-cZzh2IGZoStHi5tWg_T=nw)
+
+  
+
+  - **:robot:문법 체크 기능**
+
+  
+
+  ![img](https://lh5.googleusercontent.com/FVB7njezk4dD1LlfWxkypVop11ATsZfQp1EJpMCV2NYfZpCMCR4A0j9A3yfJQKH7EvQxBvTtJUnY7uGq5C_uqMsc3nay7jFjk9q2fvWAt3cGr0cEOmSbFBDOQPnABTHesUUKRIY3ZNppKrRQckzdPlxx8IeuhlA_JKRABM8yJTzgtj0GKd_ah6yoBDK-=nw)
+
+- **:handshake: 프로필 기능**
+
+  - 캘린더 기능으로 다이어리, 단어, 문장 확인 가능
+
+    ![image-20221007020346952](README.assets/image-20221007020346952.png)
+
+    ![image-20221007020157528](README.assets/image-20221007020157528.png)
+
+  
+
+### :yellow_heart:장점
+
+- 말하기 듣기 읽기 쓰기 모든 자극 방법으로 컨텐츠를 구성하여 학습 효율성을 높임
+- 퀴즈와 이미지 업로드, AI 기술을 통해서 사용자 흥미 유발
+
+
+
+### :blue_heart:향후 계획
+
+- 학습진행도에 따른 난이도 설정개발분야 외 다른 분야 강의 스터디 도입
+- 학습 컨텐츠 추가
+- 포인트샵 운영
+- 데이터셋 추가하여 인식률 및 반응속도 개선.
+
+
+
+
+
+### :family: 팀원
+
+![image-20221007021104693](README.assets/image-20221007021104693.png)
