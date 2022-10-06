@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { getuser } from "./redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 // 메인
 import Home from "./pages/Main/Home";
@@ -38,6 +40,7 @@ function App() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    AOS.init();
     if (token) {
       const getUser = () => {
         dispatch(getuser())

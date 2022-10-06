@@ -60,6 +60,9 @@ const DiaryButton = styled.button`
   border-radius: 10px;
   margin-top: 10px;
   cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.hover};
+  }
 `;
 
 const WordDiv = styled.div`
@@ -219,7 +222,11 @@ const EduHistory = ({ date }) => {
                     ))}
                   </KeywordBox>
                   <ContentText>{initData?.diaryContent}</ContentText>
-                  <DiaryButton onClick={handleDeleteDiary} back="#fb8c00">
+                  <DiaryButton
+                    onClick={handleDeleteDiary}
+                    back="#fb8c00"
+                    hover="#ffbd45"
+                  >
                     일기 삭제
                   </DiaryButton>
                 </ContentBox>
@@ -228,6 +235,7 @@ const EduHistory = ({ date }) => {
                   <DiaryMsg>오늘 일기를 적으러 가볼까요?</DiaryMsg>
                   <DiaryButton
                     back="#2196f3"
+                    hover="#6ec6ff"
                     onClick={() => navigate("/diarystart")}
                   >
                     Go !

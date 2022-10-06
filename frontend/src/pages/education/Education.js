@@ -6,7 +6,7 @@ import EduContent from "./components/EduContent";
 import { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getdata, quizSubmit } from "../../redux/EduSlice";
+import { eduActions, getdata, quizSubmit } from "../../redux/EduSlice";
 import FinalPage from "./components/FinalPage";
 import Loading from "../../util/Loading";
 import NotFound from "../error/NotFound";
@@ -44,7 +44,10 @@ const Education = () => {
     const titleElement = document.getElementsByTagName("title")[0];
     titleElement.innerHTML = `IEng - ${category}`;
     getInit();
-  }, [getInit, category]);
+    return () => {
+      dispatch(eduActions.resetEdu());
+    };
+  }, [getInit, category, dispatch]);
 
   const handleSubmit = () => {
     const info = {

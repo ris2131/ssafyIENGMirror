@@ -73,6 +73,12 @@ const eduSlice = createSlice({
         state.sentence = 1;
       }
     },
+    resetEdu(state) {
+      state.word = 1;
+      state.quiz.word = 1;
+      state.sentence = 1;
+      state.quiz.sentence = 1;
+    },
   },
 });
 

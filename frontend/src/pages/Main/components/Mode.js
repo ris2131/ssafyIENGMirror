@@ -16,6 +16,19 @@ const ModeDiv = styled.div`
   @media screen and (max-width: 1000px) {
     width: 70vw;
     height: 70vw;
+    &:hover {
+      width: 73vw;
+      height: 73vw;
+      transition: 0.5s;
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    &:hover {
+      width: 26vw;
+      height: 26vw;
+      transition: 0.5s;
+    }
   }
 
   position: relative;
@@ -152,7 +165,7 @@ const Mode = ({ title, image, description, back }) => {
   return (
     <>
       <ModeBox>
-        <ModeDiv back={back}>
+        <ModeDiv back={back} data-aos="zoom-in">
           <ModeImg
             src={process.env.PUBLIC_URL + image || ""}
             alt="#"
